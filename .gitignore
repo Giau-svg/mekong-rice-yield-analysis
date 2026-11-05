@@ -1,0 +1,30 @@
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Local configuration
+.env
+.vscode/
+
+# Data files
+/data/raw/**/*
+!/data/raw/**/
+!/data/raw/**/.gitkeep
+
+/data/interim/*
+!/data/interim/.gitkeep
+
+/data/processed/*
+!/data/processed/.gitkeep
+
+# Trained models
+*.joblib
+*.pkl
+
+.history/
