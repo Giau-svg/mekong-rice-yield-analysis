@@ -1,0 +1,14 @@
+﻿province_id,province,ecological_subregion,KMeans_K3,KMedoids_PAM_K3,Agglomerative_Ward_K3,Agglomerative_Complete_K3,Agglomerative_Average_K3,Agglomerative_Single_K3,BisectingKMeans_K3,DBSCAN_eps2_8_min2,MeanShift_Auto
+an_giang,An Giang,upstream_alluvial_3crop,2,2,2,2,1,0,1,0,0
+bac_lieu,Bạc Liêu,coastal_salinity_prone,0,1,0,0,2,0,0,0,2
+ben_tre,Bến Tre,coastal_salinity_prone,1,0,1,1,0,1,2,-1,4
+ca_mau,Cà Mau,coastal_salinity_prone,1,0,1,1,0,2,2,1,1
+can_tho,Cần Thơ,upstream_alluvial_3crop,0,1,0,0,1,0,0,0,0
+hau_giang,Hậu Giang,middle_south_ql1,0,1,0,0,1,0,0,0,0
+kien_giang,Kiên Giang,upstream_alluvial_3crop,0,1,0,0,1,0,0,0,0
+long_an,Long An,middle_south_ql1,2,2,2,2,1,0,1,0,0
+soc_trang,Sóc Trăng,middle_south_ql1,0,1,0,0,1,0,0,0,3
+tien_giang,Tiền Giang,middle_south_ql1,2,2,2,2,1,0,1,0,0
+tra_vinh,Trà Vinh,coastal_salinity_prone,1,0,1,1,0,2,2,1,1
+vinh_long,Vĩnh Long,middle_south_ql1,0,1,0,0,1,0,0,0,0
+dong_thap,Đồng Tháp,upstream_alluvial_3crop,2,2,2,2,1,0,1,0,0

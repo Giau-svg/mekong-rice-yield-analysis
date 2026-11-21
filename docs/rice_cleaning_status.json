@@ -1,0 +1,32 @@
+{
+  "generated_at": "2026-11-20T19:39:07.178Z",
+  "tier1_core_3seasons_rows": 90,
+  "tier2_delta13_nso_rows": 257,
+  "tier2_dong_xuan_rows": 127,
+  "tier2_combined_ht_td_rows": 130,
+  "supplemental_report_rows": 7,
+  "reconciliation_decisions_logged": 56,
+  "year2019_upgraded_changed_in_tier2": 13,
+  "year2019_upgraded_unchanged_in_tier2": 13,
+  "formula_check_breakdown": {
+    "pass": 349,
+    "pass_within_source_rounding": 4,
+    "pass_harvested_area_basis_note": 1
+  },
+  "domain_outliers_flagged_and_retained": [
+    {
+      "province_id": "ben_tre",
+      "harvest_year": 2016,
+      "season": "dong_xuan",
+      "yield_t_ha": 0.05,
+      "flag": "extreme_salinity_crop_failure"
+    },
+    {
+      "province_id": "ben_tre",
+      "harvest_year": 2020,
+      "season": "dong_xuan",
+      "yield_t_ha": 0.04,
+      "flag": "extreme_salinity_crop_failure"
+    }
+  ]
+}

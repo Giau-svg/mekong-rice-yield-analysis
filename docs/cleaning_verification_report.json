@@ -1,0 +1,182 @@
+{
+  "generated_at": "2026-11-20T19:54:24.664Z",
+  "cleaning_verification_passed": true,
+  "ready_for_eda_and_modeling": true,
+  "datasets_verified": {
+    "tier1_core_3seasons_model_ready": {
+      "rows": 90,
+      "provinces": 3,
+      "seasons": 3,
+      "years": "2015–2024",
+      "missing_values": 0
+    },
+    "tier2_delta13_dong_xuan_model_ready": {
+      "rows": 127,
+      "provinces": 13,
+      "years": "2015–2024",
+      "missing_values": 0,
+      "flagged_salinity_outliers": 2
+    },
+    "tier2_delta13_combined_ht_td_model_ready": {
+      "rows": 130,
+      "provinces": 13,
+      "years": "2015–2024",
+      "missing_values": 0
+    }
+  },
+  "tier1_yield_sanity_by_season": {
+    "dong_xuan": {
+      "n": 30,
+      "min_t_ha": 6.024,
+      "median_t_ha": 7.329,
+      "mean_t_ha": 7.223,
+      "max_t_ha": 7.75
+    },
+    "he_thu": {
+      "n": 30,
+      "min_t_ha": 5.112,
+      "median_t_ha": 5.689,
+      "mean_t_ha": 5.692,
+      "max_t_ha": 6.133
+    },
+    "thu_dong": {
+      "n": 30,
+      "min_t_ha": 4.65,
+      "median_t_ha": 5.505,
+      "mean_t_ha": 5.467,
+      "max_t_ha": 6.239
+    }
+  },
+  "sensitivity_vs_zonal_shift_0": {
+    "single_point_shift_0": {
+      "t2m_mean_c": {
+        "pearson_r": 0.9985,
+        "mean_abs_diff": 0.043
+      },
+      "t2m_max_mean_c": {
+        "pearson_r": 0.9977,
+        "mean_abs_diff": 0.077
+      },
+      "precip_total_mm": {
+        "pearson_r": 0.9992,
+        "mean_abs_diff": 14.383
+      },
+      "rh2m_mean_pct": {
+        "pearson_r": 0.9988,
+        "mean_abs_diff": 0.239
+      },
+      "hot_days_gt35c": {
+        "pearson_r": 0.9967,
+        "mean_abs_diff": 0.733
+      },
+      "dry_days_lt1mm": {
+        "pearson_r": 0.9994,
+        "mean_abs_diff": 0.911
+      }
+    },
+    "zonal_shift_-10": {
+      "t2m_mean_c": {
+        "pearson_r": 0.9879,
+        "mean_abs_diff": 0.182
+      },
+      "t2m_max_mean_c": {
+        "pearson_r": 0.9544,
+        "mean_abs_diff": 0.392
+      },
+      "precip_total_mm": {
+        "pearson_r": 0.9868,
+        "mean_abs_diff": 58.366
+      },
+      "rh2m_mean_pct": {
+        "pearson_r": 0.9602,
+        "mean_abs_diff": 1.431
+      },
+      "hot_days_gt35c": {
+        "pearson_r": 0.9159,
+        "mean_abs_diff": 5.244
+      },
+      "dry_days_lt1mm": {
+        "pearson_r": 0.9919,
+        "mean_abs_diff": 4.733
+      }
+    },
+    "zonal_shift_+10": {
+      "t2m_mean_c": {
+        "pearson_r": 0.9706,
+        "mean_abs_diff": 0.22
+      },
+      "t2m_max_mean_c": {
+        "pearson_r": 0.9471,
+        "mean_abs_diff": 0.418
+      },
+      "precip_total_mm": {
+        "pearson_r": 0.9791,
+        "mean_abs_diff": 65.718
+      },
+      "rh2m_mean_pct": {
+        "pearson_r": 0.9695,
+        "mean_abs_diff": 1.417
+      },
+      "hot_days_gt35c": {
+        "pearson_r": 0.9354,
+        "mean_abs_diff": 5.033
+      },
+      "dry_days_lt1mm": {
+        "pearson_r": 0.9931,
+        "mean_abs_diff": 3.811
+      }
+    },
+    "zonal_shift_-15": {
+      "t2m_mean_c": {
+        "pearson_r": 0.9785,
+        "mean_abs_diff": 0.269
+      },
+      "t2m_max_mean_c": {
+        "pearson_r": 0.9076,
+        "mean_abs_diff": 0.584
+      },
+      "precip_total_mm": {
+        "pearson_r": 0.9639,
+        "mean_abs_diff": 94.862
+      },
+      "rh2m_mean_pct": {
+        "pearson_r": 0.91,
+        "mean_abs_diff": 2.132
+      },
+      "hot_days_gt35c": {
+        "pearson_r": 0.8314,
+        "mean_abs_diff": 7.6
+      },
+      "dry_days_lt1mm": {
+        "pearson_r": 0.9826,
+        "mean_abs_diff": 6.844
+      }
+    },
+    "zonal_shift_+15": {
+      "t2m_mean_c": {
+        "pearson_r": 0.9222,
+        "mean_abs_diff": 0.328
+      },
+      "t2m_max_mean_c": {
+        "pearson_r": 0.8932,
+        "mean_abs_diff": 0.618
+      },
+      "precip_total_mm": {
+        "pearson_r": 0.9711,
+        "mean_abs_diff": 81.263
+      },
+      "rh2m_mean_pct": {
+        "pearson_r": 0.9402,
+        "mean_abs_diff": 2.072
+      },
+      "hot_days_gt35c": {
+        "pearson_r": 0.8797,
+        "mean_abs_diff": 7.344
+      },
+      "dry_days_lt1mm": {
+        "pearson_r": 0.9868,
+        "mean_abs_diff": 5.433
+      }
+    }
+  }
+}

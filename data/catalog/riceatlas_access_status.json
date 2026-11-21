@@ -1,0 +1,56 @@
+{
+  "dataset_doi": "10.7910/DVN/JE6R2R",
+  "metadata_file": "data/raw/calendar/riceatlas_metadata.json",
+  "guestbook_id": 40,
+  "status": "guestbook_response_required",
+  "files": [
+    {
+      "id": 7344244,
+      "filename": "country_groupings.csv",
+      "restricted": false
+    },
+    {
+      "id": 7344245,
+      "filename": "RiceApy.tab",
+      "restricted": false
+    },
+    {
+      "id": 3008065,
+      "filename": "ricearea_by_month.R",
+      "restricted": false
+    },
+    {
+      "id": 2962596,
+      "filename": "RiceCalendar_v1.cpg",
+      "restricted": false
+    },
+    {
+      "id": 3775289,
+      "filename": "RiceCalendar_v1_variables.tab",
+      "restricted": false
+    },
+    {
+      "id": 2962597,
+      "filename": "RiceCalendar_v1.zip",
+      "restricted": false
+    },
+    {
+      "id": 2962598,
+      "filename": "RiceProduction_v1.qpj",
+      "restricted": false
+    },
+    {
+      "id": 3775290,
+      "filename": "RiceProduction_v1_variables.tab",
+      "restricted": false
+    },
+    {
+      "id": 2962599,
+      "filename": "RiceProduction_v1.zip",
+      "restricted": false
+    }
+  ],
+  "download_attempt_response": "HTTP 400: required Guestbook response for guestbookID 40",
+  "identity_form_submitted": false,
+  "files_downloaded": false
+}

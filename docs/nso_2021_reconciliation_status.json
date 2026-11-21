@@ -1,0 +1,470 @@
+{
+  "generated_at": "2026-11-20T19:13:59.391Z",
+  "source_file": "data/raw/crawl/209170160564dafbfc29.pdf",
+  "source_sha256": "b0a73025ccf63d50b5895fe07f672ab06d3c0386ec69bbb52e29cee1eadf3b0d",
+  "captured_rows": 233,
+  "rows_for_2019_official": 47,
+  "compared_against_nso2019_prelim_rows": 47,
+  "differences_between_2019_prelim_and_official": 25,
+  "diff_details": [
+    {
+      "province": "Long An",
+      "category": "Lúa cả năm",
+      "changed_fields": [
+        "yield_raw",
+        "production_raw"
+      ],
+      "nso2019_prelim": {
+        "area": "506,3",
+        "yield": "54,7",
+        "production": "2769,5"
+      },
+      "nso2021_official": {
+        "area": "506,3",
+        "yield": "54,8",
+        "production": "2774,9"
+      }
+    },
+    {
+      "province": "Tiền Giang",
+      "category": "Lúa cả năm",
+      "changed_fields": [
+        "area_raw",
+        "production_raw"
+      ],
+      "nso2019_prelim": {
+        "area": "184,2",
+        "yield": "60,9",
+        "production": "1122,0"
+      },
+      "nso2021_official": {
+        "area": "184,3",
+        "yield": "60,9",
+        "production": "1123,1"
+      }
+    },
+    {
+      "province": "Bến Tre",
+      "category": "Lúa cả năm",
+      "changed_fields": [
+        "area_raw",
+        "production_raw"
+      ],
+      "nso2019_prelim": {
+        "area": "47,5",
+        "yield": "45,0",
+        "production": "213,9"
+      },
+      "nso2021_official": {
+        "area": "47,6",
+        "yield": "45,0",
+        "production": "214,1"
+      }
+    },
+    {
+      "province": "Trà Vinh",
+      "category": "Lúa cả năm",
+      "changed_fields": [
+        "yield_raw",
+        "production_raw"
+      ],
+      "nso2019_prelim": {
+        "area": "224,3",
+        "yield": "55,9",
+        "production": "1254,3"
+      },
+      "nso2021_official": {
+        "area": "224,3",
+        "yield": "56,1",
+        "production": "1258,9"
+      }
+    },
+    {
+      "province": "Vĩnh Long",
+      "category": "Lúa cả năm",
+      "changed_fields": [
+        "area_raw",
+        "production_raw"
+      ],
+      "nso2019_prelim": {
+        "area": "155,4",
+        "yield": "58,4",
+        "production": "907,6"
+      },
+      "nso2021_official": {
+        "area": "155,5",
+        "yield": "58,4",
+        "production": "908,3"
+      }
+    },
+    {
+      "province": "Đồng Tháp",
+      "category": "Lúa cả năm",
+      "changed_fields": [
+        "production_raw"
+      ],
+      "nso2019_prelim": {
+        "area": "521,6",
+        "yield": "64,2",
+        "production": "3349,0"
+      },
+      "nso2021_official": {
+        "area": "521,6",
+        "yield": "64,2",
+        "production": "3349,8"
+      }
+    },
+    {
+      "province": "An Giang",
+      "category": "Lúa cả năm",
+      "changed_fields": [
+        "area_raw",
+        "yield_raw",
+        "production_raw"
+      ],
+      "nso2019_prelim": {
+        "area": "626,2",
+        "yield": "62,5",
+        "production": "3916,8"
+      },
+      "nso2021_official": {
+        "area": "626,3",
+        "yield": "62,6",
+        "production": "3919,3"
+      }
+    },
+    {
+      "province": "Kiên Giang",
+      "category": "Lúa cả năm",
+      "changed_fields": [
+        "area_raw",
+        "production_raw"
+      ],
+      "nso2019_prelim": {
+        "area": "722,0",
+        "yield": "59,4",
+        "production": "4285,9"
+      },
+      "nso2021_official": {
+        "area": "722,1",
+        "yield": "59,4",
+        "production": "4291,5"
+      }
+    },
+    {
+      "province": "Hậu Giang",
+      "category": "Lúa cả năm",
+      "changed_fields": [
+        "production_raw"
+      ],
+      "nso2019_prelim": {
+        "area": "196,1",
+        "yield": "64,2",
+        "production": "1258,4"
+      },
+      "nso2021_official": {
+        "area": "196,1",
+        "yield": "64,2",
+        "production": "1259,0"
+      }
+    },
+    {
+      "province": "Sóc Trăng",
+      "category": "Lúa cả năm",
+      "changed_fields": [
+        "area_raw",
+        "yield_raw",
+        "production_raw"
+      ],
+      "nso2019_prelim": {
+        "area": "356,2",
+        "yield": "60,9",
+        "production": "2170,2"
+      },
+      "nso2021_official": {
+        "area": "356,3",
+        "yield": "61,0",
+        "production": "2172,1"
+      }
+    },
+    {
+      "province": "Bạc Liêu",
+      "category": "Lúa cả năm",
+      "changed_fields": [
+        "area_raw",
+        "yield_raw",
+        "production_raw"
+      ],
+      "nso2019_prelim": {
+        "area": "189,2",
+        "yield": "60,4",
+        "production": "1143,1"
+      },
+      "nso2021_official": {
+        "area": "188,2",
+        "yield": "61,0",
+        "production": "1147,6"
+      }
+    },
+    {
+      "province": "Cà Mau",
+      "category": "Lúa cả năm",
+      "changed_fields": [
+        "yield_raw",
+        "production_raw"
+      ],
+      "nso2019_prelim": {
+        "area": "115,6",
+        "yield": "45,4",
+        "production": "525,4"
+      },
+      "nso2021_official": {
+        "area": "115,6",
+        "yield": "45,5",
+        "production": "525,5"
+      }
+    },
+    {
+      "province": "Đồng Tháp",
+      "category": "Lúa đông xuân",
+      "changed_fields": [
+        "area_raw",
+        "production_raw"
+      ],
+      "nso2019_prelim": {
+        "area": "205,2",
+        "yield": "70,0",
+        "production": "1436,1"
+      },
+      "nso2021_official": {
+        "area": "205,4",
+        "yield": "70,0",
+        "production": "1437,4"
+      }
+    },
+    {
+      "province": "Long An",
+      "category": "Lúa hè thu và thu đông",
+      "changed_fields": [
+        "yield_raw",
+        "production_raw"
+      ],
+      "nso2019_prelim": {
+        "area": "272,2",
+        "yield": "47,4",
+        "production": "1290,5"
+      },
+      "nso2021_official": {
+        "area": "272,2",
+        "yield": "47,6",
+        "production": "1295,9"
+      }
+    },
+    {
+      "province": "Tiền Giang",
+      "category": "Lúa hè thu và thu đông",
+      "changed_fields": [
+        "area_raw",
+        "yield_raw",
+        "production_raw"
+      ],
+      "nso2019_prelim": {
+        "area": "119,3",
+        "yield": "54,9",
+        "production": "655,4"
+      },
+      "nso2021_official": {
+        "area": "119,4",
+        "yield": "55,0",
+        "production": "656,5"
+      }
+    },
+    {
+      "province": "Bến Tre",
+      "category": "Lúa hè thu và thu đông",
+      "changed_fields": [
+        "area_raw",
+        "yield_raw",
+        "production_raw"
+      ],
+      "nso2019_prelim": {
+        "area": "27,9",
+        "yield": "45,8",
+        "production": "127,8"
+      },
+      "nso2021_official": {
+        "area": "28,0",
+        "yield": "45,7",
+        "production": "128,0"
+      }
+    },
+    {
+      "province": "Trà Vinh",
+      "category": "Lúa hè thu và thu đông",
+      "changed_fields": [
+        "yield_raw",
+        "production_raw"
+      ],
+      "nso2019_prelim": {
+        "area": "153,5",
+        "yield": "51,5",
+        "production": "790,4"
+      },
+      "nso2021_official": {
+        "area": "153,5",
+        "yield": "51,8",
+        "production": "795,0"
+      }
+    },
+    {
+      "province": "Vĩnh Long",
+      "category": "Lúa hè thu và thu đông",
+      "changed_fields": [
+        "area_raw",
+        "production_raw"
+      ],
+      "nso2019_prelim": {
+        "area": "100,2",
+        "yield": "56,1",
+        "production": "561,9"
+      },
+      "nso2021_official": {
+        "area": "100,3",
+        "yield": "56,1",
+        "production": "562,6"
+      }
+    },
+    {
+      "province": "Đồng Tháp",
+      "category": "Lúa hè thu và thu đông",
+      "changed_fields": [
+        "area_raw",
+        "production_raw"
+      ],
+      "nso2019_prelim": {
+        "area": "316,4",
+        "yield": "60,5",
+        "production": "1912,9"
+      },
+      "nso2021_official": {
+        "area": "316,2",
+        "yield": "60,5",
+        "production": "1912,4"
+      }
+    },
+    {
+      "province": "An Giang",
+      "category": "Lúa hè thu và thu đông",
+      "changed_fields": [
+        "area_raw",
+        "yield_raw",
+        "production_raw"
+      ],
+      "nso2019_prelim": {
+        "area": "387,7",
+        "yield": "57,7",
+        "production": "2238,5"
+      },
+      "nso2021_official": {
+        "area": "387,8",
+        "yield": "57,8",
+        "production": "2241,0"
+      }
+    },
+    {
+      "province": "Kiên Giang",
+      "category": "Lúa hè thu và thu đông",
+      "changed_fields": [
+        "area_raw",
+        "yield_raw",
+        "production_raw"
+      ],
+      "nso2019_prelim": {
+        "area": "368,8",
+        "yield": "53,6",
+        "production": "1977,6"
+      },
+      "nso2021_official": {
+        "area": "368,9",
+        "yield": "53,8",
+        "production": "1983,2"
+      }
+    },
+    {
+      "province": "Hậu Giang",
+      "category": "Lúa hè thu và thu đông",
+      "changed_fields": [
+        "yield_raw",
+        "production_raw"
+      ],
+      "nso2019_prelim": {
+        "area": "117,7",
+        "yield": "58,0",
+        "production": "683,0"
+      },
+      "nso2021_official": {
+        "area": "117,7",
+        "yield": "58,1",
+        "production": "683,6"
+      }
+    },
+    {
+      "province": "Sóc Trăng",
+      "category": "Lúa hè thu và thu đông",
+      "changed_fields": [
+        "area_raw",
+        "yield_raw",
+        "production_raw"
+      ],
+      "nso2019_prelim": {
+        "area": "146,2",
+        "yield": "56,0",
+        "production": "819,2"
+      },
+      "nso2021_official": {
+        "area": "146,3",
+        "yield": "56,1",
+        "production": "821,1"
+      }
+    },
+    {
+      "province": "Bạc Liêu",
+      "category": "Lúa hè thu và thu đông",
+      "changed_fields": [
+        "area_raw",
+        "yield_raw",
+        "production_raw"
+      ],
+      "nso2019_prelim": {
+        "area": "104,1",
+        "yield": "57,7",
+        "production": "601,1"
+      },
+      "nso2021_official": {
+        "area": "103,1",
+        "yield": "58,7",
+        "production": "605,6"
+      }
+    },
+    {
+      "province": "Cà Mau",
+      "category": "Lúa hè thu và thu đông",
+      "changed_fields": [
+        "production_raw"
+      ],
+      "nso2019_prelim": {
+        "area": "36,1",
+        "yield": "46,8",
+        "production": "168,9"
+      },
+      "nso2021_official": {
+        "area": "36,1",
+        "yield": "46,8",
+        "production": "169,0"
+      }
+    }
+  ],
+  "issues_count": 18,
+  "numeric_normalization_performed": false,
+  "cleaning_performed": false
+}

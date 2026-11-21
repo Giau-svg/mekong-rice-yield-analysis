@@ -1,0 +1,79 @@
+=== DECISION TREE (CART) IF-THEN RULES — TASK C1 (3-Class Yield Tier: Weather + Subregion) ===
+Classes: 0 = Thap (< 5.58), 1 = Trung binh (5.58-6.49), 2 = Cao (>= 6.49 t/ha)
+
+|--- precip_total_mm <= -0.64
+|   |--- ws2m_mean_ms <= 2.26
+|   |   |--- ecological_subregion_upstream_alluvial_3crop <= 0.50
+|   |   |   |--- vpd_mean_kpa <= 1.36
+|   |   |   |   |--- class: 2
+|   |   |   |--- vpd_mean_kpa >  1.36
+|   |   |   |   |--- class: 1
+|   |   |--- ecological_subregion_upstream_alluvial_3crop >  0.50
+|   |   |   |--- ws2m_mean_ms <= -0.23
+|   |   |   |   |--- class: 2
+|   |   |   |--- ws2m_mean_ms >  -0.23
+|   |   |   |   |--- class: 2
+|   |--- ws2m_mean_ms >  2.26
+|   |   |--- class: 0
+|--- precip_total_mm >  -0.64
+|   |--- precip_total_mm <= 1.06
+|   |   |--- ecological_subregion_coastal_salinity_prone <= 0.50
+|   |   |   |--- pre_season_rain_90d_mm <= -1.14
+|   |   |   |   |--- class: 0
+|   |   |   |--- pre_season_rain_90d_mm >  -1.14
+|   |   |   |   |--- class: 1
+|   |   |--- ecological_subregion_coastal_salinity_prone >  0.50
+|   |   |   |--- vpd_mean_kpa <= -0.77
+|   |   |   |   |--- class: 0
+|   |   |   |--- vpd_mean_kpa >  -0.77
+|   |   |   |   |--- class: 0
+|   |--- precip_total_mm >  1.06
+|   |   |--- vpd_mean_kpa <= -0.70
+|   |   |   |--- vpd_mean_kpa <= -1.18
+|   |   |   |   |--- class: 0
+|   |   |   |--- vpd_mean_kpa >  -1.18
+|   |   |   |   |--- class: 1
+|   |   |--- vpd_mean_kpa >  -0.70
+|   |   |   |--- ws2m_mean_ms <= -0.74
+|   |   |   |   |--- class: 1
+|   |   |   |--- ws2m_mean_ms >  -0.74
+|   |   |   |   |--- class: 0
+
+
+=== DECISION TREE (CART) IF-THEN RULES — TASK C2 (Binary Risk: Weather Anomaly + Subregion) ===
+Classes: 0 = Dat/Vuot ky vong, 1 = Sut giam duoi ky vong xu huong
+
+|--- oni_pre_season <= 0.80
+|   |--- ws2m_mean_ms <= -0.14
+|   |   |--- precip_total_mm <= 0.05
+|   |   |   |--- vpd_mean_kpa <= -0.18
+|   |   |   |   |--- class: 0
+|   |   |   |--- vpd_mean_kpa >  -0.18
+|   |   |   |   |--- class: 0
+|   |   |--- precip_total_mm >  0.05
+|   |   |   |--- oni_pre_season <= -0.64
+|   |   |   |   |--- class: 0
+|   |   |   |--- oni_pre_season >  -0.64
+|   |   |   |   |--- class: 1
+|   |--- ws2m_mean_ms >  -0.14
+|   |   |--- ws2m_mean_ms <= 0.68
+|   |   |   |--- pre_season_rain_90d_mm <= 0.04
+|   |   |   |   |--- class: 0
+|   |   |   |--- pre_season_rain_90d_mm >  0.04
+|   |   |   |   |--- class: 0
+|   |   |--- ws2m_mean_ms >  0.68
+|   |   |   |--- precip_total_mm <= -0.35
+|   |   |   |   |--- class: 0
+|   |   |   |--- precip_total_mm >  -0.35
+|   |   |   |   |--- class: 1
+|--- oni_pre_season >  0.80
+|   |--- pre_season_rain_90d_mm <= -0.47
+|   |   |--- precip_total_mm <= -0.88
+|   |   |   |--- class: 1
+|   |   |--- precip_total_mm >  -0.88
+|   |   |   |--- pre_season_rain_90d_mm <= -0.93
+|   |   |   |   |--- class: 1
+|   |   |   |--- pre_season_rain_90d_mm >  -0.93
+|   |   |   |   |--- class: 1
+|   |--- pre_season_rain_90d_mm >  -0.47
+|   |   |--- class: 0

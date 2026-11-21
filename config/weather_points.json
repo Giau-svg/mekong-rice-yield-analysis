@@ -1,0 +1,80 @@
+[
+  {
+    "id": "long_an",
+    "latitude": 10.75,
+    "longitude": 106.25,
+    "role": "acquisition_point_not_provincial_average"
+  },
+  {
+    "id": "tien_giang",
+    "latitude": 10.45,
+    "longitude": 106.35,
+    "role": "acquisition_point_not_provincial_average"
+  },
+  {
+    "id": "ben_tre",
+    "latitude": 10.1,
+    "longitude": 106.4,
+    "role": "acquisition_point_not_provincial_average"
+  },
+  {
+    "id": "tra_vinh",
+    "latitude": 9.8,
+    "longitude": 106.3,
+    "role": "acquisition_point_not_provincial_average"
+  },
+  {
+    "id": "vinh_long",
+    "latitude": 10.1,
+    "longitude": 105.95,
+    "role": "acquisition_point_not_provincial_average"
+  },
+  {
+    "id": "dong_thap",
+    "latitude": 10.6,
+    "longitude": 105.6,
+    "role": "acquisition_point_not_provincial_average"
+  },
+  {
+    "id": "an_giang",
+    "latitude": 10.5,
+    "longitude": 105.15,
+    "role": "acquisition_point_not_provincial_average"
+  },
+  {
+    "id": "kien_giang",
+    "latitude": 10,
+    "longitude": 105.1,
+    "role": "acquisition_point_not_provincial_average"
+  },
+  {
+    "id": "can_tho",
+    "latitude": 10.1,
+    "longitude": 105.6,
+    "role": "acquisition_point_not_provincial_average"
+  },
+  {
+    "id": "hau_giang",
+    "latitude": 9.75,
+    "longitude": 105.65,
+    "role": "acquisition_point_not_provincial_average"
+  },
+  {
+    "id": "soc_trang",
+    "latitude": 9.6,
+    "longitude": 105.95,
+    "role": "acquisition_point_not_provincial_average"
+  },
+  {
+    "id": "bac_lieu",
+    "latitude": 9.3,
+    "longitude": 105.6,
+    "role": "acquisition_point_not_provincial_average"
+  },
+  {
+    "id": "ca_mau",
+    "latitude": 9.15,
+    "longitude": 105.15,
+    "role": "acquisition_point_not_provincial_average"
+  }
+]

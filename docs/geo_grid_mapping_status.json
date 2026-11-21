@@ -1,0 +1,172 @@
+{
+  "generated_at": "2026-11-20T19:14:15.573Z",
+  "boundary_file": "data/raw/geo/gadm41_VNM_1.json",
+  "boundary_sha256": "fb7473e5f30c1de63d851c7505b3929527cdc6ceb82757ee765201a4b240ce9e",
+  "total_vietnam_provinces_in_boundary": 63,
+  "mekong_provinces_matched": 13,
+  "total_weather_grid_cells": 30,
+  "cells_overlapping_mekong_delta": 21,
+  "cells_outside_mekong_or_offshore": 9,
+  "offshore_or_outside_cell_ids": [
+    "grid_8.500_104.375",
+    "grid_8.500_105.625",
+    "grid_8.500_106.250",
+    "grid_8.500_106.875",
+    "grid_9.000_104.375",
+    "grid_9.000_106.250",
+    "grid_9.000_106.875",
+    "grid_11.000_104.375",
+    "grid_11.000_106.875"
+  ],
+  "province_grid_overlap_rows": 55,
+  "distinct_province_weight_profiles": 13,
+  "by_province": [
+    {
+      "province_id": "long_an",
+      "province": "Long An",
+      "overlapping_grid_cells": 5,
+      "cell_keys": [
+        "201:457",
+        "201:458",
+        "201:459",
+        "202:457",
+        "202:458"
+      ]
+    },
+    {
+      "province_id": "tien_giang",
+      "province": "Tiền Giang",
+      "overlapping_grid_cells": 4,
+      "cell_keys": [
+        "200:459",
+        "201:457",
+        "201:458",
+        "201:459"
+      ]
+    },
+    {
+      "province_id": "ben_tre",
+      "province": "Bến Tre",
+      "overlapping_grid_cells": 3,
+      "cell_keys": [
+        "200:458",
+        "200:459",
+        "201:458"
+      ]
+    },
+    {
+      "province_id": "tra_vinh",
+      "province": "Trà Vinh",
+      "overlapping_grid_cells": 4,
+      "cell_keys": [
+        "199:458",
+        "199:459",
+        "200:458",
+        "200:459"
+      ]
+    },
+    {
+      "province_id": "vinh_long",
+      "province": "Vĩnh Long",
+      "overlapping_grid_cells": 4,
+      "cell_keys": [
+        "200:457",
+        "200:458",
+        "201:457",
+        "201:458"
+      ]
+    },
+    {
+      "province_id": "dong_thap",
+      "province": "Đồng Tháp",
+      "overlapping_grid_cells": 5,
+      "cell_keys": [
+        "200:457",
+        "201:456",
+        "201:457",
+        "202:456",
+        "202:457"
+      ]
+    },
+    {
+      "province_id": "an_giang",
+      "province": "An Giang",
+      "overlapping_grid_cells": 4,
+      "cell_keys": [
+        "200:456",
+        "201:456",
+        "201:457",
+        "202:456"
+      ]
+    },
+    {
+      "province_id": "kien_giang",
+      "province": "Kiên Giang",
+      "overlapping_grid_cells": 8,
+      "cell_keys": [
+        "199:455",
+        "199:456",
+        "199:457",
+        "200:455",
+        "200:456",
+        "200:457",
+        "201:455",
+        "201:456"
+      ]
+    },
+    {
+      "province_id": "can_tho",
+      "province": "Cần Thơ",
+      "overlapping_grid_cells": 4,
+      "cell_keys": [
+        "200:456",
+        "200:457",
+        "201:456",
+        "201:457"
+      ]
+    },
+    {
+      "province_id": "hau_giang",
+      "province": "Hậu Giang",
+      "overlapping_grid_cells": 2,
+      "cell_keys": [
+        "199:457",
+        "200:457"
+      ]
+    },
+    {
+      "province_id": "soc_trang",
+      "province": "Sóc Trăng",
+      "overlapping_grid_cells": 4,
+      "cell_keys": [
+        "199:457",
+        "199:458",
+        "200:457",
+        "200:458"
+      ]
+    },
+    {
+      "province_id": "bac_lieu",
+      "province": "Bạc Liêu",
+      "overlapping_grid_cells": 4,
+      "cell_keys": [
+        "198:456",
+        "198:457",
+        "199:456",
+        "199:457"
+      ]
+    },
+    {
+      "province_id": "ca_mau",
+      "province": "Cà Mau",
+      "overlapping_grid_cells": 4,
+      "cell_keys": [
+        "197:456",
+        "198:456",
+        "198:457",
+        "199:456"
+      ]
+    }
+  ],
+  "cleaning_or_weather_aggregation_performed": false
+}

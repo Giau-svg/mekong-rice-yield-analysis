@@ -1,0 +1,25 @@
+﻿scenario,model,selected_params,expanding_cv_mae,test_mae,test_rmse
+single_point_shift_0,Baseline_Median,{},0.2624,0.3002,0.34
+single_point_shift_0,Ridge_Anomaly_Ortho5,"{""alpha"": 5.0, ""include_year"": false}",0.2173,0.3254,0.3674
+single_point_shift_0,Ridge_Anomaly_Ortho5_Trend,"{""alpha"": 5.0, ""include_year"": true}",0.1937,0.1385,0.1847
+single_point_shift_0,Huber_Anomaly_Ortho5,"{""alpha"": 10.0, ""epsilon"": 1.35, ""include_year"": false}",0.1857,0.2917,0.3318
+zonal_shift_+10,Baseline_Median,{},0.2624,0.3002,0.34
+zonal_shift_+10,Ridge_Anomaly_Ortho5,"{""alpha"": 10.0, ""include_year"": false}",0.2271,0.333,0.3741
+zonal_shift_+10,Ridge_Anomaly_Ortho5_Trend,"{""alpha"": 10.0, ""include_year"": true}",0.2024,0.139,0.1862
+zonal_shift_+10,Huber_Anomaly_Ortho5,"{""alpha"": 10.0, ""epsilon"": 1.35, ""include_year"": false}",0.1857,0.2996,0.3405
+zonal_shift_+15,Baseline_Median,{},0.2624,0.3002,0.34
+zonal_shift_+15,Ridge_Anomaly_Ortho5,"{""alpha"": 10.0, ""include_year"": false}",0.2231,0.3411,0.3816
+zonal_shift_+15,Ridge_Anomaly_Ortho5_Trend,"{""alpha"": 25.0, ""include_year"": true}",0.2061,0.1683,0.208
+zonal_shift_+15,Huber_Anomaly_Ortho5,"{""alpha"": 50.0, ""epsilon"": 1.35, ""include_year"": false}",0.1858,0.3022,0.3408
+zonal_shift_-10,Baseline_Median,{},0.2624,0.3002,0.34
+zonal_shift_-10,Ridge_Anomaly_Ortho5,"{""alpha"": 10.0, ""include_year"": false}",0.2117,0.343,0.3828
+zonal_shift_-10,Ridge_Anomaly_Ortho5_Trend,"{""alpha"": 10.0, ""include_year"": true}",0.1832,0.1492,0.1866
+zonal_shift_-10,Huber_Anomaly_Ortho5,"{""alpha"": 50.0, ""epsilon"": 1.35, ""include_year"": false}",0.1924,0.3013,0.3406
+zonal_shift_-15,Baseline_Median,{},0.2624,0.3002,0.34
+zonal_shift_-15,Ridge_Anomaly_Ortho5,"{""alpha"": 10.0, ""include_year"": false}",0.2126,0.3431,0.3843
+zonal_shift_-15,Ridge_Anomaly_Ortho5_Trend,"{""alpha"": 10.0, ""include_year"": true}",0.1775,0.1557,0.1932
+zonal_shift_-15,Huber_Anomaly_Ortho5,"{""alpha"": 10.0, ""epsilon"": 1.35, ""include_year"": false}",0.1911,0.3006,0.3431
+zonal_shift_0,Baseline_Median,{},0.2624,0.3002,0.34
+zonal_shift_0,Ridge_Anomaly_Ortho5,"{""alpha"": 5.0, ""include_year"": false}",0.2104,0.3278,0.3686
+zonal_shift_0,Ridge_Anomaly_Ortho5_Trend,"{""alpha"": 5.0, ""include_year"": true}",0.1881,0.1369,0.1842
+zonal_shift_0,Huber_Anomaly_Ortho5,"{""alpha"": 10.0, ""epsilon"": 1.35, ""include_year"": false}",0.1855,0.2953,0.3341

@@ -1,0 +1,10 @@
+﻿algorithm,n_clusters_found,n_noise_points,internal_sse,internal_silhouette,internal_calinski_harabasz,internal_dunn,external_ari_vs_subregion,external_nmi_vs_subregion,external_fmi_vs_subregion,external_jaccard_vs_subregion
+KMeans_K3,3,0,30.3217,0.3898,14.2931,0.52,0.1374,0.3838,0.3917,0.2432
+KMedoids_PAM_K3,3,0,30.3217,0.3898,14.2931,0.52,0.1374,0.3838,0.3917,0.2432
+Agglomerative_Ward_K3,3,0,30.3217,0.3898,14.2931,0.52,0.1374,0.3838,0.3917,0.2432
+Agglomerative_Complete_K3,3,0,30.3217,0.3898,14.2931,0.52,0.1374,0.3838,0.3917,0.2432
+Agglomerative_Average_K3,3,0,40.4974,0.337,9.4454,0.4653,0.4103,0.6556,0.6486,0.4524
+Agglomerative_Single_K3,3,0,49.1723,0.3678,6.8969,0.4369,0.1915,0.4126,0.5344,0.3333
+BisectingKMeans_K3,3,0,30.3217,0.3898,14.2931,0.52,0.1374,0.3838,0.3917,0.2432
+DBSCAN_eps2_8_min2,2,1,49.1723,0.4238,7.0763,0.4369,0.1915,0.4126,0.5344,0.3333
+MeanShift_Auto,5,0,22.6485,0.2495,8.3318,0.4833,0.2783,0.5866,0.5147,0.3421

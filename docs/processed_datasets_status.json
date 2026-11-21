@@ -1,0 +1,26 @@
+{
+  "generated_at": "2026-11-20T19:54:24.419Z",
+  "outputs": {
+    "tier1_core_3seasons_model_ready": 90,
+    "tier2_delta13_dong_xuan_model_ready": 127,
+    "tier2_delta13_combined_ht_td_model_ready": 130,
+    "external_ood_7rows_supplemental": 7,
+    "tier1_sensitivity_calendar_and_spatial": 540
+  },
+  "hydro_meteo_features_added": [
+    "vpd_mean_kpa (Magnus-Tetens atmospheric evaporative demand)",
+    "max_consecutive_dry_days (<1 mm/day dry spell streak)",
+    "pre_season_rain_90d_mm (90-day pre-sowing cumulative rainfall)",
+    "oni_pre_season (NOAA PSL Oceanic Nino Index prior to crop harvest)"
+  ],
+  "time_split_counts_tier1": {
+    "train_2015_2020": 54,
+    "val_2021_2022": 18,
+    "test_2023_2024": 18
+  },
+  "time_split_counts_tier2_dx": {
+    "train_2015_2020": 75,
+    "val_2021_2022": 26,
+    "test_2023_2024": 26
+  }
+}

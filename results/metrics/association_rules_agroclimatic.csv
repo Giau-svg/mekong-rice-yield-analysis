@@ -1,0 +1,49 @@
+﻿antecedent,consequent,support,confidence,lift,leverage,conviction,dataset
+MưaTiềnVụ=Cao AND Vùng=ThượngNguồn,NăngSuấtĐX=Cao,0.0945,1.0,3.0238,0.0632,999.0,TrackA_DX_13Prov_n127
+ENSO=LaNiña AND Vùng=ThượngNguồn,NăngSuấtĐX=Cao,0.1024,0.8125,2.4568,0.0607,3.5696,TrackA_DX_13Prov_n127
+Gió2m=Mạnh AND MưaTiềnVụ=TB,NăngSuấtĐX=Thấp,0.0945,0.7059,2.0848,0.0492,2.2488,TrackA_DX_13Prov_n127
+MưaTiềnVụ=TB AND Vùng=VenBiển,NăngSuấtĐX=Thấp,0.0866,0.6875,2.0305,0.044,2.1165,TrackA_DX_13Prov_n127
+VPD=TB AND Vùng=ThượngNguồn,NăngSuấtĐX=Cao,0.0945,0.6667,2.0159,0.0476,2.0079,TrackA_DX_13Prov_n127
+ENSO=LaNiña AND VPD=TB,NăngSuấtĐX=Cao,0.1024,0.65,1.9655,0.0503,1.9123,TrackA_DX_13Prov_n127
+Vùng=VenBiển,NăngSuấtĐX=Thấp,0.1811,0.6216,1.836,0.0825,1.748,TrackA_DX_13Prov_n127
+ENSO=LaNiña AND Vùng=VùngGiữa,NăngSuấtĐX=TB,0.0945,0.6,1.8143,0.0424,1.6732,TrackA_DX_13Prov_n127
+Gió2m=Mạnh AND Vùng=VenBiển,NăngSuấtĐX=Thấp,0.1496,0.5938,1.7536,0.0643,1.6281,TrackA_DX_13Prov_n127
+Gió2m=Yếu AND Vùng=ThượngNguồn,NăngSuấtĐX=Cao,0.1181,0.5769,1.7445,0.0504,1.582,TrackA_DX_13Prov_n127
+Vùng=ThượngNguồn,NăngSuấtĐX=Cao,0.1811,0.575,1.7387,0.0769,1.5748,TrackA_DX_13Prov_n127
+ENSO=ElNiño AND Gió2m=Mạnh,NăngSuấtĐX=Thấp,0.1102,0.5833,1.7229,0.0463,1.5874,TrackA_DX_13Prov_n127
+Gió2m=Mạnh,NăngSuấtĐX=Thấp,0.1969,0.5814,1.7171,0.0822,1.5801,TrackA_DX_13Prov_n127
+VPD=ẨmThấp AND Vùng=VenBiển,NăngSuấtĐX=Thấp,0.1181,0.5769,1.7039,0.0488,1.5634,TrackA_DX_13Prov_n127
+VPD=KhôCao AND Vụ=ĐôngXuân,NăngSuất3Vụ=Cao,0.1889,1.0,3.0,0.1259,999.0,TrackB_3Seasons_n90
+MưaVụ=Ít AND VPD=KhôCao,NăngSuất3Vụ=Cao,0.1889,1.0,3.0,0.1259,999.0,TrackB_3Seasons_n90
+ENSO=ElNiño AND MưaVụ=Ít,NăngSuất3Vụ=Cao,0.1667,1.0,3.0,0.1111,999.0,TrackB_3Seasons_n90
+ENSO=ElNiño AND Vụ=ĐôngXuân,NăngSuất3Vụ=Cao,0.1667,1.0,3.0,0.1111,999.0,TrackB_3Seasons_n90
+ENSO=LaNiña AND Vụ=ĐôngXuân,NăngSuất3Vụ=Cao,0.1333,1.0,3.0,0.0889,999.0,TrackB_3Seasons_n90
+ENSO=LaNiña AND MưaVụ=Ít,NăngSuất3Vụ=Cao,0.1333,1.0,3.0,0.0889,999.0,TrackB_3Seasons_n90
+Gió2m=Yếu AND MưaVụ=Ít,NăngSuất3Vụ=Cao,0.1222,1.0,3.0,0.0815,999.0,TrackB_3Seasons_n90
+Gió2m=Yếu AND Vụ=ĐôngXuân,NăngSuất3Vụ=Cao,0.1222,1.0,3.0,0.0815,999.0,TrackB_3Seasons_n90
+Gió2m=Mạnh AND VPD=ẨmThấp,NăngSuất3Vụ=Thấp,0.1111,1.0,3.0,0.0741,999.0,TrackB_3Seasons_n90
+Gió2m=Mạnh AND Vụ=ThuĐông,NăngSuất3Vụ=Thấp,0.1111,1.0,3.0,0.0741,999.0,TrackB_3Seasons_n90
+Gió2m=TB AND Vụ=ĐôngXuân,NăngSuất3Vụ=Cao,0.1,1.0,3.0,0.0667,999.0,TrackB_3Seasons_n90
+Gió2m=TB AND MưaVụ=Ít,NăngSuất3Vụ=Cao,0.1,1.0,3.0,0.0667,999.0,TrackB_3Seasons_n90
+MưaVụ=Ít,NăngSuất3Vụ=Cao,0.3222,0.9667,2.9,0.2111,20.0,TrackB_3Seasons_n90
+Vụ=ĐôngXuân,NăngSuất3Vụ=Cao,0.3222,0.9667,2.9,0.2111,20.0,TrackB_3Seasons_n90
+MưaVụ=Ít AND Vụ=ĐôngXuân,NăngSuất3Vụ=Cao,0.3222,0.9667,2.9,0.2111,20.0,TrackB_3Seasons_n90
+VPD=TB AND Vụ=ĐôngXuân,NăngSuất3Vụ=Cao,0.1333,0.9231,2.7692,0.0852,8.6667,TrackB_3Seasons_n90
+MưaVụ=Ít AND VPD=TB,NăngSuất3Vụ=Cao,0.1333,0.9231,2.7692,0.0852,8.6667,TrackB_3Seasons_n90
+Gió2m=Mạnh AND MưaVụ=Ít,NăngSuất3Vụ=Cao,0.1,0.9,2.7,0.063,6.6667,TrackB_3Seasons_n90
+Gió2m=Mạnh AND Vụ=ĐôngXuân,NăngSuất3Vụ=Cao,0.1,0.9,2.7,0.063,6.6667,TrackB_3Seasons_n90
+Gió2m=Mạnh AND MưaVụ=TB,NăngSuất3Vụ=Thấp,0.1333,0.8571,2.5714,0.0815,4.6667,TrackB_3Seasons_n90
+MưaVụ=Nhiều AND Vụ=HèThu,NăngSuất3Vụ=TB,0.1111,0.8333,2.5,0.0667,4.0,TrackB_3Seasons_n90
+Gió2m=TB AND Vụ=HèThu,NăngSuất3Vụ=TB,0.1111,0.7692,2.3077,0.063,2.8889,TrackB_3Seasons_n90
+MưaVụ=TB AND Vụ=ThuĐông,NăngSuất3Vụ=Thấp,0.1,0.75,2.25,0.0556,2.6667,TrackB_3Seasons_n90
+VPD=TB AND Vụ=HèThu,NăngSuất3Vụ=TB,0.1222,0.7333,2.2,0.0667,2.5,TrackB_3Seasons_n90
+ENSO=ElNiño AND MưaVụ=TB,NăngSuất3Vụ=Thấp,0.1,0.6923,2.0769,0.0519,2.1667,TrackB_3Seasons_n90
+Gió2m=Yếu AND MưaVụ=Nhiều,NăngSuất3Vụ=TB,0.1111,0.6667,2.0,0.0556,2.0,TrackB_3Seasons_n90
+VPD=ẨmThấp AND Vụ=ThuĐông,NăngSuất3Vụ=Thấp,0.2,0.6429,1.9286,0.0963,1.8667,TrackB_3Seasons_n90
+Vụ=HèThu,NăngSuất3Vụ=TB,0.2111,0.6333,1.9,0.1,1.8182,TrackB_3Seasons_n90
+Vụ=ThuĐông,NăngSuất3Vụ=Thấp,0.2111,0.6333,1.9,0.1,1.8182,TrackB_3Seasons_n90
+ENSO=TrungTính AND Vụ=ThuĐông,NăngSuất3Vụ=Thấp,0.1222,0.6111,1.8333,0.0556,1.7143,TrackB_3Seasons_n90
+ENSO=TrungTính AND VPD=ẨmThấp,NăngSuất3Vụ=Thấp,0.1222,0.6111,1.8333,0.0556,1.7143,TrackB_3Seasons_n90
+MưaVụ=TB,NăngSuất3Vụ=Thấp,0.2,0.6,1.8,0.0889,1.6667,TrackB_3Seasons_n90
+VPD=ẨmThấp,NăngSuất3Vụ=Thấp,0.2,0.6,1.8,0.0889,1.6667,TrackB_3Seasons_n90
+ENSO=TrungTính AND MưaVụ=TB,NăngSuất3Vụ=Thấp,0.1,0.6,1.8,0.0444,1.6667,TrackB_3Seasons_n90

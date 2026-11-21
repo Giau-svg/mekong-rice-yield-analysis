@@ -1,30 +1,39 @@
+# Dependencies & Temp
+node_modules/
+tmp/
+*.part
 
-# Python
+# Python & Jupyter
 .venv/
 __pycache__/
 *.pyc
 .pytest_cache/
-
-# Jupyter
 .ipynb_checkpoints/
-
-# Local configuration
-.env
-.vscode/
-
-# Data files
-/data/raw/**/*
-!/data/raw/**/
-!/data/raw/**/.gitkeep
-
-/data/interim/*
-!/data/interim/.gitkeep
-
-/data/processed/*
-!/data/processed/.gitkeep
-
-# Trained models
 *.joblib
 *.pkl
 
+# IDE & Local config
+.env
+.vscode/
 .history/
+
+# Large crawled raw binaries & full-text dumps (reproducible via scripts/collect_all_raw.ps1; SHA-256 in data/catalog/)
+data/raw/crawl/
+data/raw/pdf_text/
+data/raw/html_text/
+data/raw/ocr_text/
+data/raw/seed_files/
+data/raw/search_discovery/
+data/raw/calendar/
+data/raw/*.pdf
+data/raw/*.html
+data/raw/*.js
+data/raw/*.xlsx
+data/raw/*.jsonl
+data/raw/weather_daily_raw.csv
+data/raw/crawl_pending.json
+data/raw/systematic_gap_queue_before_scope_filter.json
+
+# Course reference lecture slides & textbook (copyrighted third-party materials; keep only project presentation files)
+slide/DA - SGU - *.pdf
+slide/principles-of-data-mining.pdf

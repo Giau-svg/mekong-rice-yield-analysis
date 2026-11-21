@@ -1,0 +1,4 @@
+﻿"province_id","harvest_year","season","production_relative_error","scope_ok","calendar_ok"
+"tien_giang","2024","dong_xuan","0.00015446147985897975","true","false"
+"tien_giang","2024","he_thu","0.0000988790025252176","false","false"
+"tien_giang","2024","thu_dong","0.0007141129777941745","true","false"

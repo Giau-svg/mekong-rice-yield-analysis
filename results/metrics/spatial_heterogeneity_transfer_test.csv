@@ -1,0 +1,4 @@
+﻿eval_target,method,mae,rmse,r2
+10_other_provinces_DX_2023_2024,Own_Province_Median_Baseline,0.2845,0.3039,0.8288
+10_other_provinces_DX_2023_2024,Weather_Slope_Transferred_From_3Core_Provinces,0.4596,0.5149,0.5085
+10_other_provinces_DX_2023_2024,Weather_Slope_Trained_On_All_13_Provinces,0.5104,0.579,0.3786

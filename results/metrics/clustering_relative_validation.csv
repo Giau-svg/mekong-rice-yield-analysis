@@ -1,0 +1,7 @@
+﻿method_a,method_b,pairwise_rand_index,pairwise_ari,pairwise_f_measure,pairwise_jaccard
+KMeans_K3,KMedoids_PAM_K3,1.0,1.0,1.0,1.0
+KMeans_K3,Agglomerative_Ward_K3,1.0,1.0,1.0,1.0
+KMeans_K3,BisectingKMeans_K3,1.0,1.0,1.0,1.0
+KMedoids_PAM_K3,Agglomerative_Ward_K3,1.0,1.0,1.0,1.0
+KMedoids_PAM_K3,BisectingKMeans_K3,1.0,1.0,1.0,1.0
+Agglomerative_Ward_K3,BisectingKMeans_K3,1.0,1.0,1.0,1.0

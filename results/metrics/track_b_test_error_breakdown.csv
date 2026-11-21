@@ -1,0 +1,61 @@
+﻿group_type,group_value,n,model,test_mae,test_bias
+season,dong_xuan,6,Baseline_Median,0.3607,-0.3607
+season,dong_xuan,6,Structural_FE_Plus_Trend,0.129,-0.0146
+season,dong_xuan,6,Ridge_Anomaly_Ortho5_Trend,0.1457,-0.124
+season,dong_xuan,6,Lasso_Anomaly_Ortho5_Trend,0.1329,-0.0867
+season,dong_xuan,6,Huber_Anomaly_Ortho5_Trend,0.1776,-0.1776
+season,dong_xuan,6,DecisionTree_Anomaly_Trend,0.1991,-0.1991
+season,dong_xuan,6,Shallow_RF_Anomaly_Trend,0.2433,-0.2433
+season,dong_xuan,6,GBR_Anomaly_Trend,0.2621,-0.2621
+season,dong_xuan,6,SVR_Linear_Anomaly_Trend,0.1996,-0.1996
+season,dong_xuan,6,MLP_ReLU_Anomaly_Trend,0.2392,-0.2346
+season,he_thu,6,Baseline_Median,0.2058,-0.2015
+season,he_thu,6,Structural_FE_Plus_Trend,0.1867,0.1446
+season,he_thu,6,Ridge_Anomaly_Ortho5_Trend,0.1864,0.1323
+season,he_thu,6,Lasso_Anomaly_Ortho5_Trend,0.2084,0.1661
+season,he_thu,6,Huber_Anomaly_Ortho5_Trend,0.139,0.0367
+season,he_thu,6,DecisionTree_Anomaly_Trend,0.1676,-0.0399
+season,he_thu,6,Shallow_RF_Anomaly_Trend,0.2083,-0.1744
+season,he_thu,6,GBR_Anomaly_Trend,0.1806,-0.1151
+season,he_thu,6,SVR_Linear_Anomaly_Trend,0.1452,0.0256
+season,he_thu,6,MLP_ReLU_Anomaly_Trend,0.1517,-0.0347
+season,thu_dong,6,Baseline_Median,0.3342,-0.3342
+season,thu_dong,6,Structural_FE_Plus_Trend,0.0849,0.0119
+season,thu_dong,6,Ridge_Anomaly_Ortho5_Trend,0.0787,-0.0552
+season,thu_dong,6,Lasso_Anomaly_Ortho5_Trend,0.0711,-0.0383
+season,thu_dong,6,Huber_Anomaly_Ortho5_Trend,0.1177,-0.1177
+season,thu_dong,6,DecisionTree_Anomaly_Trend,0.2128,-0.2128
+season,thu_dong,6,Shallow_RF_Anomaly_Trend,0.2024,-0.2024
+season,thu_dong,6,GBR_Anomaly_Trend,0.2131,-0.2131
+season,thu_dong,6,SVR_Linear_Anomaly_Trend,0.1222,-0.1222
+season,thu_dong,6,MLP_ReLU_Anomaly_Trend,0.1275,-0.1275
+province,An Giang,6,Baseline_Median,0.3028,-0.3028
+province,An Giang,6,Structural_FE_Plus_Trend,0.0854,0.0433
+province,An Giang,6,Ridge_Anomaly_Ortho5_Trend,0.0588,-0.017
+province,An Giang,6,Lasso_Anomaly_Ortho5_Trend,0.0636,0.0129
+province,An Giang,6,Huber_Anomaly_Ortho5_Trend,0.0893,-0.0893
+province,An Giang,6,DecisionTree_Anomaly_Trend,0.1546,-0.1546
+province,An Giang,6,Shallow_RF_Anomaly_Trend,0.2131,-0.2131
+province,An Giang,6,GBR_Anomaly_Trend,0.2057,-0.2057
+province,An Giang,6,SVR_Linear_Anomaly_Trend,0.1009,-0.1009
+province,An Giang,6,MLP_ReLU_Anomaly_Trend,0.1418,-0.1418
+province,Cần Thơ,6,Baseline_Median,0.2493,-0.245
+province,Cần Thơ,6,Structural_FE_Plus_Trend,0.174,0.1011
+province,Cần Thơ,6,Ridge_Anomaly_Ortho5_Trend,0.1938,0.0405
+province,Cần Thơ,6,Lasso_Anomaly_Ortho5_Trend,0.1929,0.069
+province,Cần Thơ,6,Huber_Anomaly_Ortho5_Trend,0.1917,-0.0289
+province,Cần Thơ,6,DecisionTree_Anomaly_Trend,0.2085,-0.0968
+province,Cần Thơ,6,Shallow_RF_Anomaly_Trend,0.1838,-0.1499
+province,Cần Thơ,6,GBR_Anomaly_Trend,0.206,-0.1405
+province,Cần Thơ,6,SVR_Linear_Anomaly_Trend,0.1966,-0.0409
+province,Cần Thơ,6,MLP_ReLU_Anomaly_Trend,0.1916,-0.0699
+province,Kiên Giang,6,Baseline_Median,0.3485,-0.3485
+province,Kiên Giang,6,Structural_FE_Plus_Trend,0.1412,-0.0024
+province,Kiên Giang,6,Ridge_Anomaly_Ortho5_Trend,0.1582,-0.0704
+province,Kiên Giang,6,Lasso_Anomaly_Ortho5_Trend,0.1558,-0.0408
+province,Kiên Giang,6,Huber_Anomaly_Ortho5_Trend,0.1533,-0.1403
+province,Kiên Giang,6,DecisionTree_Anomaly_Trend,0.2162,-0.2003
+province,Kiên Giang,6,Shallow_RF_Anomaly_Trend,0.2572,-0.2572
+province,Kiên Giang,6,GBR_Anomaly_Trend,0.2442,-0.2442
+province,Kiên Giang,6,SVR_Linear_Anomaly_Trend,0.1694,-0.1543
+province,Kiên Giang,6,MLP_ReLU_Anomaly_Trend,0.185,-0.185

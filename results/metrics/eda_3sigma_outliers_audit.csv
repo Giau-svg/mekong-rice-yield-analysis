@@ -1,0 +1,15 @@
+﻿dataset,province,ecological_subregion,harvest_year,season,yield_t_ha,z_score,flag_3sigma,flag_iqr_1_5,domain_outlier_flag,handling_decision
+track_a_dx_13prov_127,Bến Tre,coastal_salinity_prone,2015,dong_xuan,5.09,-1.291,False,True,none,Retain real agro-disaster + evaluate Dual-Regime & Huber Loss
+track_a_dx_13prov_127,Bến Tre,coastal_salinity_prone,2016,dong_xuan,0.05,-5.494,True,True,extreme_salinity_crop_failure,Retain real agro-disaster + evaluate Dual-Regime & Huber Loss
+track_a_dx_13prov_127,Bến Tre,coastal_salinity_prone,2017,dong_xuan,4.42,-1.849,False,True,none,Retain real agro-disaster + evaluate Dual-Regime & Huber Loss
+track_a_dx_13prov_127,Bến Tre,coastal_salinity_prone,2019,dong_xuan,4.82,-1.516,False,True,none,Retain real agro-disaster + evaluate Dual-Regime & Huber Loss
+track_a_dx_13prov_127,Trà Vinh,coastal_salinity_prone,2016,dong_xuan,4.04,-2.166,False,True,none,Retain real agro-disaster + evaluate Dual-Regime & Huber Loss
+track_a_dx_13prov_127,Cà Mau,coastal_salinity_prone,2017,dong_xuan,3.0,-3.034,True,True,none,Retain real agro-disaster + evaluate Dual-Regime & Huber Loss
+track_a_dx_13prov_127,Bến Tre,coastal_salinity_prone,2020,dong_xuan,0.04,-5.502,True,True,extreme_salinity_crop_failure,Retain real agro-disaster + evaluate Dual-Regime & Huber Loss
+track_a_dx_13prov_127,Bến Tre,coastal_salinity_prone,2021,dong_xuan,5.07,-1.307,False,True,none,Retain real agro-disaster + evaluate Dual-Regime & Huber Loss
+track_a_dx_13prov_127,Bến Tre,coastal_salinity_prone,2024,dong_xuan,5.09,-1.291,False,True,none,Retain real agro-disaster + evaluate Dual-Regime & Huber Loss
+track_a_dx_13prov_127,Trà Vinh,coastal_salinity_prone,2020,dong_xuan,3.54,-2.583,False,True,none,Retain real agro-disaster + evaluate Dual-Regime & Huber Loss
+track_a_ht_td_13prov_130,Bến Tre,coastal_salinity_prone,2015,he_thu_thu_dong_combined,4.01,-2.461,False,True,none,Retain real agro-disaster + evaluate Dual-Regime & Huber Loss
+track_a_ht_td_13prov_130,Bến Tre,coastal_salinity_prone,2016,he_thu_thu_dong_combined,4.01,-2.461,False,True,none,Retain real agro-disaster + evaluate Dual-Regime & Huber Loss
+track_a_ht_td_13prov_130,Bến Tre,coastal_salinity_prone,2020,he_thu_thu_dong_combined,3.47,-3.423,True,True,none,Retain real agro-disaster + evaluate Dual-Regime & Huber Loss
+track_a_ht_td_13prov_130,Cà Mau,coastal_salinity_prone,2020,he_thu_thu_dong_combined,3.88,-2.693,False,True,none,Retain real agro-disaster + evaluate Dual-Regime & Huber Loss

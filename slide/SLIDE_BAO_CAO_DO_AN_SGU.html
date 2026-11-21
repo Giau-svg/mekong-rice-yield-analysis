@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Đồ án Phân tích Dữ liệu SGU — Khí tượng & Năng suất lúa ĐBSCL (2015–2024)</title>
+<style>
+  :root {
+    --navy: #0a3673;
+    --blue: #1659a8;
+    --sky: #e8f1fb;
+    --gold: #f5c518;
+    --red: #c53030;
+    --green: #22754a;
+    --ink: #1a2433;
+    --muted: #4a5a70;
+    --border: #d4dfee;
+    --bg: #0f172a;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    overflow: hidden;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .deck {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  .slide {
+    display: none;
+    width: min(96vw, calc(96vh * 16 / 9));
+    height: min(96vh, calc(96vw * 9 / 16));
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 22px 60px rgba(0, 0, 0, 0.55);
+    overflow: hidden;
+    position: relative;
+    flex-direction: column;
+  }
+  .slide.active { display: flex; }
+
+  /* SGU Header & Footer Bar matching CBGD Phan Thanh Huan style */
+  .sgu-header {
+    background: linear-gradient(95deg, var(--navy) 0%, var(--blue) 70%, #2471c8 100%);
+    color: #fff;
+    padding: 12px 26px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 4px solid var(--gold);
+    flex-shrink: 0;
+  }
+  .sgu-header .title {
+    font-size: clamp(16px, 1.85vw, 24px);
+    font-weight: 700;
+    letter-spacing: 0.2px;
+  }
+  .sgu-header .badge {
+    background: rgba(245, 197, 24, 0.18);
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    padding: 4px 11px;
+    border-radius: 999px;
+    font-size: clamp(10px, 0.95vw, 13px);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .sgu-footer {
+    background: var(--navy);
+    color: #dbe8fa;
+    padding: 7px 26px;
+    font-size: clamp(10px, 0.88vw, 12px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  .sgu-footer .gold { color: var(--gold); font-weight: 700; }
+
+  .content {
+    flex: 1;
+    padding: 16px 26px 12px 26px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  /* Cover Slide */
+  .cover {
+    background: linear-gradient(135deg, #072652 0%, #0d4187 55%, #165eb3 100%);
+    color: #fff;
+    justify-content: space-between;
+    padding: 30px 44px;
+  }
+  .cover-top {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 2px solid rgba(245, 197, 24, 0.7);
+    padding-bottom: 14px;
+    font-size: clamp(12px, 1.15vw, 16px);
+    letter-spacing: 0.4px;
+  }
+  .cover-main {
+    text-align: center;
+    margin: auto 0;
+  }
+  .cover-kicker {
+    display: inline-block;
+    background: rgba(245, 197, 24, 0.18);
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    padding: 6px 18px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: clamp(12px, 1.1vw, 15px);
+    margin-bottom: 18px;
+  }
+  .cover-title {
+    font-size: clamp(22px, 2.7vw, 37px);
+    font-weight: 800;
+    line-height: 1.24;
+    margin-bottom: 14px;
+    color: #fff;
+  }
+  .cover-sub {
+    font-size: clamp(13px, 1.25vw, 17px);
+    color: #cfe2ff;
+    max-width: 85%;
+    margin: 0 auto;
+  }
+  .cover-bottom {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    padding: 16px 24px;
+    font-size: clamp(12px, 1.1vw, 15px);
+    line-height: 1.6;
+  }
+
+  /* Layout helpers */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; flex: 1; min-height: 0; }
+  .grid-2-wide { display: grid; grid-template-columns: 1.35fr 0.85fr; gap: 14px; flex: 1; min-height: 0; }
+  .grid-2-img { display: grid; grid-template-columns: 1.55fr 0.75fr; gap: 14px; flex: 1; min-height: 0; align-items: center; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+
+  .card {
+    background: #f8fbff;
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--blue);
+    border-radius: 8px;
+    padding: 10px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .card.gold { border-left-color: #d69e00; background: #fffdf5; }
+  .card.red { border-left-color: var(--red); background: #fff8f8; }
+  .card.green { border-left-color: var(--green); background: #f4fbf7; }
+  .card h3 {
+    font-size: clamp(12px, 1.12vw, 15px);
+    color: var(--navy);
+    margin-bottom: 2px;
+  }
+  .card p, .card li {
+    font-size: clamp(10.5px, 0.96vw, 13.2px);
+    line-height: 1.42;
+    color: var(--ink);
+  }
+  ul { padding-left: 17px; }
+  li { margin-bottom: 3px; }
+
+  .kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; flex-shrink: 0; }
+  .kpi {
+    background: var(--sky);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 12px;
+    text-align: center;
+  }
+  .kpi .val { font-size: clamp(16px, 1.7vw, 23px); font-weight: 800; color: var(--navy); }
+  .kpi .lbl { font-size: clamp(9.5px, 0.85vw, 11.5px); color: var(--muted); margin-top: 2px; }
+
+  .fig-box {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 0;
+    height: 100%;
+    overflow: hidden;
+  }
+  .fig-box img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: clamp(9.5px, 0.87vw, 12.2px);
+  }
+  th {
+    background: var(--navy);
+    color: #fff;
+    padding: 6px 8px;
+    text-align: left;
+    font-weight: 600;
+  }
+  td {
+    padding: 5px 8px;
+    border-bottom: 1px solid #e2eaf4;
+    vertical-align: top;
+  }
+  tr:nth-child(even) td { background: #f7faff; }
+  tr.hl td { background: #e6f5ec; font-weight: 700; }
+  tr.warn td { background: #fff0f0; }
+  .num { text-align: right; font-variant-numeric: tabular-nums; }
+  .good { color: var(--green); font-weight: 700; }
+  .bad { color: var(--red); font-weight: 700; }
+  .accent { color: var(--blue); font-weight: 700; }
+
+  .rule-box {
+    background: #0d2344;
+    color: #f8fafc;
+    border-left: 5px solid var(--gold);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-family: Consolas, 'Courier New', monospace;
+    font-size: clamp(10px, 0.94vw, 13px);
+    line-height: 1.5;
+  }
+  .pill {
+    display: inline-block;
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    font-weight: 700;
+    background: #e2eeff;
+    color: var(--navy);
+  }
+  .pill.g { background: #dcfce7; color: #166534; }
+  .pill.r { background: #fee2e2; color: #991b1b; }
+
+  /* Floating Nav Bar */
+  .nav-bar {
+    position: fixed;
+    bottom: 12px;
+    right: 18px;
+    background: rgba(15, 23, 42, 0.86);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 999px;
+    padding: 5px 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 999;
+    backdrop-filter: blur(6px);
+  }
+  .nav-bar button {
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    border: none;
+    border-radius: 999px;
+    padding: 4px 11px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .nav-bar button:hover { background: var(--gold); color: var(--navy); }
+  .nav-bar span { color: #cbd5e1; font-size: 12px; font-weight: 600; min-width: 52px; text-align: center; }
+
+  @media print {
+    @page { size: 13.333in 7.5in; margin: 0; }
+    body { background: #fff; overflow: visible; height: auto; display: block; }
+    .deck { display: block; width: auto; height: auto; }
+    .slide {
+      display: flex !important;
+      width: 13.333in;
+      height: 7.5in;
+      border-radius: 0;
+      box-shadow: none;
+      page-break-after: always;
+      break-after: page;
+    }
+    .nav-bar { display: none !important; }
+  }
+</style>
+</head>
+<body>
+<div class="deck">
+
+<!-- SLIDE 01: COVER -->
+<section class="slide cover active">
+  <div class="cover-top">
+    <div><strong>TRƯỜNG ĐẠI HỌC SÀI GÒN</strong> · KHOA CÔNG NGHỆ THÔNG TIN</div>
+    <div>HỌC PHẦN: <strong>PHÂN TÍCH DỮ LIỆU</strong></div>
+  </div>
+  <div class="cover-main">
+    <div class="cover-kicker">BÁO CÁO ĐỒ ÁN CUỐI KỲ · KDD TOÀN DIỆN (BUỔI 01 → BUỔI 12)</div>
+    <div class="cover-title">PHÂN TÍCH MỐI LIÊN HỆ GIỮA KHÍ TƯỢNG VÀ NĂNG SUẤT LÚA Ở ĐỒNG BẰNG SÔNG CỬU LONG THEO BA MÙA VỤ</div>
+    <div class="cover-sub">Phạm vi toàn vùng 13/13 tỉnh ĐBSCL (2015–2024) · Kiểm định thống kê GĐ1–GĐ4 · So sánh đa hình thái mô hình Hồi quy, Phân lớp, Gom cụm &amp; Luật kết hợp</div>
+  </div>
+  <div class="cover-bottom">
+    <div>
+      <strong>Sinh viên thực hiện:</strong><br>
+      • <strong>Lê Thị Ngọc Giàu</strong> — MSSV: 3123410088<br>
+      • <strong>Trần Ngọc An</strong> — MSSV: 3123410004
+    </div>
+    <div>
+      <strong>Cán bộ giảng dạy:</strong> <span style="color:var(--gold);font-weight:700;">Phan Thành Huấn</span><br>
+      <strong>Tái lập 100%:</strong> Mã nguồn Python/Node + Notebook + 10 biểu đồ 300 DPI<br>
+      <strong>Phạm vi:</strong> 13 tỉnh ĐBSCL × 10 năm (2015–2024)
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 02: CONTEXT & TARGET AUDIENCE -->
+<section class="slide">
+  <div class="sgu-header">
+    <div class="title">1. Bối cảnh, 4 Câu hỏi Nghiên cứu &amp; Đối tượng Thụ hưởng</div>
+    <div class="badge">Buổi 01 · Trình bày: Ngọc Giàu</div>
+  </div>
+  <div class="content">
+    <div class="grid-2" style="flex: 0.9;">
+      <div class="card">
+        <h3>4 Câu hỏi Nghiên cứu (DeTaiPTDL.pdf)</h3>
+        <ul>
+          <li><strong>Q1:</strong> Năng suất và sản lượng lúa khác nhau thế nào giữa 3 vụ (Đông Xuân, Hè Thu, Thu Đông), 13 tỉnh và qua 10 năm (2015–2024)?</li>
+          <li><strong>Q2:</strong> Nhiệt độ, mưa, độ ẩm, gió, ENSO liên hệ thế nào với năng suất?</li>
+          <li><strong>Q3:</strong> Mức độ liên hệ khí tượng – năng suất có khác biệt giữa các mùa vụ?</li>
+          <li><strong>Q4:</strong> Mô hình nào ước lượng tốt hơn Baseline trên cùng hệ độ đo?</li>
+        </ul>
+      </div>
+      <div class="card gold">
+        <h3>Điểm khác biệt &amp; Ranh giới Khoa học</h3>
+        <ul>
+          <li>Đối chiếu <strong>riêng 3 mùa vụ</strong> gắn đúng lịch thời vụ từng tiểu vùng sinh thái thay vì gộp cả năm.</li>
+          <li>Triển khai <strong>so sánh đa hình thái mô hình</strong> (Tuyến tính, Regularized, Cây QĐ, RF, GBR, SVM, MLP, Gom cụm, Apriori) trên cùng dữ liệu sạch.</li>
+          <li><strong>Giới hạn trung thực:</strong> Phân tích <strong>hồi cứu (reduced-form)</strong>; phục vụ học tập, nghiên cứu &amp; tham khảo — không thay thế khuyến cáo nông học chính thức.</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <table>
+        <thead>
+          <tr><th style="width:24%">Đối tượng thụ hưởng</th><th style="width:32%">Nhu cầu thực tế</th><th style="width:44%">Kết quả đầu ra của đồ án phục vụ trực tiếp</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Nhà nghiên cứu / Sinh viên PTDL &amp; Nông học</strong></td><td>Kiểm chứng phương pháp, chống rò rỉ, đánh giá giới hạn mô hình trên mẫu nhỏ.</td><td>Bộ dữ liệu sạch tái lập 100%, kiểm định OLS GĐ1–GĐ4, bảng 20 mô hình hồi quy &amp; bằng chứng thích ứng El Niño 2024.</td></tr>
+          <tr><td><strong>Cơ quan quản lý nông nghiệp / Khuyến nông</strong></td><td>Phân vùng rủi ro khách quan 13 tỉnh, nhận diện tổ hợp thời tiết bất lợi.</td><td>Bản đồ gom cụm 13 tỉnh (Ward Dendrogram, DBSCAN), luật IF–THEN (CART &amp; Apriori), phân lớp 3 hạng năng suất (AUC 0,95–0,97).</td></tr>
+          <tr><td><strong>Doanh nghiệp thu mua / Chuỗi cung ứng lúa gạo</strong></td><td>Nắm phân bậc sản lượng theo vụ và mức độ bất ổn vùng ven biển.</td><td>Tỷ trọng sản lượng 13 tỉnh, bản đồ rủi ro hạn mặn 10 năm &amp; ước lượng giảm &gt;50% MAE so với Baseline.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="sgu-footer"><span>Đồ án PTDL · ĐH Sài Gòn (CBGD: Phan Thành Huấn)</span><span class="gold">Slide 2 / 18</span></div>
+</section>
+
+<!-- SLIDE 03: KDD PIPELINE & 2-TRACK SCOPE -->
+<section class="slide">
+  <div class="sgu-header">
+    <div class="title">2. Quy trình KDD 7 Bước &amp; Thiết kế 2 Tuyến Dữ liệu Song hành</div>
+    <div class="badge">Buổi 01 · Trình bày: Ngọc Giàu</div>
+  </div>
+  <div class="content">
+    <div class="kpi-row">
+      <div class="kpi"><div class="val">13 / 13 tỉnh</div><div class="lbl">Phạm vi chính thức toàn ĐBSCL</div></div>
+      <div class="kpi"><div class="val">257 dòng</div><div class="lbl">Tuyến A (127 ĐX + 130 HT–TĐ)</div></div>
+      <div class="kpi"><div class="val">90 + 7 dòng</div><div class="lbl">Tuyến B (3 vụ tách riêng + OOD)</div></div>
+      <div class="kpi"><div class="val">40,5%</div><div class="lbl">Tỷ trọng sản lượng 3 tỉnh Tuyến B</div></div>
+    </div>
+    <div class="card">
+      <h3>Quy trình Khám phá Tri thức KDD (Buổi 01 — Lặp &amp; Kiểm toán Tự động)</h3>
+      <p><strong>[1] Xác định mục tiêu</strong> → <strong>[2] Thu thập đa nguồn (Handoff Gate PASS)</strong> → <strong>[3] Tiền xử lý &amp; Làm sạch 9 bước (PASS)</strong> → <strong>[4] EDA, 3σ &amp; Kiểm định OLS GĐ1–GĐ4</strong> → <strong>[5] So sánh Đa mô hình (Hồi quy · Phân lớp · Gom cụm · Apriori)</strong> → <strong>[6] Độ nhạy &amp; OOD</strong> → <strong>[7] Tri thức &amp; Khuyến nghị</strong>.</p>
+    </div>
+    <div class="grid-2">
+      <div class="card green">
+        <h3>Tuyến A — Toàn vùng 13/13 tỉnh ĐBSCL (2015–2024)</h3>
+        <ul>
+          <li>Nguồn NSO chính thức (đã nâng cấp số liệu 2019 từ Sơ bộ → Chính thức).</li>
+          <li><strong>Đông Xuân (`n = 127`):</strong> Bỏ trống đúng 3 ô Cà Mau không gieo trồng (không điền 0).</li>
+          <li><strong>Cụm Hè Thu–Thu Đông (`n = 130`):</strong> Phủ trọn 3 tiểu vùng sinh thái (Thượng nguồn, Vùng giữa, Ven biển nhạy mặn).</li>
+          <li>Tổng cộng <strong>257 quan sát</strong> phục vụ Hồi quy, Phân lớp 10 mô hình, Gom cụm 13 tỉnh &amp; Luật kết hợp.</li>
+        </ul>
+      </div>
+      <div class="card gold">
+        <h3>Tuyến B — Tách riêng 3 mùa vụ ĐBSCL (2015–2024)</h3>
+        <ul>
+          <li>Bảng cân bằng <code>3 tỉnh × 10 năm × 3 vụ = 90 dòng</code> tại <strong>An Giang, Kiên Giang, Cần Thơ</strong> (39,4% diện tích &amp; 40,5% sản lượng toàn ĐBSCL).</li>
+          <li>Thực hiện đúng <strong>phương án dự phòng trong DeTaiPTDL.pdf</strong>: không tự chia nhân tạo số liệu gộp của NSO.</li>
+          <li>Kết hợp <strong>7 bản ghi ngoại kiểm địa lý OOD</strong> (Tiền Giang, Vĩnh Long, Cà Mau) đánh giá độ tổng quát sang vùng giữa &amp; ven biển.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="sgu-footer"><span>Đồ án PTDL · ĐH Sài Gòn (CBGD: Phan Thành Huấn)</span><span class="gold">Slide 3 / 18</span></div>
+</section>
+
+<!-- SLIDE 04: COLLECTION & CLEANING -->
+<section class="slide">
+  <div class="sgu-header">
+    <div class="title">3. Thu thập Đa nguồn &amp; 6 Quyết định Tiền xử lý Dữ liệu (Buổi 02)</div>
+    <div class="badge">Buổi 02 · Trình bày: Ngọc Giàu</div>
+  </div>
+  <div class="content">
+    <div class="grid-3">
+      <div class="card">
+        <h3>① Tích hợp &amp; Đối soát Nguồn</h3>
+        <p>Thang ưu tiên: <code>Niên giám tỉnh 2024 &gt; NSO chính thức (NGTK 2021 cho 2019) &gt; Sơ bộ</code>. Ghi nhận <strong>56 quyết định đối soát</strong>; <strong>0 dòng</strong> 2019 sơ bộ còn sót.</p>
+      </div>
+      <div class="card">
+        <h3>② Chuẩn hóa Đơn vị &amp; Công thức</h3>
+        <p>Quy đổi thống nhất <code>tạ/ha → tấn/ha</code>; kiểm tra <code>Diện tích × Năng suất = Sản lượng</code> theo biên làm tròn gốc: <strong>354/354 dòng PASS</strong> (0 lỗi vượt biên).</p>
+      </div>
+      <div class="card">
+        <h3>③ Khí tượng Zonal Mean GADM v4.1</h3>
+        <p>Trọng số diện tích trên <strong>21 ô lưới MERRA-2 đất liền</strong> (loại 9 ô biển) → <strong>52.234 dòng ngày</strong>, 0 missing; <strong>13/13 tỉnh tách biệt hoàn toàn</strong>.</p>
+      </div>
+      <div class="card green">
+        <h3>④ Lịch Thời vụ 3 Tiểu vùng</h3>
+        <p>Dựa trên <strong>17 văn bản Cục Trồng trọt</strong> chia 3 tiểu vùng (ven biển xuống giống sớm né mặn từ 25/10), kèm bộ độ nhạy <code>±10 / ±15 ngày</code> (540 dòng).</p>
+      </div>
+      <div class="card gold">
+        <h3>⑤ Biến đổi &amp; Mã hóa (Buổi 02)</h3>
+        <p>Dùng <strong>One-Hot &amp; Fixed-Effects</strong> cho <code>province</code>, <code>season</code>; <strong>không dùng LabelEncoder</strong> (đúng cảnh báo Buổi 02: biến định danh không có thứ tự).</p>
+      </div>
+      <div class="card red">
+        <h3>⑥ Chống Rò rỉ &amp; Bảo toàn Outlier</h3>
+        <p>Loại <code>area_ha</code>, <code>production_t</code> khỏi <code>X</code>; khóa cột chia thời gian tăng dần; giữ nguyên outlier thiên tai thật để đánh giá Dual-Regime.</p>
+      </div>
+    </div>
+    <div class="card" style="flex-direction:row; justify-content:space-between; align-items:center; background:#edf7f0; border-left-color:var(--green);">
+      <div><strong>Trạng thái Cổng Kiểm định Tự động (<code>scripts/verify_cleaned_datasets.mjs</code>):</strong></div>
+      <div><span class="pill g">cleaning_verification_passed: TRUE</span> &nbsp;<span class="pill g">0 Missing</span> &nbsp;<span class="pill g">0 Duplicate Keys</span> &nbsp;<span class="pill g">0 Formula Errors</span></div>
+    </div>
+  </div>
+  <div class="sgu-footer"><span>Đồ án PTDL · ĐH Sài Gòn (CBGD: Phan Thành Huấn)</span><span class="gold">Slide 4 / 18</span></div>
+</section>
+
+<!-- SLIDE 05: EDA Q1 & 3-SIGMA OUTLIERS -->
+<section class="slide">
+  <div class="sgu-header">
+    <div class="title">4. EDA Câu hỏi 1 &amp; Kiểm định Ngoại lệ Quy tắc 3σ (Buổi 02)</div>
+    <div class="badge">Buổi 02 · Trình bày: Ngọc Giàu</div>
+  </div>
+  <div class="content">
+    <div class="grid-2-img">
+      <div class="fig-box">
+        <img src="../results/figures/01_eda_yield_by_season_and_province.png" alt="Yield distribution by season and province">
+      </div>
+      <div style="display:flex; flex-direction:column; gap:10px;">
+        <div class="card">
+          <h3>Phân bậc 3 vụ &amp; Không gian</h3>
+          <ul>
+            <li><strong>Đông Xuân:</strong> trung vị <span class="good">7,33</span> tấn/ha (cao &amp; ổn định nhất).</li>
+            <li><strong>Hè Thu:</strong> trung vị <strong>5,69</strong> tấn/ha.</li>
+            <li><strong>Thu Đông:</strong> trung vị <span class="bad">5,51</span> tấn/ha (biến động rộng nhất).</li>
+            <li>Top 3 sản lượng vùng: <strong>Kiên Giang (18,2%)</strong>, <strong>An Giang (16,5%)</strong>, <strong>Đồng Tháp (13,7%)</strong>.</li>
+          </ul>
+        </div>
+        <div class="card red">
+          <h3>Kiểm định Ngoại lệ 3σ (|z| &gt; 3)</h3>
+          <ul>
+            <li><strong>Tuyến B (n=90):</strong> <span class="good">0 điểm</span> vượt 3σ.</li>
+            <li><strong>Tuyến A ĐX (n=127):</strong> đúng <strong>3 điểm</strong> (100% ven biển hạn mặn):<br>
+              • Bến Tre 2016: <code>0,05</code> (<strong>z = −5,49</strong>)<br>
+              • Bến Tre 2020: <code>0,04</code> (<strong>z = −5,50</strong>)<br>
+              • Cà Mau 2017: <code>3,00</code> (<strong>z = −3,03</strong>)</li>
+            <li><strong>Tuyến A HT–TĐ:</strong> Bến Tre 2020 <code>3,47</code> (<strong>z = −3,42</strong>).</li>
+            <li><strong>Xử lý:</strong> Giữ nguyên sự kiện thật → <strong>Dual-Regime + Huber Loss</strong>.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="sgu-footer"><span>Đồ án PTDL · ĐH Sài Gòn (CBGD: Phan Thành Huấn)</span><span class="gold">Slide 5 / 18</span></div>
+</section>
+
+<!-- SLIDE 06: EDA Q2-Q3 COLLINEARITY & WITHIN-SEASON CORR -->
+<section class="slide">
+  <div class="sgu-header">
+    <div class="title">5. EDA Câu hỏi 2–3: Khắc phục Đa cộng tuyến (GĐ3) &amp; Tương quan theo Vụ</div>
+    <div class="badge">Buổi 03–04 · Trình bày: Ngọc An</div>
+  </div>
+  <div class="content">
+    <div class="grid-2-img">
+      <div class="fig-box">
+        <img src="../results/figures/02_eda_collinearity_and_within_corr.png" alt="Collinearity and within-season correlation">
+      </div>
+      <div style="display:flex; flex-direction:column; gap:10px;">
+        <div class="card gold">
+          <h3>3 cách xử lý Đa cộng tuyến (Slide 51 B04)</h3>
+          <ul>
+            <li>12 cặp thô có <code>|r| ≥ 0,79</code>, <strong>VIF max = 53,47</strong>.</li>
+            <li><strong>Cách 1:</strong> Loại biến thừa (chọn 5 biến vật lý trực giao).</li>
+            <li><strong>Cách 2:</strong> Tính biến tổng hợp <strong>VPD</strong> từ <code>T</code> và <code>RH</code>.</li>
+            <li><strong>Cách 3:</strong> Dùng hồi quy <strong>Ridge (L2)</strong> &amp; <strong>Lasso (L1)</strong>.</li>
+            <li><strong>Kết quả:</strong> VIF max giảm <strong>53,47 → 2,72</strong> (&lt; 5).</li>
+          </ul>
+        </div>
+        <div class="card green">
+          <h3>Phát hiện KDD: Nghịch lý Simpson (Đảo dấu 8/8 biến!)</h3>
+          <ul>
+            <li><strong>Nếu gộp 3 vụ:</strong> Mưa tương quan <strong>ÂM (−0,74)</strong>, Ngày khô (<strong>+0,88</strong>), Nóng &gt;35°C (<strong>+0,48</strong>) → ảo giác ngược đời do ĐX rơi vào mùa khô!</li>
+            <li><strong>Sau khử cố định Tỉnh × Vụ:</strong> Toàn bộ <strong>8/8 biến đảo dấu</strong> — Tổng mưa thành <strong>+0,37 (p=0,0003)</strong>, Mưa lớn <strong>+0,38</strong>, VPD/Nóng thành âm!</li>
+            <li><strong>Nút thắt từng vụ:</strong> ĐX nhạy <strong>mưa 90n tiền vụ (+0,41)</strong>; HT nhạy <strong>khô nóng (VPD −0,42)</strong>; TĐ nhạy <strong>gió bão 2m (−0,61)</strong>.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="sgu-footer"><span>Đồ án PTDL · ĐH Sài Gòn (CBGD: Phan Thành Huấn)</span><span class="gold">Slide 6 / 18</span></div>
+</section>
+
+<!-- SLIDE 07: OLS 4 ASSUMPTIONS & FEATURE SELECTION -->
+<section class="slide">
+  <div class="sgu-header">
+    <div class="title">6. Kiểm định 4 Giả định OLS (GĐ1–GĐ4), AIC/BIC &amp; Chọn biến (Buổi 04)</div>
+    <div class="badge">Buổi 04 · Trình bày: Ngọc An</div>
+  </div>
+  <div class="content">
+    <div class="grid-2-img">
+      <div class="fig-box">
+        <img src="../results/figures/07_ols_assumptions_diagnostics_gd1_gd4.png" alt="OLS 4 Assumptions Diagnostics">
+      </div>
+      <div style="display:flex; flex-direction:column; gap:8px;">
+        <table>
+          <thead><tr><th>Mô hình OLS</th><th class="num">Adj.R²</th><th class="num">GĐ1 F</th><th class="num">GĐ2 SW</th><th class="num">GĐ3 VIF</th><th class="num">GĐ4 W</th></tr></thead>
+          <tbody>
+            <tr><td>Tuyến B Direct</td><td class="num">0,903</td><td class="num good">&lt;1e-4</td><td class="num good">0,141</td><td class="num bad">11,28</td><td class="num good">0,128</td></tr>
+            <tr class="hl"><td>Tuyến B FE Dem</td><td class="num">0,455</td><td class="num good">&lt;1e-4</td><td class="num">0,0001</td><td class="num good">2,90</td><td class="num good">0,192</td></tr>
+            <tr class="warn"><td>Tuyến A ĐX 127</td><td class="num">0,189</td><td class="num good">&lt;1e-4</td><td class="num bad">&lt;1e-10</td><td class="num good">6,35</td><td class="num good">0,463</td></tr>
+            <tr><td>Tuyến A ĐX 125</td><td class="num">0,235</td><td class="num good">&lt;1e-5</td><td class="num">&lt;1e-4</td><td class="num good">6,29</td><td class="num good">0,928</td></tr>
+            <tr class="warn"><td>Tuyến A HT–TĐ</td><td class="num">0,451</td><td class="num good">&lt;1e-4</td><td class="num">0,0004</td><td class="num good">3,59</td><td class="num bad">0,033</td></tr>
+          </tbody>
+        </table>
+        <div class="card red">
+          <h3>Bằng chứng toán học chuyển sang Huber &amp; HC3</h3>
+          <p>• ĐX 127 dòng vi phạm cực nặng <strong>GĐ2</strong> (<code>Shapiro p &lt; 10⁻¹⁰</code>); bỏ 2 năm hạn mặn giảm <strong>AIC 107,8 điểm</strong> (<code>273,3 → 165,5</code>).<br>
+             • HT–TĐ vi phạm <strong>GĐ4</strong> (<code>White p = 0,033</code>) → bắt buộc dùng sai số chuẩn <strong>HC3</strong> &amp; hồi quy vững <strong>Huber</strong>.</p>
+        </div>
+        <div class="card">
+          <h3>So sánh Chọn biến (Buổi 04)</h3>
+          <p><code>Full 11 biến</code> (VIF 353,8) · <code>Forward</code> (VIF 13,6) · <code>Backward</code> (VIF 18,3) · <code>Stepwise AIC</code> (AIC −17,53, VIF 6,52) vs <strong>5 biến trực giao vật lý (VIF 3,43)</strong> ổn định nhất ngoài mẫu.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="sgu-footer"><span>Đồ án PTDL · ĐH Sài Gòn (CBGD: Phan Thành Huấn)</span><span class="gold">Slide 7 / 18</span></div>
+</section>
+
+<!-- SLIDE 08: EXPERIMENTAL DESIGN -->
+<section class="slide">
+  <div class="sgu-header">
+    <div class="title">7. Thiết kế Thực nghiệm Chống Rò rỉ &amp; Chiến lược So sánh Đa Mô hình</div>
+    <div class="badge">Buổi 04 &amp; 08–09 · Trình bày: Ngọc An</div>
+  </div>
+  <div class="content">
+    <div class="grid-3" style="flex: 0.9;">
+      <div class="card">
+        <h3>1. Chia Thời gian Nghiêm ngặt</h3>
+        <ul>
+          <li>Không dùng Random Split (tránh trộn tương lai vào quá khứ).</li>
+          <li><strong>Expanding-Window CV (2019–2022, 4 folds)</strong> để chọn siêu tham số &amp; mô hình.</li>
+          <li><strong>Khóa kín Test (2023–2024)</strong> chỉ đánh giá 1 lần cuối.</li>
+          <li>Kiểm định <strong>Paired Bootstrap 95% CI</strong> (2.000 lần lấy mẫu lại).</li>
+        </ul>
+      </div>
+      <div class="card green">
+        <h3>2. Fixed-Effects Median Centering</h3>
+        <ul>
+          <li>Hiệu ứng cố định <code>Tỉnh × Vụ</code> chiếm <strong>87,4%</strong> phương sai năng suất.</li>
+          <li>Khử tâm trung vị (fit <strong>chỉ trên train</strong>) để mô hình tập trung học phần dư thời tiết <code>Δy = f(ΔX)</code>.</li>
+          <li>Tránh để cây quyết định lãng phí độ sâu chỉ để chia lại 3 vụ.</li>
+        </ul>
+      </div>
+      <div class="card gold">
+        <h3>3. So sánh Đa hình thái trên Cùng Dữ liệu</h3>
+        <ul>
+          <li><strong>Hồi quy (20 mô hình):</strong> Baseline, OLS, Ridge, Lasso, Huber, CART, RF, GBR, SVR (Linear/RBF), MLP (ReLU/Tanh).</li>
+          <li><strong>Phân lớp (10 hình thái):</strong> Logistic (Multi/OvR), CART, RF, GBR, Naive Bayes, SVM (Linear/RBF), MLP (ReLU/Tanh).</li>
+          <li><strong>Gom cụm (9 thuật toán)</strong> &amp; <strong>Apriori</strong>.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Hệ thống Độ đo Đánh giá Chuẩn theo Bài giảng</h3>
+      <div class="grid-4" style="margin-top:4px;">
+        <div><strong>Hồi quy (B04):</strong><br>MAE (chính), RMSE, R², Adj. R², F/t-test, AIC, BIC</div>
+        <div><strong>Phân lớp (B08–10):</strong><br>Accuracy, Precision, Recall, F1-Score, ROC-AUC, Confusion Matrix</div>
+        <div><strong>Gom cụm (B11–12):</strong><br>Internal (SSE, Sil, CH, Dunn), External (ARI, NMI, FMI), Relative</div>
+        <div><strong>Luật kết hợp (B06–07):</strong><br>Support, Confidence, Lift, Leverage, Conviction</div>
+      </div>
+    </div>
+  </div>
+  <div class="sgu-footer"><span>Đồ án PTDL · ĐH Sài Gòn (CBGD: Phan Thành Huấn)</span><span class="gold">Slide 8 / 18</span></div>
+</section>
+
+<!-- SLIDE 09: REGRESSION MULTI-MODEL COMPARISON -->
+<section class="slide">
+  <div class="sgu-header">
+    <div class="title">8. So sánh Đa hình thái Mô hình Hồi quy — Tuyến B (20 mô hình, 9 hình thái)</div>
+    <div class="badge">Buổi 04 &amp; 08–10 · Trình bày: Ngọc An</div>
+  </div>
+  <div class="content">
+    <div class="fig-box" style="flex: 1.08;">
+      <img src="../results/figures/03_model_comparison_tier1_and_tier2.png" alt="Multi-paradigm Regression Comparison">
+    </div>
+    <div class="grid-2-wide" style="flex: 0.92;">
+      <table>
+        <thead><tr><th>Hình thái / Mô hình (Tuyến B, n=90)</th><th class="num">Train</th><th class="num">Exp-CV</th><th class="num">Test MAE</th><th class="num">Test R²</th></tr></thead>
+        <tbody>
+          <tr><td>Baseline_Median (Trung vị Tỉnh–Vụ)</td><td class="num">0,2109</td><td class="num">0,2624</td><td class="num">0,3002</td><td class="num">0,8424</td></tr>
+          <tr><td>OLS_Anomaly_Ortho5_Trend (Không reg.)</td><td class="num">0,1682</td><td class="num">0,1993</td><td class="num">0,1565</td><td class="num">0,9405</td></tr>
+          <tr class="hl"><td>Huber_Anomaly_Ortho5_Trend (Nhất CV)</td><td class="num">0,1606</td><td class="num good">0,1771</td><td class="num good">0,1447</td><td class="num">0,9490</td></tr>
+          <tr class="hl"><td>Ridge / Lasso_Anomaly_Ortho5_Trend</td><td class="num">0,1654</td><td class="num">0,188 / 0,187</td><td class="num good">0,1369 / 0,1374</td><td class="num good">0,9538</td></tr>
+          <tr><td>DecisionTree / RF / GBR (+Trend)</td><td class="num">0,144–0,159</td><td class="num">0,179–0,229</td><td class="num">0,193–0,219</td><td class="num">0,909–0,930</td></tr>
+          <tr class="warn"><td>SVR_Linear vs SVR_RBF (+Trend)</td><td class="num">0,162 / 0,078</td><td class="num">0,180 / 0,196</td><td class="num">0,156 / <span class="bad">0,3372</span></td><td class="num">0,944 / 0,801</td></tr>
+          <tr><td>MLP_ReLU vs MLP_Tanh (+Trend)</td><td class="num">0,152 / 0,162</td><td class="num">0,214 / 0,206</td><td class="num">0,173 / 0,124</td><td class="num">0,931 / 0,963</td></tr>
+        </tbody>
+      </table>
+      <div class="card green">
+        <h3>Kết luận chọn mô hình (Q4)</h3>
+        <ul>
+          <li><strong>Chọn theo CV:</strong> <strong>Huber+Trend</strong> (<code>−32,5%</code> CV) &amp; <strong>Ridge/Lasso+Trend</strong> (<code>−54,4%</code> Test) tối ưu nhất và giải thích được hệ số.</li>
+          <li><strong>Cây/RF/GBR:</strong> Bậc thang nên khó ngoại suy xu hướng tăng 2023–2024.</li>
+          <li><strong>SVR-RBF:</strong> Overfit kinh điển (<code>Train 0,078 → Test 0,337</code>).</li>
+          <li><strong>Sai số theo vụ:</strong> Giảm <code>−59,6%</code> ĐX, <code>−32,5%</code> HT, <code>−76,5%</code> TĐ!</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="sgu-footer"><span>Đồ án PTDL · ĐH Sài Gòn (CBGD: Phan Thành Huấn)</span><span class="gold">Slide 9 / 18</span></div>
+</section>
+
+<!-- SLIDE 10: TRACK A 13 PROVINCES & SALINITY LOYO -->
+<section class="slide">
+  <div class="sgu-header">
+    <div class="title">9. Hồi quy Tuyến A (13 tỉnh ĐBSCL), Dual-Regime &amp; Chẩn đoán Hạn mặn LOYO</div>
+    <div class="badge">Tuyến A Toàn vùng · Trình bày: Ngọc An</div>
+  </div>
+  <div class="content">
+    <div class="grid-2-img">
+      <div class="fig-box">
+        <img src="../results/figures/05_residual_attribution_salinity_13provinces.png" alt="LOYO Residual Attribution for Salinity">
+      </div>
+      <div style="display:flex; flex-direction:column; gap:10px;">
+        <div class="card green">
+          <h3>Huber thắng tuyệt đối 14 mô hình trên 13 tỉnh ĐX</h3>
+          <ul>
+            <li><strong>Đủ 127 dòng (có hạn mặn):</strong> <strong>Huber</strong> đạt CV <span class="good">0,4482</span> (giảm 11,6% vs Baseline <code>0,5070</code>), bỏ xa OLS (<code>0,7180</code>), Lasso (<code>0,6239</code>), MLP (<code>0,6108</code>), Ridge (<code>0,5856</code>), RF (<code>0,5280</code>).</li>
+            <li><strong>Bỏ 2 năm mất trắng (125):</strong> Huber+Trend giảm tiếp còn <span class="good">0,3519</span> (−15,4% vs Baseline <code>0,4158</code>).</li>
+            <li><strong>Cụm HT–TĐ (130):</strong> Ridge (<code>0,1883</code>) &amp; Huber+Trend (<code>0,1904</code>) dẫn đầu toàn bảng.</li>
+          </ul>
+        </div>
+        <div class="card red">
+          <h3>Nghịch lý Bến Tre 2015 vs 2020 &amp; Regime Shift 2024</h3>
+          <ul>
+            <li><strong>Nghịch lý mưa Bến Tre:</strong> Năm <strong>2020</strong> có ONI (+0,72), VPD (0,80) gần y hệt <strong>2015</strong> và <strong>mưa tiền vụ nhiều hơn +44%</strong> (717 vs 498 mm) nhưng vẫn mất trắng (<code>0,04</code> vs <code>5,09</code>) → chứng minh OVB thủy văn Mê Kông!</li>
+            <li><strong>5/5 sai số lớn nhất</strong> nằm ở ven biển (Bến Tre 2020/2016, Cà Mau 2017, Trà Vinh 2020/2016).</li>
+            <li><strong>Regime Shift 2024:</strong> Dưới El Niño mạnh (<code>ONI=+1,90</code>), <strong>12/12 tỉnh</strong> tăng năng suất ĐX so với 2016 nhờ né mặn chủ động.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="sgu-footer"><span>Đồ án PTDL · ĐH Sài Gòn (CBGD: Phan Thành Huấn)</span><span class="gold">Slide 10 / 18</span></div>
+</section>
+
+<!-- SLIDE 11: SENSITIVITY & OOD -->
+<section class="slide">
+  <div class="sgu-header">
+    <div class="title">10. Kiểm định Độ nhạy Lịch thời vụ (±10/±15 ngày) &amp; Ngoại kiểm Địa lý OOD</div>
+    <div class="badge">Kiểm chứng Độ vững · Trình bày: Ngọc Giàu</div>
+  </div>
+  <div class="content">
+    <div class="grid-2" style="flex: 1.25;">
+      <div class="fig-box"><img src="../results/figures/04_sensitivity_calendar_and_spatial.png" alt="Sensitivity Analysis"></div>
+      <div class="fig-box"><img src="../results/figures/06_spatial_generalization_ood_check.png" alt="Spatial Generalization and OOD"></div>
+    </div>
+    <div class="grid-2" style="flex: 0.45;">
+      <div class="card">
+        <h3>Độ nhạy Lịch &amp; Không gian (6 kịch bản)</h3>
+        <p><code>Ridge+Trend</code> cực bền vững: Zonal (<strong>0,1369</strong>) ≈ 1 điểm (<strong>0,1385</strong>, lệch <code>0,0016</code>); dịch <code>±10 ngày</code>: <code>0,139–0,149</code>; dịch <code>±15 ngày</code>: <code>0,156–0,168</code> (vẫn giảm &gt;44% so với Baseline).</p>
+      </div>
+      <div class="card green">
+        <h3>Ngoại kiểm OOD trên 7 dòng chưa thấy (TG, VL, CM)</h3>
+        <p>Mô hình Ridge học trên 3 tỉnh thượng nguồn dự báo sang vùng giữa &amp; ven biển giúp <strong>giảm 23,6% sai số</strong> (<code>0,1440</code> vs Baseline vụ <code>0,1884</code> tấn/ha; Cà Mau HT 2024 giảm <code>0,545 → 0,307</code>).</p>
+      </div>
+    </div>
+  </div>
+  <div class="sgu-footer"><span>Đồ án PTDL · ĐH Sài Gòn (CBGD: Phan Thành Huấn)</span><span class="gold">Slide 11 / 18</span></div>
+</section>
+
+<!-- SLIDE 12: MULTI-MODEL CLASSIFICATION C1 -->
+<section class="slide">
+  <div class="sgu-header">
+    <div class="title">11. So sánh Đa hình thái Phân lớp — 3 Hạng Năng suất (Buổi 08–10, 10 mô hình)</div>
+    <div class="badge">Buổi 08–10 · Trình bày: Ngọc An</div>
+  </div>
+  <div class="content">
+    <div class="fig-box" style="flex: 1.05;">
+      <img src="../results/figures/08_classification_multimodel_roc_and_cm.png" alt="Classification Multi-model ROC and CM">
+    </div>
+    <div class="grid-2-wide" style="flex: 0.85;">
+      <table>
+        <thead><tr><th>Mô hình phân lớp (n=257, Test=52)</th><th class="num">KT+Vùng F1</th><th class="num">Full CV F1</th><th class="num">Full Test Acc</th><th class="num">Full Test F1</th><th class="num">Full AUC</th></tr></thead>
+        <tbody>
+          <tr><td>Dummy_Baseline</td><td class="num">0,1164</td><td class="num">0,1374</td><td class="num">21,2%</td><td class="num">0,1164</td><td class="num">0,500</td></tr>
+          <tr class="hl"><td>SVM_RBF (Kernel phi tuyến)</td><td class="num">0,5981</td><td class="num good">0,8012</td><td class="num good">86,5%</td><td class="num good">0,8717</td><td class="num">0,949</td></tr>
+          <tr class="hl"><td>Logistic_OvR / Multinomial</td><td class="num">0,7132</td><td class="num">0,756 / 0,776</td><td class="num good">84,6% / 78,9%</td><td class="num good">0,836 / 0,783</td><td class="num">0,958 / 0,961</td></tr>
+          <tr><td>SVM_Linear (AUC cao nhất)</td><td class="num good">0,7341</td><td class="num">0,7874</td><td class="num">80,8%</td><td class="num">0,7966</td><td class="num good">0,967</td></tr>
+          <tr><td>RandomForest / GBR / CART</td><td class="num">0,532–0,579</td><td class="num">0,612–0,762</td><td class="num">61,5–71,2%</td><td class="num">0,599–0,671</td><td class="num">0,714–0,933</td></tr>
+          <tr><td>NaiveBayes / MLP_Tanh / MLP_ReLU</td><td class="num">0,460–0,658</td><td class="num">0,719–0,826</td><td class="num">57,7–73,1%</td><td class="num">0,460–0,693</td><td class="num">0,907–0,964</td></tr>
+        </tbody>
+      </table>
+      <div class="card">
+        <h3>Kết luận Phân lớp 3 hạng</h3>
+        <ul>
+          <li><strong>Thuần khí tượng + tiểu vùng:</strong> <strong>SVM_Linear</strong> (<code>F1 0,734</code>, <code>AUC 0,916</code>) &amp; Logistic dẫn đầu.</li>
+          <li><strong>Đầy đủ ngữ cảnh:</strong> <strong>SVM_RBF</strong> đạt <code>86,5% Acc</code>, dự báo đúng <strong>11/11 lớp Thấp</strong>, 0 nhầm chéo Thấp ↔ Cao!</li>
+          <li><strong>Hàm kích hoạt ANN (Slide 15 B10):</strong> <code>MLP_Tanh (0,693)</code> vượt xa <code>MLP_ReLU (0,460)</code>.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="sgu-footer"><span>Đồ án PTDL · ĐH Sài Gòn (CBGD: Phan Thành Huấn)</span><span class="gold">Slide 12 / 18</span></div>
+</section>
+
+<!-- SLIDE 13: BINARY RISK, ACCURACY PARADOX & CART RULES -->
+<section class="slide">
+  <div class="sgu-header">
+    <div class="title">12. Phân lớp Nhị phân Rủi ro, Accuracy Paradox &amp; Luật Cây CART</div>
+    <div class="badge">Buổi 08–09 · Trình bày: Ngọc An</div>
+  </div>
+  <div class="content">
+    <div class="grid-2">
+      <div style="display:flex; flex-direction:column; gap:10px;">
+        <div class="card red">
+          <h3>Bằng chứng "Accuracy Paradox" (Slide 20 Buổi 08–09)</h3>
+          <p>Bài toán C2: Dự báo vụ <strong>sụt giảm dưới kỳ vọng xu hướng</strong> (lớp rủi ro <code>29,3%</code> dev; <code>38,5%</code> test — mất cân bằng nhẹ). Nếu chỉ nhìn Accuracy sẽ chọn sai mô hình!</p>
+        </div>
+        <table>
+          <thead><tr><th>Mô hình (Test 23–24, n=52)</th><th class="num">Acc</th><th class="num">Precision</th><th class="num">Recall</th><th class="num">F1 (Lớp 1)</th><th class="num">AUC</th></tr></thead>
+          <tbody>
+            <tr class="warn"><td>Dummy / MLP_ReLU / MLP_Tanh</td><td class="num">61,5%</td><td class="num bad">0,000</td><td class="num bad">0,000</td><td class="num bad">0,000</td><td class="num">0,50–0,59</td></tr>
+            <tr class="hl"><td>SVM_Linear (balanced)</td><td class="num">55,8%</td><td class="num">0,444</td><td class="num good">0,600</td><td class="num good">0,511</td><td class="num">0,588</td></tr>
+            <tr class="hl"><td>Logistic_Binary (balanced)</td><td class="num">53,9%</td><td class="num">0,417</td><td class="num good">0,500</td><td class="num good">0,455</td><td class="num">0,569</td></tr>
+            <tr><td>DecisionTree_CART</td><td class="num">57,7%</td><td class="num">0,429</td><td class="num">0,300</td><td class="num">0,353</td><td class="num">0,474</td></tr>
+            <tr><td>RandomForest (SKF5 F1=0,578)</td><td class="num">46,2%</td><td class="num">0,278</td><td class="num">0,250</td><td class="num">0,263</td><td class="num">0,389</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:10px;">
+        <div class="card green">
+          <h3>Luật IF–THEN tự động trích xuất từ Cây CART (Slide 42 B08–09)</h3>
+          <p>Dù F1 thấp hơn SVM, ưu điểm lớn nhất của Cây quyết định là <strong>tính diễn giải trực tiếp thành quy tắc cảnh báo nông học</strong>:</p>
+        </div>
+        <div class="rule-box">
+          <strong># Quy tắc rủi ro El Niño trích từ CART (C2):</strong><br>
+          IF oni_pre_season &gt; 0.80  <span style="color:#93c5fd;">(El Niño mạnh)</span><br>
+          &nbsp;&nbsp;AND pre_season_rain_90d_mm &lt;= -0.47  <span style="color:#fca5a5;">(Thiếu mưa 90n tiền vụ)</span><br>
+          THEN <span style="color:#fde047;">Class = 1 (Rủi ro sụt giảm năng suất)</span><br>
+          ELSE IF pre_season_rain_90d_mm &gt; -0.47<br>
+          THEN <span style="color:#86efac;">Class = 0 (Đạt / vượt kỳ vọng xu hướng)</span>
+        </div>
+        <div class="card gold">
+          <h3>Ý nghĩa Thực tiễn cho Khuyến nông</h3>
+          <p>Nhấn mạnh sự cần thiết của <code>class_weight='balanced'</code> và độ đo <strong>Recall / F1</strong> để không bỏ sót cảnh báo mất mùa — thay vì chạy theo Accuracy ảo.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="sgu-footer"><span>Đồ án PTDL · ĐH Sài Gòn (CBGD: Phan Thành Huấn)</span><span class="gold">Slide 13 / 18</span></div>
+</section>
+
+<!-- SLIDE 14: CLUSTERING 13 PROVINCES -->
+<section class="slide">
+  <div class="sgu-header">
+    <div class="title">13. Gom cụm 13 tỉnh ĐBSCL — Kiểm chứng 3 Tiểu vùng (Buổi 11–12, 9 thuật toán)</div>
+    <div class="badge">Buổi 11–12 · Trình bày: Ngọc An</div>
+  </div>
+  <div class="content">
+    <div class="fig-box" style="flex: 1.08;">
+      <img src="../results/figures/09_clustering_13provinces_dendrogram_and_pca.png" alt="Clustering 13 Provinces Dendrogram and PCA">
+    </div>
+    <div class="grid-2-wide" style="flex: 0.82;">
+      <table>
+        <thead><tr><th>Thuật toán (n=13 tỉnh, 9 đặc trưng)</th><th class="num">Cụm</th><th class="num">Nhiễu</th><th class="num">SSE</th><th class="num">Silh.</th><th class="num">CH</th><th class="num">ARI / NMI</th></tr></thead>
+        <tbody>
+          <tr class="hl"><td>KMeans / PAM / Ward / Complete / Bisect (K=3)</td><td class="num">3</td><td class="num">0</td><td class="num good">30,32</td><td class="num good">0,390</td><td class="num good">14,29</td><td class="num">0,137 / 0,384</td></tr>
+          <tr><td>Agglomerative Average (K=3)</td><td class="num">3</td><td class="num">0</td><td class="num">40,50</td><td class="num">0,337</td><td class="num">9,45</td><td class="num good">0,410 / 0,656</td></tr>
+          <tr><td>Agglomerative Single (K=3)</td><td class="num">3</td><td class="num">0</td><td class="num">49,17</td><td class="num">0,368</td><td class="num">6,90</td><td class="num">0,192 / 0,413</td></tr>
+          <tr class="warn"><td>DBSCAN (eps=2,8, min=2)</td><td class="num">2</td><td class="num bad">1 (Bến Tre)</td><td class="num">49,17</td><td class="num good">0,424</td><td class="num">7,08</td><td class="num">0,192 / 0,413</td></tr>
+          <tr><td>MeanShift (Auto)</td><td class="num">5</td><td class="num">0</td><td class="num">22,65</td><td class="num">0,250</td><td class="num">8,33</td><td class="num">0,278 / 0,587</td></tr>
+        </tbody>
+      </table>
+      <div class="card green">
+        <h3>Tri thức KDD Khám phá mới</h3>
+        <ul>
+          <li><strong>5 thuật toán đồng thuận 100% (Relative Rand = 1,000):</strong> tách rõ 3 tỉnh rủi ro mặn (<code>Bến Tre, Cà Mau, Trà Vinh</code>), 4 tỉnh khô ấm (<code>AG, ĐT, LA, TG</code>) &amp; 6 tỉnh ẩm gió năng suất cao.</li>
+          <li><strong>Phát hiện Bạc Liêu:</strong> Ven biển nhưng năng suất ĐX cao (<code>7,46</code>) nhờ cống ngăn mặn → vào nhóm năng suất cao!</li>
+          <li><strong>DBSCAN</strong> tự cô lập duy nhất <strong>Bến Tre = −1</strong>.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="sgu-footer"><span>Đồ án PTDL · ĐH Sài Gòn (CBGD: Phan Thành Huấn)</span><span class="gold">Slide 14 / 18</span></div>
+</section>
+
+<!-- SLIDE 15: ASSOCIATION RULES APRIORI -->
+<section class="slide">
+  <div class="sgu-header">
+    <div class="title">14. Khai phá Luật Kết hợp Định lượng — Apriori (Buổi 06–07)</div>
+    <div class="badge">Buổi 06–07 · Trình bày: Ngọc An</div>
+  </div>
+  <div class="content">
+    <div class="fig-box" style="flex: 1.08;">
+      <img src="../results/figures/10_association_rules_lift_confidence.png" alt="Association Rules Lift and Confidence">
+    </div>
+    <div style="flex: 0.72;">
+      <table>
+        <thead><tr><th>Top Luật Kết hợp Định lượng (Đông Xuân 13 tỉnh, n=127 · rời rạc hóa pd.cut)</th><th class="num">Support</th><th class="num">Conf</th><th class="num">Lift</th><th class="num">Leverage</th><th class="num">Conviction</th></tr></thead>
+        <tbody>
+          <tr class="hl"><td>IF MưaTiềnVụ=Cao AND Vùng=ThượngNguồn → <strong>NăngSuấtĐX=Cao</strong></td><td class="num">0,0945</td><td class="num good">1,000</td><td class="num good">3,024</td><td class="num">0,0632</td><td class="num">∞</td></tr>
+          <tr class="hl"><td>IF ENSO=LaNiña AND Vùng=ThượngNguồn → <strong>NăngSuấtĐX=Cao</strong></td><td class="num">0,1024</td><td class="num good">0,813</td><td class="num good">2,457</td><td class="num">0,0607</td><td class="num">3,57</td></tr>
+          <tr class="warn"><td>IF Gió2m=Mạnh AND MưaTiềnVụ=TB → <strong>NăngSuấtĐX=Thấp</strong></td><td class="num">0,0945</td><td class="num bad">0,706</td><td class="num bad">2,085</td><td class="num">0,0492</td><td class="num">2,25</td></tr>
+          <tr class="warn"><td>IF MưaTiềnVụ=TB AND Vùng=VenBiển → <strong>NăngSuấtĐX=Thấp</strong></td><td class="num">0,0866</td><td class="num bad">0,688</td><td class="num bad">2,031</td><td class="num">0,0440</td><td class="num">2,12</td></tr>
+          <tr class="warn"><td>IF Vùng=VenBiển → <strong>NăngSuấtĐX=Thấp</strong></td><td class="num">0,1811</td><td class="num bad">0,622</td><td class="num bad">1,836</td><td class="num">0,0825</td><td class="num">1,75</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:11px; color:var(--muted); margin-top:6px;"><em>Lưu ý khoa học:</em> Chỉ trích dẫn luật nội vụ Đông Xuân (cố định 1 mùa vụ) để loại bỏ bẫy trộn mùa của bảng gộp 3 vụ.</p>
+    </div>
+  </div>
+  <div class="sgu-footer"><span>Đồ án PTDL · ĐH Sài Gòn (CBGD: Phan Thành Huấn)</span><span class="gold">Slide 15 / 18</span></div>
+</section>
+
+<!-- SLIDE 16: MASTER DECISION MATRIX -->
+<section class="slide">
+  <div class="sgu-header">
+    <div class="title">15. Tổng kết: Thay đổi Phương pháp → Kết quả khác nhau &amp; Lựa chọn Tối ưu</div>
+    <div class="badge">Tổng hợp Toàn quy trình · Trình bày: Ngọc An</div>
+  </div>
+  <div class="content">
+    <table style="flex:1;">
+      <thead>
+        <tr><th style="width:15%">Bước / Bài toán</th><th style="width:31%">Các phương án đã triển khai đối chiếu</th><th style="width:24%">Phương án TỐT NHẤT</th><th style="width:30%">Căn cứ số liệu &amp; Đối tượng thụ hưởng</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Tiền xử lý &amp; Mã hóa (B02)</strong></td><td>1 điểm vs Zonal GADM; xóa vs giữ outlier 3σ; Label vs One-Hot/FE</td><td><span class="pill g">Zonal + Dual-Regime + FE</span></td><td>Khử trùng lưới 13/13 tỉnh; giữ sự kiện hạn mặn thật (z=−5,5).</td></tr>
+        <tr><td><strong>Chọn biến (B04)</strong></td><td>11 biến thô (VIF 353,8) vs Forward / Backward / Stepwise vs 5 biến vật lý</td><td><span class="pill g">5 biến trực giao vật lý</span></td><td>VIF = 2,72 (&lt;5), giải thích vật lý rõ, Test MAE tốt nhất (0,1369).</td></tr>
+        <tr class="hl"><td><strong>Hồi quy Tuyến B (n=90)</strong></td><td>20 mô hình (Baseline, OLS, Ridge, Lasso, Huber, DT, RF, GBR, SVR, MLP)</td><td><span class="pill g">Huber+Trend / Ridge+Trend</span></td><td>CV tốt nhất <code>0,1771</code> (−32,5%); Test <code>0,1369</code> (−54,4%); thắng Cây, SVR-RBF, MLP.</td></tr>
+        <tr class="hl"><td><strong>Hồi quy Tuyến A (13 tỉnh)</strong></td><td>14 mô hình trên ĐX (Full 127 vs Ex-Salinity 125) &amp; HT–TĐ (130)</td><td><span class="pill g">Huber_Anomaly</span></td><td>CV <code>0,4482</code> / <code>0,3519</code> — miễn nhiễm vi phạm GĐ2 Shapiro (<code>p&lt;10⁻¹⁰</code>).</td></tr>
+        <tr><td><strong>Phân lớp C1 &amp; C2 (B08–10)</strong></td><td>10 hình thái (Logistic, CART, RF, GBR, NB, SVM, MLP) × 2 chế độ</td><td><span class="pill g">SVM_RBF / Logistic_OvR</span></td><td>C1: <code>86,5% Acc</code>, <code>F1 0,872</code>, <code>AUC 0,949–0,967</code>; CART bổ sung luật IF–THEN cho khuyến nông.</td></tr>
+        <tr><td><strong>Gom cụm 13 tỉnh (B11–12)</strong></td><td>9 thuật toán (K-Means, PAM, Ward/Comp/Avg/Single, Bisect, DBSCAN, MS)</td><td><span class="pill g">Ward / K-Means + DBSCAN</span></td><td>5 thuật toán trùng khớp 100% (<code>Rand=1,0</code>, <code>Sil=0,39</code>); DBSCAN bắt đúng Bến Tre = −1.</td></tr>
+        <tr><td><strong>Luật kết hợp (B06–07)</strong></td><td>Apriori định lượng (5 độ đo: Sup, Conf, Lift, Leverage, Conviction)</td><td><span class="pill g">Top luật Lift 2,03–3,02</span></td><td>Quy tắc tự nhiên, dễ ứng dụng truyền thông rủi ro cho cơ quan quản lý.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="sgu-footer"><span>Đồ án PTDL · ĐH Sài Gòn (CBGD: Phan Thành Huấn)</span><span class="gold">Slide 16 / 18</span></div>
+</section>
+
+<!-- SLIDE 17: LIMITATIONS & FUTURE WORK -->
+<section class="slide">
+  <div class="sgu-header">
+    <div class="title">16. Hạn chế Trung thực &amp; Hướng Phát triển Tiếp theo</div>
+    <div class="badge">Tư duy Phản biện · Trình bày: Ngọc An</div>
+  </div>
+  <div class="content">
+    <div class="grid-2">
+      <div class="card red">
+        <h3>3 Hạn chế Khoa học đã Định lượng rõ</h3>
+        <ul>
+          <li><strong>1. Thiếu biến Xâm nhập mặn &amp; Thủy văn (OVB):</strong> Khí tượng tại chỗ không thể tự giải thích cú sốc mất trắng do dòng chảy thượng nguồn Mê Kông suy giảm (Bến Tre 2016/2020: sai số LOYO <code>−4,71</code> đến <code>−5,05</code> tấn/ha).</li>
+          <li><strong>2. Độ phân giải không gian &amp; nguồn 3 vụ:</strong> MERRA-2 có lưới <code>0,5°×0,625°</code> (~55 km); nguồn công khai PDF tách riêng 3 vụ đủ 10 năm hiện chỉ có ở 3/13 tỉnh.</li>
+          <li><strong>3. Regime Shift thích ứng khí hậu:</strong> Nông dân chủ động dịch lịch xuống giống né mặn năm El Niño 2024 làm giảm hiệu lực ngoại suy của mô hình tĩnh học từ 2015–2022.</li>
+        </ul>
+      </div>
+      <div class="card green">
+        <h3>Hướng Mở rộng &amp; Ứng dụng Thực tiễn</h3>
+        <ul>
+          <li><strong>Bổ sung dữ liệu thủy văn thực địa:</strong> Ghép chuỗi độ mặn tối đa (<code>g/l</code>) và mực nước trạm Cần Thơ / Mỹ Thuận / Tân Châu để đóng khoảng trống OVB vùng ven biển.</li>
+          <li><strong>Kết hợp ảnh viễn thám (Sentinel-2 / MODIS NDVI):</strong> Theo dõi chỉ số sinh trưởng lúa thực tế trong vụ ở độ phân giải cấp huyện/xã, hỗ trợ dự báo sớm trước thu hoạch.</li>
+          <li><strong>Mô hình cập nhật thích ứng (Online / Rolling Re-training):</strong> Cập nhật trọng số hàng năm để thích ứng nhanh với thay đổi giống lúa và lịch xuống giống mới.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card gold">
+      <h3>Cam kết Minh bạch &amp; Khả năng Tái lập 100%</h3>
+      <p>Toàn bộ dữ liệu thô (`SHA-256 catalog`), script làm sạch, script mô hình hóa, kiểm định thống kê, <strong>24 bảng CSV/JSON</strong>, <strong>10 biểu đồ 300 DPI</strong> và <strong>Notebook Jupyter</strong> đều chạy lại trọn vẹn offline trong &lt;30 giây.</p>
+    </div>
+  </div>
+  <div class="sgu-footer"><span>Đồ án PTDL · ĐH Sài Gòn (CBGD: Phan Thành Huấn)</span><span class="gold">Slide 17 / 18</span></div>
+</section>
+
+<!-- SLIDE 18: CONCLUSION & Q&A -->
+<section class="slide cover">
+  <div class="cover-top">
+    <div><strong>TỔNG KẾT 4 CÂU HỎI NGHIÊN CỨU</strong></div>
+    <div>ĐỒ ÁN PHÂN TÍCH DỮ LIỆU · SGU</div>
+  </div>
+  <div class="cover-main" style="text-align:left; max-width:92%; margin:auto;">
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:24px;">
+      <div style="background:rgba(255,255,255,0.1); border-left:4px solid var(--gold); padding:14px 18px; border-radius:8px; font-size:clamp(12px,1.08vw,15px); line-height:1.5;">
+        <strong style="color:var(--gold);">Q1 — Phân hóa Vụ &amp; Vùng:</strong> Đông Xuân (7,33) &gt; Hè Thu (5,69) &gt; Thu Đông (5,51); 13 tỉnh tự phân cụm khách quan thành 3 nhóm rõ rệt (đồng thuận 5 thuật toán).
+      </div>
+      <div style="background:rgba(255,255,255,0.1); border-left:4px solid var(--gold); padding:14px 18px; border-radius:8px; font-size:clamp(12px,1.08vw,15px); line-height:1.5;">
+        <strong style="color:var(--gold);">Q2 &amp; Q3 — Khác biệt theo Vụ:</strong> ĐX nhạy mưa tiền vụ &amp; ENSO; HT nhạy nắng nóng/khô hạn (VPD); TĐ nhạy gió bão 2m (<code>r = −0,61</code>).
+      </div>
+      <div style="background:rgba(255,255,255,0.1); border-left:4px solid var(--gold); padding:14px 18px; border-radius:8px; font-size:clamp(12px,1.08vw,15px); line-height:1.5;">
+        <strong style="color:var(--gold);">Q4 — Mô hình Tốt nhất:</strong> <strong>Huber &amp; Ridge/Lasso</strong> dẫn đầu Hồi quy (giảm 32,5% CV &amp; 54% Test); <strong>SVM/Logistic</strong> dẫn đầu Phân lớp (Acc 86,5%, AUC 0,967).
+      </div>
+      <div style="background:rgba(255,255,255,0.1); border-left:4px solid var(--gold); padding:14px 18px; border-radius:8px; font-size:clamp(12px,1.08vw,15px); line-height:1.5;">
+        <strong style="color:var(--gold);">Giá trị KDD Thực tiễn:</strong> Kết hợp Kiểm định GĐ1–GĐ4, Cây CART, Gom cụm DBSCAN/Ward và Luật Apriori phục vụ nghiên cứu, khuyến nông &amp; chuỗi cung ứng.
+      </div>
+    </div>
+    <div style="text-align:center;">
+      <div style="font-size:clamp(24px,2.8vw,38px); font-weight:800; color:var(--gold); margin-bottom:8px;">XIN CẢM ƠN THẦY VÀ CÁC BẠN ĐÃ LẮNG NGHE!</div>
+      <div style="font-size:clamp(14px,1.3vw,18px); color:#dbe8fa;">Nhóm em xin sẵn sàng tiếp nhận câu hỏi phản biện (Q&amp;A)</div>
+    </div>
+  </div>
+  <div class="cover-bottom" style="grid-template-columns:1fr; text-align:center; padding:10px;">
+    Lê Thị Ngọc Giàu (3123410088) · Trần Ngọc An (3123410004) · CBGD: Phan Thành Huấn · Khoa CNTT — ĐH Sài Gòn
+  </div>
+</section>
+
+</div>
+
+<div class="nav-bar">
+  <button onclick="prevSlide()" title="Slide trước (←)">◀ Trước</button>
+  <span id="counter">1 / 18</span>
+  <button onclick="nextSlide()" title="Slide sau (→)">Sau ▶</button>
+  <button onclick="toggleFull()" title="Toàn màn hình (F)">⛶ Chiếu</button>
+  <button onclick="window.print()" title="In / Lưu PDF 16:9">🖨 PDF</button>
+</div>
+
+<script>
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const counter = document.getElementById('counter');
+  let cur = 0;
+
+  function showSlide(i) {
+    cur = Math.max(0, Math.min(slides.length - 1, i));
+    slides.forEach((s, idx) => s.classList.toggle('active', idx === cur));
+    counter.textContent = `${cur + 1} / ${slides.length}`;
+  }
+  function nextSlide() { showSlide(cur + 1); }
+  function prevSlide() { showSlide(cur - 1); }
+  function toggleFull() {
+    if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+    else document.exitFullscreen();
+  }
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') { e.preventDefault(); nextSlide(); }
+    else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); prevSlide(); }
+    else if (e.key === 'Home') showSlide(0);
+    else if (e.key === 'End') showSlide(slides.length - 1);
+    else if (e.key.toLowerCase() === 'f') toggleFull();
+  });
+</script>
+</body>
+</html>

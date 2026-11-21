@@ -1,0 +1,8 @@
+[
+ {"url":"https://sage-public-files.s3.amazonaws.com/crop-calendar-dataset/crop-readme.txt","file":"data/raw/calendar/sacks_readme.txt","scope":"historical_reference_calendar_not_annual_2015_2024"},
+ {"url":"https://sage-public-files.s3.amazonaws.com/crop-calendar-dataset/All_data_with_climate.csv","file":"data/raw/calendar/sacks_all_data_with_climate.csv","scope":"historical_reference_calendar_not_annual_2015_2024"},
+ {"url":"https://sage-public-files.s3.amazonaws.com/crop-calendar-dataset/All_data_with_climate.xls","file":"data/raw/calendar/sacks_column_metadata.xls","scope":"historical_reference_calendar_dictionary"},
+ {"url":"https://sage-public-files.s3.amazonaws.com/crop-calendar-dataset/code_lists.txt","file":"data/raw/calendar/sacks_code_lists.txt","scope":"historical_reference_calendar_dictionary"},
+ {"url":"https://api.figshare.com/v2/articles/13468929","file":"data/raw/calendar/rica_figshare_metadata.json","scope":"metadata_only_v1_embargoed_no_download"},
+ {"url":"https://thuvienphapluat.vn/van-ban/tai-nguyen-moi-truong/ke-hoach-200-kh-ubnd-2023-san-xuat-nong-nghiep-thich-ung-bien-doi-khi-hau-bac-lieu-588929.aspx","file":"data/raw/calendar/baclieu_plan_200_2023.html","scope":"public_legal_document_mirror_recommended_calendar_2023_2024_not_observed_harvest_dates"}
+]

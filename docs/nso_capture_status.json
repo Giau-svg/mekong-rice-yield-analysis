@@ -1,0 +1,18 @@
+{
+  "captured_rows": 467,
+  "source_table_rows": 282,
+  "provinces": 13,
+  "years": "2015–2024",
+  "category_counts": {
+    "Lúa cả năm": 130,
+    "Lúa đông xuân": 127,
+    "Lúa hè thu và thu đông": 130,
+    "Lúa mùa": 80
+  },
+  "unresolved_or_omitted_source_rows": 33,
+  "numeric_normalization_performed": false,
+  "unit_conversion_performed": false,
+  "imputation_performed": false,
+  "combined_seasons_split": false,
+  "model_ready": false
+}

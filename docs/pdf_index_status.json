@@ -1,0 +1,12 @@
+{
+  "indexed_unique_pdfs": 135,
+  "indexed_pages": 20087,
+  "documents_with_rice_candidate_pages": 95,
+  "rice_candidate_pages": 1165,
+  "possible_combined_season_pages": 187,
+  "documents_needing_ocr": 12,
+  "preview_documents": 1,
+  "numeric_observations_extracted": 0,
+  "cleaning_performed": false,
+  "statement": "Keyword index only; mentions do not establish province-year-season data coverage"
+}

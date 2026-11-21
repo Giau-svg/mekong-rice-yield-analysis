@@ -1,0 +1,36 @@
+{
+  "generated_at": "2026-11-20T19:39:09.914Z",
+  "provinces": 13,
+  "years": "2015–2024",
+  "primary_calendar_rows": 520,
+  "sensitivity_calendar_rows": 2600,
+  "sensitivity_shifts_days": [
+    0,
+    -15,
+    -10,
+    10,
+    15
+  ],
+  "subregion_counts": {
+    "upstream_alluvial_3crop": [
+      "An Giang",
+      "Đồng Tháp",
+      "Cần Thơ",
+      "Kiên Giang"
+    ],
+    "middle_south_ql1": [
+      "Vĩnh Long",
+      "Tiền Giang",
+      "Hậu Giang",
+      "Sóc Trăng",
+      "Long An"
+    ],
+    "coastal_salinity_prone": [
+      "Bến Tre",
+      "Trà Vinh",
+      "Bạc Liêu",
+      "Cà Mau"
+    ]
+  },
+  "calendar_tier_note": "Tier B official MARD/DCP subregional frameworks with ~100-105d growth cycle; NOT field-level annual observed dates. Mandatory ±10/±15-day sensitivity testing enabled."
+}

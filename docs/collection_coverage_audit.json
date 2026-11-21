@@ -1,0 +1,87 @@
+{
+  "generated_at": "2026-11-20T19:14:56.088Z",
+  "reference_cells": 390,
+  "separate_season_cells_with_source_values": 194,
+  "source_records_including_overlapping_versions": 224,
+  "unresolved_cells": 196,
+  "by_province": [
+    {
+      "province": "Long An",
+      "separate_season_cells": 10,
+      "reference_cells": 30
+    },
+    {
+      "province": "Tiền Giang",
+      "separate_season_cells": 14,
+      "reference_cells": 30
+    },
+    {
+      "province": "Bến Tre",
+      "separate_season_cells": 10,
+      "reference_cells": 30
+    },
+    {
+      "province": "Trà Vinh",
+      "separate_season_cells": 10,
+      "reference_cells": 30
+    },
+    {
+      "province": "Vĩnh Long",
+      "separate_season_cells": 12,
+      "reference_cells": 30
+    },
+    {
+      "province": "Đồng Tháp",
+      "separate_season_cells": 10,
+      "reference_cells": 30
+    },
+    {
+      "province": "An Giang",
+      "separate_season_cells": 30,
+      "reference_cells": 30
+    },
+    {
+      "province": "Kiên Giang",
+      "separate_season_cells": 30,
+      "reference_cells": 30
+    },
+    {
+      "province": "Cần Thơ",
+      "separate_season_cells": 30,
+      "reference_cells": 30
+    },
+    {
+      "province": "Hậu Giang",
+      "separate_season_cells": 10,
+      "reference_cells": 30
+    },
+    {
+      "province": "Sóc Trăng",
+      "separate_season_cells": 10,
+      "reference_cells": 30
+    },
+    {
+      "province": "Bạc Liêu",
+      "separate_season_cells": 10,
+      "reference_cells": 30
+    },
+    {
+      "province": "Cà Mau",
+      "separate_season_cells": 8,
+      "reference_cells": 30
+    }
+  ],
+  "ocr_documents": 5,
+  "ocr_pages": 50,
+  "sacks_vietnam_rice_reference_rows": 5,
+  "calendar_caveat": "Historical reference only; no validation of annual province-season calendars for 2015–2024",
+  "riceatlas_status": "Metadata acquired; file download requires repository guestbook response",
+  "collection_complete_for_requested_scope": false,
+  "cleaning_performed": false,
+  "notes": [
+    "390 is an audit grid, not an assertion all seasons occur everywhere",
+    "Combined Hè Thu–Thu Đông never assigned to either separate season",
+    "Source blank cells do not establish zero area or absence of cultivation",
+    "Counts refer to acquired and positioned source values, not reconciled or cleaned observations"
+  ]
+}

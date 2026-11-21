@@ -1,0 +1,502 @@
+[
+  {
+    "province": "Long An",
+    "year": 2015,
+    "q": "\"Long An\" \"2015\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Long An",
+    "year": 2016,
+    "q": "\"Long An\" \"2016\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Long An",
+    "year": 2017,
+    "q": "\"Long An\" \"2017\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Long An",
+    "year": 2018,
+    "q": "\"Long An\" \"2018\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Long An",
+    "year": 2019,
+    "q": "\"Long An\" \"2019\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Long An",
+    "year": 2020,
+    "q": "\"Long An\" \"2020\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Long An",
+    "year": 2021,
+    "q": "\"Long An\" \"2021\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Long An",
+    "year": 2022,
+    "q": "\"Long An\" \"2022\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Long An",
+    "year": 2023,
+    "q": "\"Long An\" \"2023\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Long An",
+    "year": 2024,
+    "q": "\"Long An\" \"2024\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Tiền Giang",
+    "year": 2015,
+    "q": "\"Tiền Giang\" \"2015\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Tiền Giang",
+    "year": 2016,
+    "q": "\"Tiền Giang\" \"2016\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Tiền Giang",
+    "year": 2017,
+    "q": "\"Tiền Giang\" \"2017\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Tiền Giang",
+    "year": 2018,
+    "q": "\"Tiền Giang\" \"2018\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Tiền Giang",
+    "year": 2019,
+    "q": "\"Tiền Giang\" \"2019\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Tiền Giang",
+    "year": 2020,
+    "q": "\"Tiền Giang\" \"2020\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Tiền Giang",
+    "year": 2021,
+    "q": "\"Tiền Giang\" \"2021\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Tiền Giang",
+    "year": 2022,
+    "q": "\"Tiền Giang\" \"2022\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Tiền Giang",
+    "year": 2023,
+    "q": "\"Tiền Giang\" \"2023\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Tiền Giang",
+    "year": 2024,
+    "q": "\"Tiền Giang\" \"2024\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Bến Tre",
+    "year": 2015,
+    "q": "\"Bến Tre\" \"2015\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Bến Tre",
+    "year": 2016,
+    "q": "\"Bến Tre\" \"2016\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Bến Tre",
+    "year": 2017,
+    "q": "\"Bến Tre\" \"2017\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Bến Tre",
+    "year": 2018,
+    "q": "\"Bến Tre\" \"2018\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Bến Tre",
+    "year": 2019,
+    "q": "\"Bến Tre\" \"2019\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Bến Tre",
+    "year": 2020,
+    "q": "\"Bến Tre\" \"2020\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Bến Tre",
+    "year": 2021,
+    "q": "\"Bến Tre\" \"2021\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Bến Tre",
+    "year": 2022,
+    "q": "\"Bến Tre\" \"2022\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Bến Tre",
+    "year": 2023,
+    "q": "\"Bến Tre\" \"2023\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Bến Tre",
+    "year": 2024,
+    "q": "\"Bến Tre\" \"2024\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Trà Vinh",
+    "year": 2015,
+    "q": "\"Trà Vinh\" \"2015\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Trà Vinh",
+    "year": 2016,
+    "q": "\"Trà Vinh\" \"2016\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Trà Vinh",
+    "year": 2017,
+    "q": "\"Trà Vinh\" \"2017\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Trà Vinh",
+    "year": 2018,
+    "q": "\"Trà Vinh\" \"2018\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Trà Vinh",
+    "year": 2019,
+    "q": "\"Trà Vinh\" \"2019\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Trà Vinh",
+    "year": 2020,
+    "q": "\"Trà Vinh\" \"2020\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Trà Vinh",
+    "year": 2021,
+    "q": "\"Trà Vinh\" \"2021\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Trà Vinh",
+    "year": 2022,
+    "q": "\"Trà Vinh\" \"2022\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Trà Vinh",
+    "year": 2023,
+    "q": "\"Trà Vinh\" \"2023\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Trà Vinh",
+    "year": 2024,
+    "q": "\"Trà Vinh\" \"2024\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Vĩnh Long",
+    "year": 2015,
+    "q": "\"Vĩnh Long\" \"2015\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Vĩnh Long",
+    "year": 2016,
+    "q": "\"Vĩnh Long\" \"2016\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Vĩnh Long",
+    "year": 2017,
+    "q": "\"Vĩnh Long\" \"2017\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Vĩnh Long",
+    "year": 2018,
+    "q": "\"Vĩnh Long\" \"2018\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Vĩnh Long",
+    "year": 2019,
+    "q": "\"Vĩnh Long\" \"2019\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Vĩnh Long",
+    "year": 2020,
+    "q": "\"Vĩnh Long\" \"2020\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Vĩnh Long",
+    "year": 2021,
+    "q": "\"Vĩnh Long\" \"2021\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Vĩnh Long",
+    "year": 2022,
+    "q": "\"Vĩnh Long\" \"2022\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Vĩnh Long",
+    "year": 2023,
+    "q": "\"Vĩnh Long\" \"2023\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Vĩnh Long",
+    "year": 2024,
+    "q": "\"Vĩnh Long\" \"2024\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Đồng Tháp",
+    "year": 2015,
+    "q": "\"Đồng Tháp\" \"2015\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Đồng Tháp",
+    "year": 2016,
+    "q": "\"Đồng Tháp\" \"2016\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Đồng Tháp",
+    "year": 2017,
+    "q": "\"Đồng Tháp\" \"2017\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Đồng Tháp",
+    "year": 2018,
+    "q": "\"Đồng Tháp\" \"2018\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Đồng Tháp",
+    "year": 2019,
+    "q": "\"Đồng Tháp\" \"2019\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Đồng Tháp",
+    "year": 2020,
+    "q": "\"Đồng Tháp\" \"2020\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Đồng Tháp",
+    "year": 2021,
+    "q": "\"Đồng Tháp\" \"2021\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Đồng Tháp",
+    "year": 2022,
+    "q": "\"Đồng Tháp\" \"2022\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Đồng Tháp",
+    "year": 2023,
+    "q": "\"Đồng Tháp\" \"2023\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Đồng Tháp",
+    "year": 2024,
+    "q": "\"Đồng Tháp\" \"2024\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Hậu Giang",
+    "year": 2015,
+    "q": "\"Hậu Giang\" \"2015\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Hậu Giang",
+    "year": 2016,
+    "q": "\"Hậu Giang\" \"2016\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Hậu Giang",
+    "year": 2017,
+    "q": "\"Hậu Giang\" \"2017\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Hậu Giang",
+    "year": 2018,
+    "q": "\"Hậu Giang\" \"2018\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Hậu Giang",
+    "year": 2019,
+    "q": "\"Hậu Giang\" \"2019\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Hậu Giang",
+    "year": 2020,
+    "q": "\"Hậu Giang\" \"2020\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Hậu Giang",
+    "year": 2021,
+    "q": "\"Hậu Giang\" \"2021\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Hậu Giang",
+    "year": 2022,
+    "q": "\"Hậu Giang\" \"2022\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Hậu Giang",
+    "year": 2023,
+    "q": "\"Hậu Giang\" \"2023\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Hậu Giang",
+    "year": 2024,
+    "q": "\"Hậu Giang\" \"2024\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Sóc Trăng",
+    "year": 2015,
+    "q": "\"Sóc Trăng\" \"2015\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Sóc Trăng",
+    "year": 2016,
+    "q": "\"Sóc Trăng\" \"2016\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Sóc Trăng",
+    "year": 2017,
+    "q": "\"Sóc Trăng\" \"2017\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Sóc Trăng",
+    "year": 2018,
+    "q": "\"Sóc Trăng\" \"2018\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Sóc Trăng",
+    "year": 2019,
+    "q": "\"Sóc Trăng\" \"2019\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Sóc Trăng",
+    "year": 2020,
+    "q": "\"Sóc Trăng\" \"2020\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Sóc Trăng",
+    "year": 2021,
+    "q": "\"Sóc Trăng\" \"2021\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Sóc Trăng",
+    "year": 2022,
+    "q": "\"Sóc Trăng\" \"2022\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Sóc Trăng",
+    "year": 2023,
+    "q": "\"Sóc Trăng\" \"2023\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Sóc Trăng",
+    "year": 2024,
+    "q": "\"Sóc Trăng\" \"2024\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Bạc Liêu",
+    "year": 2015,
+    "q": "\"Bạc Liêu\" \"2015\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Bạc Liêu",
+    "year": 2016,
+    "q": "\"Bạc Liêu\" \"2016\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Bạc Liêu",
+    "year": 2017,
+    "q": "\"Bạc Liêu\" \"2017\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Bạc Liêu",
+    "year": 2018,
+    "q": "\"Bạc Liêu\" \"2018\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Bạc Liêu",
+    "year": 2019,
+    "q": "\"Bạc Liêu\" \"2019\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Bạc Liêu",
+    "year": 2020,
+    "q": "\"Bạc Liêu\" \"2020\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Bạc Liêu",
+    "year": 2021,
+    "q": "\"Bạc Liêu\" \"2021\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Bạc Liêu",
+    "year": 2022,
+    "q": "\"Bạc Liêu\" \"2022\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Bạc Liêu",
+    "year": 2023,
+    "q": "\"Bạc Liêu\" \"2023\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Bạc Liêu",
+    "year": 2024,
+    "q": "\"Bạc Liêu\" \"2024\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Cà Mau",
+    "year": 2015,
+    "q": "\"Cà Mau\" \"2015\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Cà Mau",
+    "year": 2016,
+    "q": "\"Cà Mau\" \"2016\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Cà Mau",
+    "year": 2017,
+    "q": "\"Cà Mau\" \"2017\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Cà Mau",
+    "year": 2018,
+    "q": "\"Cà Mau\" \"2018\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Cà Mau",
+    "year": 2019,
+    "q": "\"Cà Mau\" \"2019\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Cà Mau",
+    "year": 2020,
+    "q": "\"Cà Mau\" \"2020\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Cà Mau",
+    "year": 2021,
+    "q": "\"Cà Mau\" \"2021\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Cà Mau",
+    "year": 2022,
+    "q": "\"Cà Mau\" \"2022\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Cà Mau",
+    "year": 2023,
+    "q": "\"Cà Mau\" \"2023\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  },
+  {
+    "province": "Cà Mau",
+    "year": 2024,
+    "q": "\"Cà Mau\" \"2024\" (\"hè thu\" OR \"thu đông\") \"năng suất\" site:gov.vn -site:www.nso.gov.vn"
+  }
+]

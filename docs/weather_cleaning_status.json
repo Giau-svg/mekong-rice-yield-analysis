@@ -1,0 +1,21 @@
+{
+  "generated_at": "2026-11-20T19:39:09.675Z",
+  "provinces": 13,
+  "date_start": "2014-01-01",
+  "date_end": "2024-12-31",
+  "days_per_province": 4018,
+  "zonal_rows": 52234,
+  "single_point_rows": 52234,
+  "common_parameters": [
+    "T2M",
+    "T2M_MAX",
+    "T2M_MIN",
+    "PRECTOTCORR",
+    "RH2M",
+    "WS2M"
+  ],
+  "excluded_optional_parameter": "ALLSKY_SFC_SW_DWN",
+  "distinct_zonal_province_profiles": 13,
+  "missing_values": 0,
+  "physical_violations": 0
+}

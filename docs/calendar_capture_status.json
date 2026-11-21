@@ -1,0 +1,19 @@
+{
+  "generated_at": "2026-11-20T19:14:50.584Z",
+  "captured_calendar_records": 17,
+  "distinct_source_files": 9,
+  "seasons_covered": [
+    "Lúa đông xuân",
+    "Lúa hè thu",
+    "Lúa thu đông",
+    "Tất cả 3 vụ chính"
+  ],
+  "levels_breakdown": {
+    "regional_official_framework": 6,
+    "subregional_official_directive": 8,
+    "provincial_progress_report": 2,
+    "agronomic_duration_reference": 1
+  },
+  "annual_provincial_observed_dates_complete": false,
+  "note": "Raw official regional/subregional calendar directives & progress reports extracted verbatim. Exact cleaning window construction and +-10/15-day sensitivity testing occur in the Cleaning/Preparation stage."
+}

@@ -1,0 +1,250 @@
+{
+  "source": "https://power.larc.nasa.gov/docs/services/",
+  "resolution_degrees": [
+    0.5,
+    0.625
+  ],
+  "boundary_mask_applied": false,
+  "points": [
+    {
+      "id": "grid_8.500_104.375",
+      "latitude": 8.5,
+      "longitude": 104.375,
+      "cell_key": "197:455",
+      "region": "mekong_bbox_unmasked",
+      "reuse_file": null
+    },
+    {
+      "id": "grid_8.500_105.000",
+      "latitude": 8.5,
+      "longitude": 105,
+      "cell_key": "197:456",
+      "region": "mekong_bbox_unmasked",
+      "reuse_file": null
+    },
+    {
+      "id": "grid_8.500_105.625",
+      "latitude": 8.5,
+      "longitude": 105.625,
+      "cell_key": "197:457",
+      "region": "mekong_bbox_unmasked",
+      "reuse_file": null
+    },
+    {
+      "id": "grid_8.500_106.250",
+      "latitude": 8.5,
+      "longitude": 106.25,
+      "cell_key": "197:458",
+      "region": "mekong_bbox_unmasked",
+      "reuse_file": null
+    },
+    {
+      "id": "grid_8.500_106.875",
+      "latitude": 8.5,
+      "longitude": 106.875,
+      "cell_key": "197:459",
+      "region": "mekong_bbox_unmasked",
+      "reuse_file": null
+    },
+    {
+      "id": "grid_9.000_104.375",
+      "latitude": 9,
+      "longitude": 104.375,
+      "cell_key": "198:455",
+      "region": "mekong_bbox_unmasked",
+      "reuse_file": null
+    },
+    {
+      "id": "grid_9.000_105.000",
+      "latitude": 9,
+      "longitude": 105,
+      "cell_key": "198:456",
+      "region": "mekong_bbox_unmasked",
+      "reuse_file": "data/raw/weather/ca_mau_2014_2024.json"
+    },
+    {
+      "id": "grid_9.000_105.625",
+      "latitude": 9,
+      "longitude": 105.625,
+      "cell_key": "198:457",
+      "region": "mekong_bbox_unmasked",
+      "reuse_file": null
+    },
+    {
+      "id": "grid_9.000_106.250",
+      "latitude": 9,
+      "longitude": 106.25,
+      "cell_key": "198:458",
+      "region": "mekong_bbox_unmasked",
+      "reuse_file": null
+    },
+    {
+      "id": "grid_9.000_106.875",
+      "latitude": 9,
+      "longitude": 106.875,
+      "cell_key": "198:459",
+      "region": "mekong_bbox_unmasked",
+      "reuse_file": null
+    },
+    {
+      "id": "grid_9.500_104.375",
+      "latitude": 9.5,
+      "longitude": 104.375,
+      "cell_key": "199:455",
+      "region": "mekong_bbox_unmasked",
+      "reuse_file": null
+    },
+    {
+      "id": "grid_9.500_105.000",
+      "latitude": 9.5,
+      "longitude": 105,
+      "cell_key": "199:456",
+      "region": "mekong_bbox_unmasked",
+      "reuse_file": null
+    },
+    {
+      "id": "grid_9.500_105.625",
+      "latitude": 9.5,
+      "longitude": 105.625,
+      "cell_key": "199:457",
+      "region": "mekong_bbox_unmasked",
+      "reuse_file": "data/raw/weather/bac_lieu_2014_2024.json"
+    },
+    {
+      "id": "grid_9.500_106.250",
+      "latitude": 9.5,
+      "longitude": 106.25,
+      "cell_key": "199:458",
+      "region": "mekong_bbox_unmasked",
+      "reuse_file": "data/raw/weather/soc_trang_2014_2024.json"
+    },
+    {
+      "id": "grid_9.500_106.875",
+      "latitude": 9.5,
+      "longitude": 106.875,
+      "cell_key": "199:459",
+      "region": "mekong_bbox_unmasked",
+      "reuse_file": null
+    },
+    {
+      "id": "grid_10.000_104.375",
+      "latitude": 10,
+      "longitude": 104.375,
+      "cell_key": "200:455",
+      "region": "mekong_bbox_unmasked",
+      "reuse_file": null
+    },
+    {
+      "id": "grid_10.000_105.000",
+      "latitude": 10,
+      "longitude": 105,
+      "cell_key": "200:456",
+      "region": "mekong_bbox_unmasked",
+      "reuse_file": "data/raw/weather/kien_giang_2014_2024.json"
+    },
+    {
+      "id": "grid_10.000_105.625",
+      "latitude": 10,
+      "longitude": 105.625,
+      "cell_key": "200:457",
+      "region": "mekong_bbox_unmasked",
+      "reuse_file": "data/raw/weather/hau_giang_2014_2024.json"
+    },
+    {
+      "id": "grid_10.000_106.250",
+      "latitude": 10,
+      "longitude": 106.25,
+      "cell_key": "200:458",
+      "region": "mekong_bbox_unmasked",
+      "reuse_file": "data/raw/weather/vinh_long_2014_2024.json"
+    },
+    {
+      "id": "grid_10.000_106.875",
+      "latitude": 10,
+      "longitude": 106.875,
+      "cell_key": "200:459",
+      "region": "mekong_bbox_unmasked",
+      "reuse_file": null
+    },
+    {
+      "id": "grid_10.500_104.375",
+      "latitude": 10.5,
+      "longitude": 104.375,
+      "cell_key": "201:455",
+      "region": "mekong_bbox_unmasked",
+      "reuse_file": null
+    },
+    {
+      "id": "grid_10.500_105.000",
+      "latitude": 10.5,
+      "longitude": 105,
+      "cell_key": "201:456",
+      "region": "mekong_bbox_unmasked",
+      "reuse_file": "data/raw/weather/an_giang_2014_2024.json"
+    },
+    {
+      "id": "grid_10.500_105.625",
+      "latitude": 10.5,
+      "longitude": 105.625,
+      "cell_key": "201:457",
+      "region": "mekong_bbox_unmasked",
+      "reuse_file": "data/raw/weather/dong_thap_2014_2024.json"
+    },
+    {
+      "id": "grid_10.500_106.250",
+      "latitude": 10.5,
+      "longitude": 106.25,
+      "cell_key": "201:458",
+      "region": "mekong_bbox_unmasked",
+      "reuse_file": "data/raw/weather/tien_giang_2014_2024.json"
+    },
+    {
+      "id": "grid_10.500_106.875",
+      "latitude": 10.5,
+      "longitude": 106.875,
+      "cell_key": "201:459",
+      "region": "mekong_bbox_unmasked",
+      "reuse_file": null
+    },
+    {
+      "id": "grid_11.000_104.375",
+      "latitude": 11,
+      "longitude": 104.375,
+      "cell_key": "202:455",
+      "region": "mekong_bbox_unmasked",
+      "reuse_file": null
+    },
+    {
+      "id": "grid_11.000_105.000",
+      "latitude": 11,
+      "longitude": 105,
+      "cell_key": "202:456",
+      "region": "mekong_bbox_unmasked",
+      "reuse_file": null
+    },
+    {
+      "id": "grid_11.000_105.625",
+      "latitude": 11,
+      "longitude": 105.625,
+      "cell_key": "202:457",
+      "region": "mekong_bbox_unmasked",
+      "reuse_file": null
+    },
+    {
+      "id": "grid_11.000_106.250",
+      "latitude": 11,
+      "longitude": 106.25,
+      "cell_key": "202:458",
+      "region": "mekong_bbox_unmasked",
+      "reuse_file": "data/raw/weather/long_an_2014_2024.json"
+    },
+    {
+      "id": "grid_11.000_106.875",
+      "latitude": 11,
+      "longitude": 106.875,
+      "cell_key": "202:459",
+      "region": "mekong_bbox_unmasked",
+      "reuse_file": null
+    }
+  ]
+}

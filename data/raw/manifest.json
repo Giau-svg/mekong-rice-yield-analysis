@@ -1,0 +1,13 @@
+{
+  "built_at": "2026-11-19T06:43:01.851Z",
+  "files": [
+    {
+      "path": "data/raw/tien_giang_2024.html",
+      "sha256": "af515dfc5ce1b80cdfdeb3fafbe745824300e6aa2bb4b1b67bd433d371cc6de3"
+    },
+    {
+      "path": "data/raw/nasa_power_tien_giang_pilot_2024.json",
+      "sha256": "e88f7073bb3b3e9e222ed694f3cdf90d015c0a255b57c1fea8e2d653fc54d59a"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "rice_rows": 3,
+  "single_season_rows": 2,
+  "combined_season_rows": 1,
+  "weather_days": 366,
+  "weather_missing_values": 0,
+  "expected_inventory_cells": 390,
+  "model_ready_rows": 0,
+  "blockers": [
+    "Season calendars not verified",
+    "Hè Thu includes Xuân Hè",
+    "Pilot coordinate is not a provincial spatial average",
+    "Need 2014 weather for cross-year 2015 winter-spring seasons"
+  ]
+}

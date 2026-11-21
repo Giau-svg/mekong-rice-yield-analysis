@@ -1,0 +1,21 @@
+{
+  "main_season_rows": 90,
+  "all_category_rows": 150,
+  "provinces": [
+    "Kiên Giang",
+    "An Giang",
+    "Cần Thơ"
+  ],
+  "years": "2015–2024",
+  "seasons": [
+    "Lúa đông xuân",
+    "Lúa hè thu",
+    "Lúa thu đông"
+  ],
+  "numeric_normalization_performed": false,
+  "unit_conversion_performed": false,
+  "missing_imputation_performed": false,
+  "source_revision_selection_performed": false,
+  "weather_join_performed": false,
+  "model_ready": false
+}

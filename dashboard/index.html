@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard Phân tích Khí tượng & Năng suất Lúa ĐBSCL (2015–2024) — SGU</title>
+<style>
+  :root {
+    --navy: #0a3570;
+    --blue: #1659a8;
+    --sky: #eff6ff;
+    --gold: #eab308;
+    --green: #15803d;
+    --red: #b91c1c;
+    --orange: #c2410c;
+    --bg: #f1f5f9;
+    --card: #ffffff;
+    --ink: #0f172a;
+    --muted: #475569;
+    --border: #cbd5e1;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); color: var(--ink); line-height: 1.48; }
+
+  header {
+    background: linear-gradient(95deg, #072652 0%, var(--navy) 55%, var(--blue) 100%);
+    color: #fff;
+    padding: 16px 28px;
+    border-bottom: 4px solid var(--gold);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+  }
+  header h1 { font-size: 20px; font-weight: 800; letter-spacing: 0.2px; }
+  header p { font-size: 12.5px; color: #cfe2ff; margin-top: 3px; }
+  .header-badges { display: flex; gap: 8px; flex-wrap: wrap; }
+  .hbadge {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(234,179,8,0.6);
+    color: #fef08a;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 11.5px;
+    font-weight: 600;
+  }
+
+  .tabs {
+    background: #fff;
+    border-bottom: 1px solid var(--border);
+    padding: 0 28px;
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    box-shadow: 0 2px 6px rgba(15,23,42,0.05);
+  }
+  .tab-btn {
+    background: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
+    padding: 13px 16px;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--muted);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.15s;
+  }
+  .tab-btn:hover { color: var(--navy); background: #f8fafc; }
+  .tab-btn.active { color: var(--navy); border-bottom-color: var(--blue); background: #f0f7ff; }
+
+  main { max-width: 1420px; margin: 0 auto; padding: 20px 24px 40px; }
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  .disclaimer {
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    border-left: 4px solid var(--gold);
+    color: #78350f;
+    padding: 9px 14px;
+    border-radius: 8px;
+    font-size: 12.5px;
+    margin-bottom: 16px;
+  }
+
+  .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(185px, 1fr)); gap: 12px; margin-bottom: 16px; }
+  .kpi {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--blue);
+    border-radius: 10px;
+    padding: 12px 14px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+  .kpi.g { border-top-color: var(--green); }
+  .kpi.r { border-top-color: var(--red); }
+  .kpi.o { border-top-color: var(--orange); }
+  .kpi .k-lbl { font-size: 11.5px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; }
+  .kpi .k-val { font-size: 22px; font-weight: 800; color: var(--navy); margin: 4px 0 2px; }
+  .kpi .k-sub { font-size: 11.5px; color: var(--muted); }
+
+  .grid-2 { display: grid; grid-template-columns: 1.25fr 1fr; gap: 16px; margin-bottom: 16px; }
+  .grid-2-eq { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  @media (max-width: 980px) { .grid-2, .grid-2-eq { grid-template-columns: 1fr; } }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+    box-shadow: 0 1px 4px rgba(15,23,42,0.05);
+    margin-bottom: 16px;
+  }
+  .card h2 { font-size: 15.5px; color: var(--navy); margin-bottom: 4px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+  .card .sub { font-size: 12.2px; color: var(--muted); margin-bottom: 12px; }
+
+  .controls { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 14px; background: #f8fafc; padding: 10px 14px; border-radius: 8px; border: 1px solid #e2e8f0; }
+  .controls label { font-size: 12.5px; font-weight: 700; color: var(--navy); }
+  select, input[type="range"] { font-family: inherit; }
+  select {
+    padding: 6px 10px; border-radius: 6px; border: 1px solid #94a3b8;
+    background: #fff; font-size: 13px; color: var(--ink); font-weight: 600;
+  }
+  .btn {
+    padding: 6px 12px; border-radius: 6px; border: 1px solid var(--blue);
+    background: #fff; color: var(--blue); font-size: 12.5px; font-weight: 700; cursor: pointer;
+  }
+  .btn:hover, .btn.active { background: var(--blue); color: #fff; }
+  .btn.warn { border-color: var(--orange); color: var(--orange); }
+  .btn.warn:hover, .btn.warn.active { background: var(--orange); color: #fff; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 12.3px; }
+  th { background: var(--navy); color: #fff; padding: 7px 9px; text-align: left; font-weight: 600; }
+  td { padding: 6px 9px; border-bottom: 1px solid #e2e8f0; }
+  tr:nth-child(even) td { background: #f8fafc; }
+  tr.hl td { background: #dcfce7; font-weight: 700; }
+  tr.bad-row td { background: #fee2e2; }
+  .num { text-align: right; font-variant-numeric: tabular-nums; }
+  .tag { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 700; }
+  .tag.g { background: #dcfce7; color: #166534; }
+  .tag.r { background: #fee2e2; color: #991b1b; }
+  .tag.b { background: #dbeafe; color: #1e40af; }
+  .tag.o { background: #ffedd5; color: #9a3412; }
+
+  .slider-group { margin-bottom: 11px; }
+  .slider-head { display: flex; justify-content: space-between; font-size: 12.5px; font-weight: 600; margin-bottom: 3px; }
+  .slider-group input[type="range"] { width: 100%; accent-color: var(--blue); cursor: pointer; }
+
+  .pred-box {
+    background: linear-gradient(135deg, #0a3570 0%, #1659a8 100%);
+    color: #fff;
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin-bottom: 12px;
+  }
+  .pred-val { font-size: 34px; font-weight: 800; color: #fef08a; margin: 4px 0; }
+  .alert-box { padding: 10px 12px; border-radius: 8px; font-size: 12.5px; margin-top: 8px; border-left: 4px solid; }
+  .alert-box.warn { background: #fef2f2; border-color: var(--red); color: #7f1d1d; }
+  .alert-box.ok { background: #f0fdf4; border-color: var(--green); color: #14532d; }
+  .alert-box.info { background: #eff6ff; border-color: var(--blue); color: #1e3a8a; }
+
+  .cluster-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; margin-bottom: 14px; }
+  .cl-card { border-radius: 10px; padding: 14px; border: 1px solid var(--border); background: #f8fafc; border-left: 5px solid var(--blue); }
+  .cl-card.c0 { border-left-color: #2563eb; background: #eff6ff; }
+  .cl-card.c1 { border-left-color: #dc2626; background: #fef2f2; }
+  .cl-card.c2 { border-left-color: #16a34a; background: #f0fdf4; }
+  .cl-card.c-1 { border-left-color: #7c3aed; background: #f5f3ff; }
+  .cl-card.c3 { border-left-color: #d97706; background: #fffbeb; }
+  .cl-card.c4 { border-left-color: #0891b2; background: #ecfeff; }
+
+  .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 14px; }
+  .gal-item { background: #fff; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; cursor: pointer; transition: transform 0.15s; }
+  .gal-item:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
+  .gal-item img { width: 100%; height: 240px; object-fit: contain; background: #fff; padding: 8px; display: block; }
+  .gal-item .cap { padding: 10px 12px; font-size: 12.5px; font-weight: 700; color: var(--navy); border-top: 1px solid #e2e8f0; background: #f8fafc; }
+
+  .lightbox { display: none; position: fixed; inset: 0; background: rgba(15,23,42,0.88); z-index: 999; align-items: center; justify-content: center; padding: 24px; }
+  .lightbox.open { display: flex; }
+  .lightbox img { max-width: 95vw; max-height: 90vh; background: #fff; border-radius: 8px; padding: 8px; }
+  .svg-wrap { width: 100%; overflow-x: auto; }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>Dashboard Phân tích Khí tượng &amp; Năng suất Lúa Đồng bằng Sông Cửu Long (2015–2024)</h1>
+    <p>Đồ án Phân tích Dữ liệu — Khoa CNTT, ĐH Sài Gòn · CBGD: <strong>Phan Thành Huấn</strong> · SV: Lê Thị Ngọc Giàu &amp; Trần Ngọc An</p>
+  </div>
+  <div class="header-badges">
+    <span class="hbadge">13/13 Tỉnh ĐBSCL</span>
+    <span class="hbadge">3 Mùa vụ · 10 Năm</span>
+    <span class="hbadge">Offline · Dữ liệu thật 100%</span>
+  </div>
+</header>
+
+<nav class="tabs">
+  <button class="tab-btn active" onclick="switchTab('tab1', this)">1. Khám phá 13 Tỉnh &amp; Nghịch lý Simpson</button>
+  <button class="tab-btn" onclick="switchTab('tab2', this)">2. So sánh Đa Mô hình (Hồi quy &amp; Phân lớp)</button>
+  <button class="tab-btn" onclick="switchTab('tab3', this)">3. Mô phỏng Khí tượng &amp; Ước lượng (What-If)</button>
+  <button class="tab-btn" onclick="switchTab('tab4', this)">4. Phân vùng 13 Tỉnh (Gom cụm) &amp; Luật Apriori</button>
+  <button class="tab-btn" onclick="switchTab('tab5', this)">5. Thư viện 10 Biểu đồ 300 DPI</button>
+</nav>
+
+<main>
+  <div class="disclaimer">
+    <strong>Phạm vi &amp; Đối tượng thụ hưởng (DeTaiPTDL.pdf):</strong> Dashboard trực quan hóa toàn bộ dữ liệu sạch, kiểm định thống kê (GĐ1–GĐ4) và mô hình định lượng đã huấn luyện phục vụ <strong>học tập, nghiên cứu, tham khảo cho cơ quan quản lý/khuyến nông và chuỗi cung ứng lúa gạo ĐBSCL</strong>. Kết quả ước lượng mang tính <strong>hồi cứu (reduced-form)</strong>, không thay thế khuyến cáo nông học chính thức.
+  </div>
+
+  <!-- TAB 1: EXPLORER & SIMPSON'S PARADOX -->
+  <section id="tab1" class="panel active">
+    <div class="controls">
+      <label for="provSelect">Chọn tỉnh ĐBSCL:</label>
+      <select id="provSelect" onchange="renderTab1()"></select>
+      <label for="seasonView">Chế độ xem chuỗi 10 năm:</label>
+      <select id="seasonView" onchange="renderTab1()">
+        <option value="both_t2">Tuyến A (Đông Xuân &amp; Hè Thu–Thu Đông)</option>
+        <option value="t1_3seasons">Tuyến B (Tách riêng 3 vụ — AG, KG, CT)</option>
+      </select>
+      <span id="provNote" style="font-size:12px; color:#475569;"></span>
+    </div>
+
+    <div class="kpi-grid" id="tab1Kpis"></div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h2>Diễn biến Năng suất Lúa 2015–2024 <span id="chart1Badge" class="tag b"></span></h2>
+        <div class="sub">Đường nét liền: Đông Xuân · Nét đứt: Hè Thu–Thu Đông (hoặc 3 vụ riêng) · Chấm đỏ: Ngoại lệ hạn mặn vượt 3σ (|z| &gt; 3)</div>
+        <div class="svg-wrap" id="yieldChartSvg"></div>
+      </div>
+
+      <div class="card">
+        <h2>
+          Phát hiện KDD: Nghịch lý Simpson (Đảo dấu 8/8 biến)
+          <span>
+            <button id="btnSimpRaw" class="btn warn" onclick="setSimpMode('raw')">Tương quan Thô (Gộp vụ)</button>
+            <button id="btnSimpWithin" class="btn active" onclick="setSimpMode('within')">Thực (Khử cố định Tỉnh×Vụ)</button>
+          </span>
+        </h2>
+        <div class="sub" id="simpCaption"></div>
+        <div class="svg-wrap" id="simpsonSvg"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Bảng số liệu chi tiết 10 năm của tỉnh đang chọn</h2>
+      <div class="sub">Dữ liệu khí tượng Area-Weighted Zonal Mean (GADM v4.1) &amp; chỉ số ENSO (NOAA PSL ONI)</div>
+      <div style="overflow-x:auto;" id="provTableWrap"></div>
+    </div>
+  </section>
+
+  <!-- TAB 2: MULTI-MODEL COMPARISON -->
+  <section id="tab2" class="panel">
+    <div class="controls">
+      <label for="benchSelect">Chọn bảng so sánh đa hình thái mô hình:</label>
+      <select id="benchSelect" onchange="renderTab2()">
+        <option value="reg_b">Hồi quy Tuyến B — 3 vụ tách riêng (20 mô hình, n=90)</option>
+        <option value="reg_a_dx127">Hồi quy Tuyến A — 13 tỉnh Đông Xuân Đủ 127 dòng (14 mô hình)</option>
+        <option value="reg_a_dx125">Hồi quy Tuyến A — 13 tỉnh Đông Xuân Ex-Salinity 125 (14 mô hình)</option>
+        <option value="reg_a_comb">Hồi quy Tuyến A — 13 tỉnh Hè Thu–Thu Đông 130 (13 mô hình)</option>
+        <option value="clf_c1_full">Phân lớp C1 — 3 hạng năng suất (Đầy đủ KT+Tỉnh+Vụ, 11 mô hình)</option>
+        <option value="clf_c1_w">Phân lớp C1 — 3 hạng năng suất (Thuần Khí tượng + Tiểu vùng, 11 mô hình)</option>
+        <option value="clf_c2">Phân lớp C2 — Nhị phân Rủi ro Sụt giảm &amp; Accuracy Paradox (10 mô hình)</option>
+      </select>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h2 id="benchTitle">So sánh Mô hình</h2>
+        <div class="sub" id="benchSub"></div>
+        <div class="svg-wrap" id="benchSvg"></div>
+      </div>
+      <div class="card">
+        <h2>Bảng Kiểm định 4 Giả định OLS (GĐ1–GĐ4, Buổi 04)</h2>
+        <div class="sub">Cơ sở toán học giải thích vì sao cần chuyển từ OLS thuần sang Huber Loss &amp; HC3</div>
+        <div style="overflow-x:auto;" id="olsDiagWrap"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Bảng độ đo chi tiết toàn bộ mô hình đã thử nghiệm</h2>
+      <div class="sub">Khóa kín hoàn toàn tập Test 2023–2024; chọn cấu hình tối ưu trên Expanding-Window CV (2019–2022)</div>
+      <div style="overflow-x:auto;" id="benchTableWrap"></div>
+    </div>
+  </section>
+
+  <!-- TAB 3: WHAT-IF SIMULATOR -->
+  <section id="tab3" class="panel">
+    <div class="grid-2-eq">
+      <div class="card">
+        <h2>Thiết lập Kịch bản Khí tượng (Mô hình thật đã huấn luyện)</h2>
+        <div class="sub">Trọng số xuất trực tiếp từ mô hình Huber &amp; Ridge huấn luyện trên tập dev (2015–2022)</div>
+        <div class="controls" style="margin-bottom:10px;">
+          <label for="simProv">Tỉnh:</label>
+          <select id="simProv" onchange="onSimScopeChange()"></select>
+          <label for="simSeason">Mùa vụ:</label>
+          <select id="simSeason" onchange="onSimScopeChange()"></select>
+        </div>
+        <div style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:14px;">
+          <button class="btn" onclick="applyPreset('normal')">↺ Trung vị lịch sử</button>
+          <button class="btn" onclick="applyPreset('lanina')">🌧 La Niña mưa nhiều</button>
+          <button class="btn warn" onclick="applyPreset('elnino')">☀ El Niño hạn nóng (2016)</button>
+          <button class="btn warn" onclick="applyPreset('storm')">💨 Gió bão mạnh cuối vụ</button>
+        </div>
+
+        <div class="slider-group">
+          <div class="slider-head"><span>Độ khô khí quyển VPD (kPa)</span><span id="val_vpd"></span></div>
+          <input type="range" id="sl_vpd" min="0.40" max="1.45" step="0.01" oninput="updateSim()">
+        </div>
+        <div class="slider-group">
+          <div class="slider-head"><span>Tổng lượng mưa trong vụ (mm)</span><span id="val_rain"></span></div>
+          <input type="range" id="sl_rain" min="50" max="1600" step="10" oninput="updateSim()">
+        </div>
+        <div class="slider-group">
+          <div class="slider-head"><span>Tốc độ gió trung bình 2m (m/s)</span><span id="val_ws"></span></div>
+          <input type="range" id="sl_ws" min="1.50" max="4.80" step="0.05" oninput="updateSim()">
+        </div>
+        <div class="slider-group">
+          <div class="slider-head"><span>Tổng mưa 90 ngày tiền vụ (mm)</span><span id="val_pre90"></span></div>
+          <input type="range" id="sl_pre90" min="100" max="1400" step="10" oninput="updateSim()">
+        </div>
+        <div class="slider-group">
+          <div class="slider-head"><span>Chỉ số ENSO tiền vụ (NOAA ONI)</span><span id="val_oni"></span></div>
+          <input type="range" id="sl_oni" min="-1.50" max="2.60" step="0.05" oninput="updateSim()">
+        </div>
+        <div class="slider-group">
+          <div class="slider-head"><span>Năm thu hoạch (xu hướng kỹ thuật)</span><span id="val_year"></span></div>
+          <input type="range" id="sl_year" min="2015" max="2026" step="1" value="2024" oninput="updateSim()">
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Kết quả Ước lượng &amp; Giải thích Đóng góp từng Biến</h2>
+        <div class="sub">Tính toán trực tiếp từ phương trình Fixed-Effects Median + β·z (không dùng hộp đen)</div>
+        <div class="pred-box">
+          <div style="font-size:12.5px; color:#cfe2ff;" id="simModelLabel">Mô hình: Huber Robust Anomaly + Trend</div>
+          <div class="pred-val" id="simPredVal">— tấn/ha</div>
+          <div style="display:flex; flex-wrap:wrap; gap:14px; font-size:12.5px; color:#e2e8f0;" id="simPredMeta"></div>
+        </div>
+        <div id="simAlerts"></div>
+        <h3 style="font-size:13.5px; color:var(--navy); margin:14px 0 6px;">Phân rã đóng góp từng yếu tố (Δ tấn/ha so với trung vị lịch sử):</h3>
+        <div class="svg-wrap" id="waterfallSvg"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TAB 4: CLUSTERING & APRIORI RULES -->
+  <section id="tab4" class="panel">
+    <div class="card">
+      <h2>
+        Phân vùng Khách quan 13 Tỉnh ĐBSCL (Buổi 11–12 — 9 Thuật toán Gom cụm)
+        <select id="clAlgoSelect" onchange="renderClusters()">
+          <option value="Agglomerative_Ward_K3">Agglomerative Ward (K=3) — Đồng thuận 5 thuật toán</option>
+          <option value="KMeans_K3">K-Means (K=3)</option>
+          <option value="KMedoids_PAM_K3">K-Medoids PAM (K=3)</option>
+          <option value="Agglomerative_Average_K3">Agglomerative Average (K=3 — ARI/NMI cao nhất)</option>
+          <option value="DBSCAN_eps2_8_min2">DBSCAN (eps=2,8, min=2) — Tách nhiễu Bến Tre</option>
+          <option value="MeanShift_Auto">MeanShift (Tự xác định số cụm)</option>
+        </select>
+      </h2>
+      <div class="sub" id="clMetricsSummary"></div>
+      <div class="cluster-cards" id="clusterCards"></div>
+    </div>
+
+    <div class="card">
+      <h2>Bộ lọc Luật Kết hợp Định lượng — Apriori (Buổi 06–07, Đông Xuân 13 tỉnh n=127)</h2>
+      <div class="sub">Rời rạc hóa bằng pd.cut / pd.qcut · Đầy đủ 5 độ đo: Support, Confidence, Lift, Leverage, Conviction</div>
+      <div class="controls">
+        <label for="arOutcome">Hệ quả (Consequent):</label>
+        <select id="arOutcome" onchange="renderRules()">
+          <option value="ALL">Tất cả mức năng suất</option>
+          <option value="NăngSuấtĐX=Cao">NăngSuấtĐX = Cao (Được mùa)</option>
+          <option value="NăngSuấtĐX=Thấp">NăngSuấtĐX = Thấp (Rủi ro)</option>
+          <option value="NăngSuấtĐX=TB">NăngSuấtĐX = Trung bình</option>
+        </select>
+        <label>Lift tối thiểu: <span id="arLiftVal">1.50</span></label>
+        <input type="range" id="arLift" min="1.0" max="2.8" step="0.1" value="1.5" style="width:140px;" oninput="renderRules()">
+        <label>Confidence tối thiểu: <span id="arConfVal">0.55</span></label>
+        <input type="range" id="arConf" min="0.50" max="0.95" step="0.05" value="0.55" style="width:140px;" oninput="renderRules()">
+      </div>
+      <div style="overflow-x:auto;" id="rulesTableWrap"></div>
+    </div>
+  </section>
+
+  <!-- TAB 5: FIGURE GALLERY -->
+  <section id="tab5" class="panel">
+    <div class="card">
+      <h2>Thư viện 10 Biểu đồ Chuẩn Xuất bản (300 DPI)</h2>
+      <div class="sub">Nhấp vào bất kỳ biểu đồ nào để phóng to toàn màn hình kiểm tra chi tiết số liệu</div>
+      <div class="gallery" id="figGallery"></div>
+    </div>
+  </section>
+</main>
+
+<div class="lightbox" id="lightbox" onclick="this.classList.remove('open')">
+  <img id="lightboxImg" src="" alt="Zoomed figure">
+</div>
+
+<script>
+const DATA = {"tier_thresholds": {"q33": 5.58, "q67": 6.49}, "provinces": [{"province_id": "an_giang", "province": "An Giang", "ecological_subregion": "upstream_alluvial_3crop", "has_3seasons": true, "dx_mean": 7.34, "dx_min": 7.03, "dx_max": 7.69, "httd_mean": 5.79, "total_prod_10y_mt": 39.85, "clusters": {"KMeans_K3": 2, "KMedoids_PAM_K3": 2, "Agglomerative_Ward_K3": 2, "Agglomerative_Average_K3": 1, "DBSCAN_eps2_8_min2": 0, "MeanShift_Auto": 0}, "dx_series": [{"harvest_year": 2015, "yield_t_ha": 7.56, "vpd_mean_kpa": 1.2963, "precip_total_mm": 85.18, "ws2m_mean_ms": 2.093, "pre_season_rain_90d_mm": 403.03, "oni_pre_season": 0.7, "domain_outlier_flag": "none"}, {"harvest_year": 2016, "yield_t_ha": 7.19, "vpd_mean_kpa": 1.3887, "precip_total_mm": 73.89, "ws2m_mean_ms": 2.344, "pre_season_rain_90d_mm": 457.72, "oni_pre_season": 2.45, "domain_outlier_flag": "none"}, {"harvest_year": 2017, "yield_t_ha": 7.03, "vpd_mean_kpa": 0.7887, "precip_total_mm": 244.58, "ws2m_mean_ms": 2.113, "pre_season_rain_90d_mm": 621.57, "oni_pre_season": -0.49, "domain_outlier_flag": "none"}, {"harvest_year": 2018, "yield_t_ha": 7.35, "vpd_mean_kpa": 0.7551, "precip_total_mm": 290.3, "ws2m_mean_ms": 2.063, "pre_season_rain_90d_mm": 586.31, "oni_pre_season": -0.61, "domain_outlier_flag": "none"}, {"harvest_year": 2019, "yield_t_ha": 7.1, "vpd_mean_kpa": 0.9786, "precip_total_mm": 161.78, "ws2m_mean_ms": 2.331, "pre_season_rain_90d_mm": 553.81, "oni_pre_season": 1.04, "domain_outlier_flag": "none"}, {"harvest_year": 2020, "yield_t_ha": 7.17, "vpd_mean_kpa": 1.2498, "precip_total_mm": 55.66, "ws2m_mean_ms": 2.185, "pre_season_rain_90d_mm": 641.46, "oni_pre_season": 0.72, "domain_outlier_flag": "none"}, {"harvest_year": 2021, "yield_t_ha": 7.69, "vpd_mean_kpa": 0.7919, "precip_total_mm": 237.9, "ws2m_mean_ms": 2.247, "pre_season_rain_90d_mm": 1027.93, "oni_pre_season": -1.11, "domain_outlier_flag": "none"}, {"harvest_year": 2022, "yield_t_ha": 7.34, "vpd_mean_kpa": 0.7757, "precip_total_mm": 212.32, "ws2m_mean_ms": 2.122, "pre_season_rain_90d_mm": 1106.9, "oni_pre_season": -0.91, "domain_outlier_flag": "none"}, {"harvest_year": 2023, "yield_t_ha": 7.55, "vpd_mean_kpa": 0.7987, "precip_total_mm": 208.25, "ws2m_mean_ms": 2.258, "pre_season_rain_90d_mm": 765.53, "oni_pre_season": -0.82, "domain_outlier_flag": "none"}, {"harvest_year": 2024, "yield_t_ha": 7.44, "vpd_mean_kpa": 1.044, "precip_total_mm": 88.34, "ws2m_mean_ms": 2.257, "pre_season_rain_90d_mm": 1022.91, "oni_pre_season": 1.9, "domain_outlier_flag": "none"}], "comb_series": [{"harvest_year": 2015, "yield_t_ha": 5.62, "vpd_mean_kpa": 0.8457, "precip_total_mm": 918.56, "ws2m_mean_ms": 2.507, "pre_season_rain_90d_mm": 45.66, "oni_pre_season": 0.72, "domain_outlier_flag": "none"}, {"harvest_year": 2016, "yield_t_ha": 5.26, "vpd_mean_kpa": 0.7841, "precip_total_mm": 1210.98, "ws2m_mean_ms": 2.615, "pre_season_rain_90d_mm": 7.06, "oni_pre_season": 1.69, "domain_outlier_flag": "none"}, {"harvest_year": 2017, "yield_t_ha": 5.51, "vpd_mean_kpa": 0.6187, "precip_total_mm": 1241.64, "ws2m_mean_ms": 2.301, "pre_season_rain_90d_mm": 129.32, "oni_pre_season": 0.27, "domain_outlier_flag": "none"}, {"harvest_year": 2018, "yield_t_ha": 5.67, "vpd_mean_kpa": 0.5267, "precip_total_mm": 1693.13, "ws2m_mean_ms": 2.325, "pre_season_rain_90d_mm": 221.41, "oni_pre_season": -0.55, "domain_outlier_flag": "none"}, {"harvest_year": 2019, "yield_t_ha": 5.78, "vpd_mean_kpa": 0.5464, "precip_total_mm": 1995.5, "ws2m_mean_ms": 2.318, "pre_season_rain_90d_mm": 67.83, "oni_pre_season": 0.87, "domain_outlier_flag": "none"}, {"harvest_year": 2020, "yield_t_ha": 5.83, "vpd_mean_kpa": 0.5591, "precip_total_mm": 2651.1, "ws2m_mean_ms": 2.049, "pre_season_rain_90d_mm": 116.36, "oni_pre_season": 0.57, "domain_outlier_flag": "none"}, {"harvest_year": 2021, "yield_t_ha": 6.03, "vpd_mean_kpa": 0.4396, "precip_total_mm": 2286.23, "ws2m_mean_ms": 2.262, "pre_season_rain_90d_mm": 121.24, "oni_pre_season": -0.74, "domain_outlier_flag": "none"}, {"harvest_year": 2022, "yield_t_ha": 6.05, "vpd_mean_kpa": 0.446, "precip_total_mm": 1940.91, "ws2m_mean_ms": 2.121, "pre_season_rain_90d_mm": 331.34, "oni_pre_season": -0.77, "domain_outlier_flag": "none"}, {"harvest_year": 2023, "yield_t_ha": 6.06, "vpd_mean_kpa": 0.6305, "precip_total_mm": 1815.37, "ws2m_mean_ms": 2.408, "pre_season_rain_90d_mm": 33.52, "oni_pre_season": -0.11, "domain_outlier_flag": "none"}, {"harvest_year": 2024, "yield_t_ha": 6.09, "vpd_mean_kpa": 0.7242, "precip_total_mm": 2060.17, "ws2m_mean_ms": 2.223, "pre_season_rain_90d_mm": 15.86, "oni_pre_season": 1.18, "domain_outlier_flag": "none"}], "t1_series": {"dong_xuan": [{"harvest_year": 2015, "yield_t_ha": 7.562, "vpd_mean_kpa": 1.2963, "precip_total_mm": 85.18, "ws2m_mean_ms": 2.093, "pre_season_rain_90d_mm": 403.03, "oni_pre_season": 0.7}, {"harvest_year": 2016, "yield_t_ha": 7.188, "vpd_mean_kpa": 1.3887, "precip_total_mm": 73.89, "ws2m_mean_ms": 2.344, "pre_season_rain_90d_mm": 457.72, "oni_pre_season": 2.45}, {"harvest_year": 2017, "yield_t_ha": 7.029, "vpd_mean_kpa": 0.7887, "precip_total_mm": 244.58, "ws2m_mean_ms": 2.113, "pre_season_rain_90d_mm": 621.57, "oni_pre_season": -0.49}, {"harvest_year": 2018, "yield_t_ha": 7.352, "vpd_mean_kpa": 0.7551, "precip_total_mm": 290.3, "ws2m_mean_ms": 2.063, "pre_season_rain_90d_mm": 586.31, "oni_pre_season": -0.61}, {"harvest_year": 2019, "yield_t_ha": 7.101, "vpd_mean_kpa": 0.9786, "precip_total_mm": 161.78, "ws2m_mean_ms": 2.331, "pre_season_rain_90d_mm": 553.81, "oni_pre_season": 1.04}, {"harvest_year": 2020, "yield_t_ha": 7.172, "vpd_mean_kpa": 1.2498, "precip_total_mm": 55.66, "ws2m_mean_ms": 2.185, "pre_season_rain_90d_mm": 641.46, "oni_pre_season": 0.72}, {"harvest_year": 2021, "yield_t_ha": 7.69, "vpd_mean_kpa": 0.7919, "precip_total_mm": 237.9, "ws2m_mean_ms": 2.247, "pre_season_rain_90d_mm": 1027.93, "oni_pre_season": -1.11}, {"harvest_year": 2022, "yield_t_ha": 7.337, "vpd_mean_kpa": 0.7757, "precip_total_mm": 212.32, "ws2m_mean_ms": 2.122, "pre_season_rain_90d_mm": 1106.9, "oni_pre_season": -0.91}, {"harvest_year": 2023, "yield_t_ha": 7.55, "vpd_mean_kpa": 0.7987, "precip_total_mm": 208.25, "ws2m_mean_ms": 2.258, "pre_season_rain_90d_mm": 765.53, "oni_pre_season": -0.82}, {"harvest_year": 2024, "yield_t_ha": 7.445, "vpd_mean_kpa": 1.044, "precip_total_mm": 88.34, "ws2m_mean_ms": 2.257, "pre_season_rain_90d_mm": 1022.91, "oni_pre_season": 1.9}], "he_thu": [{"harvest_year": 2015, "yield_t_ha": 5.552, "vpd_mean_kpa": 1.1649, "precip_total_mm": 324.75, "ws2m_mean_ms": 2.687, "pre_season_rain_90d_mm": 45.66, "oni_pre_season": 0.72}, {"harvest_year": 2016, "yield_t_ha": 5.486, "vpd_mean_kpa": 1.0916, "precip_total_mm": 497.3, "ws2m_mean_ms": 2.481, "pre_season_rain_90d_mm": 7.06, "oni_pre_season": 1.69}, {"harvest_year": 2017, "yield_t_ha": 5.406, "vpd_mean_kpa": 0.7895, "precip_total_mm": 536.67, "ws2m_mean_ms": 2.475, "pre_season_rain_90d_mm": 129.32, "oni_pre_season": 0.27}, {"harvest_year": 2018, "yield_t_ha": 5.527, "vpd_mean_kpa": 0.6281, "precip_total_mm": 1015.4, "ws2m_mean_ms": 2.3, "pre_season_rain_90d_mm": 221.41, "oni_pre_season": -0.55}, {"harvest_year": 2019, "yield_t_ha": 5.704, "vpd_mean_kpa": 0.6902, "precip_total_mm": 1024.95, "ws2m_mean_ms": 2.291, "pre_season_rain_90d_mm": 67.83, "oni_pre_season": 0.87}, {"harvest_year": 2020, "yield_t_ha": 5.709, "vpd_mean_kpa": 0.7292, "precip_total_mm": 1381.38, "ws2m_mean_ms": 1.864, "pre_season_rain_90d_mm": 116.36, "oni_pre_season": 0.57}, {"harvest_year": 2021, "yield_t_ha": 6.133, "vpd_mean_kpa": 0.5116, "precip_total_mm": 1094.97, "ws2m_mean_ms": 2.341, "pre_season_rain_90d_mm": 121.24, "oni_pre_season": -0.74}, {"harvest_year": 2022, "yield_t_ha": 6.057, "vpd_mean_kpa": 0.504, "precip_total_mm": 964.35, "ws2m_mean_ms": 2.133, "pre_season_rain_90d_mm": 331.34, "oni_pre_season": -0.77}, {"harvest_year": 2023, "yield_t_ha": 6.063, "vpd_mean_kpa": 0.8291, "precip_total_mm": 727.35, "ws2m_mean_ms": 2.6, "pre_season_rain_90d_mm": 33.52, "oni_pre_season": -0.11}, {"harvest_year": 2024, "yield_t_ha": 5.987, "vpd_mean_kpa": 1.0441, "precip_total_mm": 982.39, "ws2m_mean_ms": 2.365, "pre_season_rain_90d_mm": 15.86, "oni_pre_season": 1.18}], "thu_dong": [{"harvest_year": 2015, "yield_t_ha": 5.714, "vpd_mean_kpa": 0.5462, "precip_total_mm": 602.65, "ws2m_mean_ms": 2.306, "pre_season_rain_90d_mm": 297.91, "oni_pre_season": 1.19}, {"harvest_year": 2016, "yield_t_ha": 4.972, "vpd_mean_kpa": 0.482, "precip_total_mm": 742.44, "ws2m_mean_ms": 2.748, "pre_season_rain_90d_mm": 468.1, "oni_pre_season": 0.09}, {"harvest_year": 2017, "yield_t_ha": 5.645, "vpd_mean_kpa": 0.447, "precip_total_mm": 756.19, "ws2m_mean_ms": 2.221, "pre_season_rain_90d_mm": 469.61, "oni_pre_season": 0.32}, {"harvest_year": 2018, "yield_t_ha": 5.875, "vpd_mean_kpa": 0.4185, "precip_total_mm": 718.7, "ws2m_mean_ms": 2.389, "pre_season_rain_90d_mm": 919.84, "oni_pre_season": 0.13}, {"harvest_year": 2019, "yield_t_ha": 5.889, "vpd_mean_kpa": 0.4001, "precip_total_mm": 997.37, "ws2m_mean_ms": 2.363, "pre_season_rain_90d_mm": 988.45, "oni_pre_season": 0.59}, {"harvest_year": 2020, "yield_t_ha": 5.986, "vpd_mean_kpa": 0.3896, "precip_total_mm": 1370.93, "ws2m_mean_ms": 2.227, "pre_season_rain_90d_mm": 1242.5, "oni_pre_season": -0.18}, {"harvest_year": 2021, "yield_t_ha": 5.876, "vpd_mean_kpa": 0.3652, "precip_total_mm": 1308.64, "ws2m_mean_ms": 2.262, "pre_season_rain_90d_mm": 901.9, "oni_pre_season": -0.31}, {"harvest_year": 2022, "yield_t_ha": 6.029, "vpd_mean_kpa": 0.3912, "precip_total_mm": 1020.95, "ws2m_mean_ms": 2.085, "pre_season_rain_90d_mm": 885.33, "oni_pre_season": -0.73}, {"harvest_year": 2023, "yield_t_ha": 6.065, "vpd_mean_kpa": 0.4265, "precip_total_mm": 1215.98, "ws2m_mean_ms": 2.307, "pre_season_rain_90d_mm": 571.66, "oni_pre_season": 0.73}, {"harvest_year": 2024, "yield_t_ha": 6.239, "vpd_mean_kpa": 0.3968, "precip_total_mm": 1174.21, "ws2m_mean_ms": 2.126, "pre_season_rain_90d_mm": 885.89, "oni_pre_season": 0.18}]}}, {"province_id": "bac_lieu", "province": "Bạc Liêu", "ecological_subregion": "coastal_salinity_prone", "has_3seasons": false, "dx_mean": 7.46, "dx_min": 6.77, "dx_max": 7.76, "httd_mean": 5.89, "total_prod_10y_mt": 9.45, "clusters": {"KMeans_K3": 0, "KMedoids_PAM_K3": 1, "Agglomerative_Ward_K3": 0, "Agglomerative_Average_K3": 2, "DBSCAN_eps2_8_min2": 0, "MeanShift_Auto": 2}, "dx_series": [{"harvest_year": 2015, "yield_t_ha": 7.28, "vpd_mean_kpa": 0.6673, "precip_total_mm": 257.43, "ws2m_mean_ms": 3.561, "pre_season_rain_90d_mm": 628.09, "oni_pre_season": 0.7, "domain_outlier_flag": "none"}, {"harvest_year": 2016, "yield_t_ha": 6.77, "vpd_mean_kpa": 0.7151, "precip_total_mm": 246.21, "ws2m_mean_ms": 4.125, "pre_season_rain_90d_mm": 642.69, "oni_pre_season": 2.45, "domain_outlier_flag": "none"}, {"harvest_year": 2017, "yield_t_ha": 7.2, "vpd_mean_kpa": 0.4798, "precip_total_mm": 524.22, "ws2m_mean_ms": 3.427, "pre_season_rain_90d_mm": 863.0, "oni_pre_season": -0.49, "domain_outlier_flag": "none"}, {"harvest_year": 2018, "yield_t_ha": 7.37, "vpd_mean_kpa": 0.5059, "precip_total_mm": 420.16, "ws2m_mean_ms": 3.438, "pre_season_rain_90d_mm": 901.99, "oni_pre_season": -0.61, "domain_outlier_flag": "none"}, {"harvest_year": 2019, "yield_t_ha": 7.46, "vpd_mean_kpa": 0.6101, "precip_total_mm": 280.98, "ws2m_mean_ms": 3.874, "pre_season_rain_90d_mm": 800.05, "oni_pre_season": 1.04, "domain_outlier_flag": "none"}, {"harvest_year": 2020, "yield_t_ha": 7.67, "vpd_mean_kpa": 0.7779, "precip_total_mm": 168.94, "ws2m_mean_ms": 3.94, "pre_season_rain_90d_mm": 957.41, "oni_pre_season": 0.72, "domain_outlier_flag": "none"}, {"harvest_year": 2021, "yield_t_ha": 7.73, "vpd_mean_kpa": 0.5984, "precip_total_mm": 307.93, "ws2m_mean_ms": 3.335, "pre_season_rain_90d_mm": 1302.28, "oni_pre_season": -1.11, "domain_outlier_flag": "none"}, {"harvest_year": 2022, "yield_t_ha": 7.57, "vpd_mean_kpa": 0.5976, "precip_total_mm": 335.41, "ws2m_mean_ms": 3.662, "pre_season_rain_90d_mm": 958.37, "oni_pre_season": -0.91, "domain_outlier_flag": "none"}, {"harvest_year": 2023, "yield_t_ha": 7.76, "vpd_mean_kpa": 0.5228, "precip_total_mm": 482.63, "ws2m_mean_ms": 3.193, "pre_season_rain_90d_mm": 777.34, "oni_pre_season": -0.82, "domain_outlier_flag": "none"}, {"harvest_year": 2024, "yield_t_ha": 7.76, "vpd_mean_kpa": 0.6429, "precip_total_mm": 359.52, "ws2m_mean_ms": 3.791, "pre_season_rain_90d_mm": 1104.89, "oni_pre_season": 1.9, "domain_outlier_flag": "none"}], "comb_series": [{"harvest_year": 2015, "yield_t_ha": 5.74, "vpd_mean_kpa": 0.6314, "precip_total_mm": 1242.83, "ws2m_mean_ms": 3.127, "pre_season_rain_90d_mm": 48.5, "oni_pre_season": 0.72, "domain_outlier_flag": "none"}, {"harvest_year": 2016, "yield_t_ha": 5.76, "vpd_mean_kpa": 0.4698, "precip_total_mm": 1802.15, "ws2m_mean_ms": 3.286, "pre_season_rain_90d_mm": 15.55, "oni_pre_season": 1.69, "domain_outlier_flag": "none"}, {"harvest_year": 2017, "yield_t_ha": 5.66, "vpd_mean_kpa": 0.513, "precip_total_mm": 1628.45, "ws2m_mean_ms": 2.866, "pre_season_rain_90d_mm": 191.43, "oni_pre_season": 0.27, "domain_outlier_flag": "none"}, {"harvest_year": 2018, "yield_t_ha": 5.8, "vpd_mean_kpa": 0.5145, "precip_total_mm": 1694.0, "ws2m_mean_ms": 3.233, "pre_season_rain_90d_mm": 148.44, "oni_pre_season": -0.55, "domain_outlier_flag": "none"}, {"harvest_year": 2019, "yield_t_ha": 5.87, "vpd_mean_kpa": 0.5008, "precip_total_mm": 1834.05, "ws2m_mean_ms": 3.146, "pre_season_rain_90d_mm": 166.44, "oni_pre_season": 0.87, "domain_outlier_flag": "none"}, {"harvest_year": 2020, "yield_t_ha": 5.82, "vpd_mean_kpa": 0.5584, "precip_total_mm": 2302.4, "ws2m_mean_ms": 2.688, "pre_season_rain_90d_mm": 113.94, "oni_pre_season": 0.57, "domain_outlier_flag": "none"}, {"harvest_year": 2021, "yield_t_ha": 5.93, "vpd_mean_kpa": 0.483, "precip_total_mm": 1904.16, "ws2m_mean_ms": 3.005, "pre_season_rain_90d_mm": 201.95, "oni_pre_season": -0.74, "domain_outlier_flag": "none"}, {"harvest_year": 2022, "yield_t_ha": 5.86, "vpd_mean_kpa": 0.4788, "precip_total_mm": 1863.64, "ws2m_mean_ms": 2.755, "pre_season_rain_90d_mm": 452.53, "oni_pre_season": -0.77, "domain_outlier_flag": "none"}, {"harvest_year": 2023, "yield_t_ha": 6.2, "vpd_mean_kpa": 0.5191, "precip_total_mm": 2100.26, "ws2m_mean_ms": 3.126, "pre_season_rain_90d_mm": 170.89, "oni_pre_season": -0.11, "domain_outlier_flag": "none"}, {"harvest_year": 2024, "yield_t_ha": 6.26, "vpd_mean_kpa": 0.5346, "precip_total_mm": 2006.97, "ws2m_mean_ms": 2.86, "pre_season_rain_90d_mm": 65.38, "oni_pre_season": 1.18, "domain_outlier_flag": "none"}], "t1_series": {}}, {"province_id": "ben_tre", "province": "Bến Tre", "ecological_subregion": "coastal_salinity_prone", "has_3seasons": false, "dx_mean": 4.07, "dx_min": 0.04, "dx_max": 5.65, "httd_mean": 4.39, "total_prod_10y_mt": 1.24, "clusters": {"KMeans_K3": 1, "KMedoids_PAM_K3": 0, "Agglomerative_Ward_K3": 1, "Agglomerative_Average_K3": 0, "DBSCAN_eps2_8_min2": -1, "MeanShift_Auto": 4}, "dx_series": [{"harvest_year": 2015, "yield_t_ha": 5.09, "vpd_mean_kpa": 0.8125, "precip_total_mm": 163.05, "ws2m_mean_ms": 3.686, "pre_season_rain_90d_mm": 497.85, "oni_pre_season": 0.7, "domain_outlier_flag": "none"}, {"harvest_year": 2016, "yield_t_ha": 0.05, "vpd_mean_kpa": 0.7938, "precip_total_mm": 189.08, "ws2m_mean_ms": 4.274, "pre_season_rain_90d_mm": 522.9, "oni_pre_season": 2.45, "domain_outlier_flag": "extreme_salinity_crop_failure"}, {"harvest_year": 2017, "yield_t_ha": 4.42, "vpd_mean_kpa": 0.5149, "precip_total_mm": 469.53, "ws2m_mean_ms": 3.343, "pre_season_rain_90d_mm": 638.49, "oni_pre_season": -0.49, "domain_outlier_flag": "none"}, {"harvest_year": 2018, "yield_t_ha": 5.65, "vpd_mean_kpa": 0.5549, "precip_total_mm": 340.31, "ws2m_mean_ms": 3.345, "pre_season_rain_90d_mm": 747.36, "oni_pre_season": -0.61, "domain_outlier_flag": "none"}, {"harvest_year": 2019, "yield_t_ha": 4.82, "vpd_mean_kpa": 0.6533, "precip_total_mm": 225.25, "ws2m_mean_ms": 3.888, "pre_season_rain_90d_mm": 736.26, "oni_pre_season": 1.04, "domain_outlier_flag": "none"}, {"harvest_year": 2020, "yield_t_ha": 0.04, "vpd_mean_kpa": 0.801, "precip_total_mm": 134.58, "ws2m_mean_ms": 3.809, "pre_season_rain_90d_mm": 717.42, "oni_pre_season": 0.72, "domain_outlier_flag": "extreme_salinity_crop_failure"}, {"harvest_year": 2021, "yield_t_ha": 5.07, "vpd_mean_kpa": 0.6176, "precip_total_mm": 263.46, "ws2m_mean_ms": 3.186, "pre_season_rain_90d_mm": 1206.77, "oni_pre_season": -1.11, "domain_outlier_flag": "none"}, {"harvest_year": 2022, "yield_t_ha": 5.13, "vpd_mean_kpa": 0.6035, "precip_total_mm": 267.51, "ws2m_mean_ms": 3.528, "pre_season_rain_90d_mm": 967.03, "oni_pre_season": -0.91, "domain_outlier_flag": "none"}, {"harvest_year": 2023, "yield_t_ha": 5.29, "vpd_mean_kpa": 0.5639, "precip_total_mm": 378.72, "ws2m_mean_ms": 3.114, "pre_season_rain_90d_mm": 708.88, "oni_pre_season": -0.82, "domain_outlier_flag": "none"}, {"harvest_year": 2024, "yield_t_ha": 5.09, "vpd_mean_kpa": 0.6737, "precip_total_mm": 299.44, "ws2m_mean_ms": 3.61, "pre_season_rain_90d_mm": 892.1, "oni_pre_season": 1.9, "domain_outlier_flag": "none"}], "comb_series": [{"harvest_year": 2015, "yield_t_ha": 4.01, "vpd_mean_kpa": 0.6875, "precip_total_mm": 1003.44, "ws2m_mean_ms": 3.306, "pre_season_rain_90d_mm": 33.8, "oni_pre_season": 0.72, "domain_outlier_flag": "none"}, {"harvest_year": 2016, "yield_t_ha": 4.01, "vpd_mean_kpa": 0.5034, "precip_total_mm": 1385.34, "ws2m_mean_ms": 3.336, "pre_season_rain_90d_mm": 13.02, "oni_pre_season": 1.69, "domain_outlier_flag": "none"}, {"harvest_year": 2017, "yield_t_ha": 4.16, "vpd_mean_kpa": 0.5325, "precip_total_mm": 1332.79, "ws2m_mean_ms": 2.964, "pre_season_rain_90d_mm": 132.34, "oni_pre_season": 0.27, "domain_outlier_flag": "none"}, {"harvest_year": 2018, "yield_t_ha": 4.48, "vpd_mean_kpa": 0.5181, "precip_total_mm": 1544.04, "ws2m_mean_ms": 3.399, "pre_season_rain_90d_mm": 89.35, "oni_pre_season": -0.55, "domain_outlier_flag": "none"}, {"harvest_year": 2019, "yield_t_ha": 4.57, "vpd_mean_kpa": 0.503, "precip_total_mm": 1620.54, "ws2m_mean_ms": 3.292, "pre_season_rain_90d_mm": 172.33, "oni_pre_season": 0.87, "domain_outlier_flag": "none"}, {"harvest_year": 2020, "yield_t_ha": 3.47, "vpd_mean_kpa": 0.5424, "precip_total_mm": 2368.27, "ws2m_mean_ms": 2.723, "pre_season_rain_90d_mm": 82.27, "oni_pre_season": 0.57, "domain_outlier_flag": "none"}, {"harvest_year": 2021, "yield_t_ha": 4.66, "vpd_mean_kpa": 0.4711, "precip_total_mm": 1790.94, "ws2m_mean_ms": 3.125, "pre_season_rain_90d_mm": 210.45, "oni_pre_season": -0.74, "domain_outlier_flag": "none"}, {"harvest_year": 2022, "yield_t_ha": 4.85, "vpd_mean_kpa": 0.484, "precip_total_mm": 1676.31, "ws2m_mean_ms": 2.857, "pre_season_rain_90d_mm": 356.16, "oni_pre_season": -0.77, "domain_outlier_flag": "none"}, {"harvest_year": 2023, "yield_t_ha": 5.21, "vpd_mean_kpa": 0.5271, "precip_total_mm": 1796.61, "ws2m_mean_ms": 3.154, "pre_season_rain_90d_mm": 115.14, "oni_pre_season": -0.11, "domain_outlier_flag": "none"}, {"harvest_year": 2024, "yield_t_ha": 4.49, "vpd_mean_kpa": 0.5401, "precip_total_mm": 1725.09, "ws2m_mean_ms": 2.921, "pre_season_rain_90d_mm": 59.73, "oni_pre_season": 1.18, "domain_outlier_flag": "none"}], "t1_series": {}}, {"province_id": "ca_mau", "province": "Cà Mau", "ecological_subregion": "coastal_salinity_prone", "has_3seasons": false, "dx_mean": 5.59, "dx_min": 3.0, "dx_max": 6.52, "httd_mean": 4.51, "total_prod_10y_mt": 2.91, "clusters": {"KMeans_K3": 1, "KMedoids_PAM_K3": 0, "Agglomerative_Ward_K3": 1, "Agglomerative_Average_K3": 0, "DBSCAN_eps2_8_min2": 1, "MeanShift_Auto": 1}, "dx_series": [{"harvest_year": 2017, "yield_t_ha": 3.0, "vpd_mean_kpa": 0.5323, "precip_total_mm": 519.24, "ws2m_mean_ms": 3.781, "pre_season_rain_90d_mm": 839.54, "oni_pre_season": -0.49, "domain_outlier_flag": "none"}, {"harvest_year": 2019, "yield_t_ha": 5.39, "vpd_mean_kpa": 0.6589, "precip_total_mm": 301.1, "ws2m_mean_ms": 4.22, "pre_season_rain_90d_mm": 724.58, "oni_pre_season": 1.04, "domain_outlier_flag": "none"}, {"harvest_year": 2020, "yield_t_ha": 5.78, "vpd_mean_kpa": 0.8453, "precip_total_mm": 202.27, "ws2m_mean_ms": 4.235, "pre_season_rain_90d_mm": 799.44, "oni_pre_season": 0.72, "domain_outlier_flag": "none"}, {"harvest_year": 2021, "yield_t_ha": 6.52, "vpd_mean_kpa": 0.6509, "precip_total_mm": 357.87, "ws2m_mean_ms": 3.635, "pre_season_rain_90d_mm": 1152.78, "oni_pre_season": -1.11, "domain_outlier_flag": "none"}, {"harvest_year": 2022, "yield_t_ha": 6.08, "vpd_mean_kpa": 0.6372, "precip_total_mm": 405.59, "ws2m_mean_ms": 3.997, "pre_season_rain_90d_mm": 838.71, "oni_pre_season": -0.91, "domain_outlier_flag": "none"}, {"harvest_year": 2023, "yield_t_ha": 6.21, "vpd_mean_kpa": 0.5719, "precip_total_mm": 486.01, "ws2m_mean_ms": 3.512, "pre_season_rain_90d_mm": 743.63, "oni_pre_season": -0.82, "domain_outlier_flag": "none"}, {"harvest_year": 2024, "yield_t_ha": 6.17, "vpd_mean_kpa": 0.6798, "precip_total_mm": 391.82, "ws2m_mean_ms": 4.11, "pre_season_rain_90d_mm": 915.68, "oni_pre_season": 1.9, "domain_outlier_flag": "none"}], "comb_series": [{"harvest_year": 2015, "yield_t_ha": 4.18, "vpd_mean_kpa": 0.6604, "precip_total_mm": 1358.7, "ws2m_mean_ms": 3.361, "pre_season_rain_90d_mm": 68.92, "oni_pre_season": 0.72, "domain_outlier_flag": "none"}, {"harvest_year": 2016, "yield_t_ha": 4.48, "vpd_mean_kpa": 0.55, "precip_total_mm": 1695.63, "ws2m_mean_ms": 3.664, "pre_season_rain_90d_mm": 18.58, "oni_pre_season": 1.69, "domain_outlier_flag": "none"}, {"harvest_year": 2017, "yield_t_ha": 4.26, "vpd_mean_kpa": 0.5945, "precip_total_mm": 1486.2, "ws2m_mean_ms": 3.168, "pre_season_rain_90d_mm": 165.72, "oni_pre_season": 0.27, "domain_outlier_flag": "none"}, {"harvest_year": 2018, "yield_t_ha": 4.13, "vpd_mean_kpa": 0.5965, "precip_total_mm": 1582.68, "ws2m_mean_ms": 3.53, "pre_season_rain_90d_mm": 146.48, "oni_pre_season": -0.55, "domain_outlier_flag": "none"}, {"harvest_year": 2019, "yield_t_ha": 4.68, "vpd_mean_kpa": 0.59, "precip_total_mm": 1612.25, "ws2m_mean_ms": 3.43, "pre_season_rain_90d_mm": 156.3, "oni_pre_season": 0.87, "domain_outlier_flag": "none"}, {"harvest_year": 2020, "yield_t_ha": 3.88, "vpd_mean_kpa": 0.6341, "precip_total_mm": 1949.06, "ws2m_mean_ms": 2.986, "pre_season_rain_90d_mm": 130.23, "oni_pre_season": 0.57, "domain_outlier_flag": "none"}, {"harvest_year": 2021, "yield_t_ha": 4.85, "vpd_mean_kpa": 0.5714, "precip_total_mm": 1761.66, "ws2m_mean_ms": 3.309, "pre_season_rain_90d_mm": 156.56, "oni_pre_season": -0.74, "domain_outlier_flag": "none"}, {"harvest_year": 2022, "yield_t_ha": 4.65, "vpd_mean_kpa": 0.5605, "precip_total_mm": 1712.6, "ws2m_mean_ms": 3.054, "pre_season_rain_90d_mm": 390.51, "oni_pre_season": -0.77, "domain_outlier_flag": "none"}, {"harvest_year": 2023, "yield_t_ha": 4.95, "vpd_mean_kpa": 0.6116, "precip_total_mm": 1802.72, "ws2m_mean_ms": 3.48, "pre_season_rain_90d_mm": 140.26, "oni_pre_season": -0.11, "domain_outlier_flag": "none"}, {"harvest_year": 2024, "yield_t_ha": 5.02, "vpd_mean_kpa": 0.6327, "precip_total_mm": 1744.0, "ws2m_mean_ms": 3.19, "pre_season_rain_90d_mm": 58.43, "oni_pre_season": 1.18, "domain_outlier_flag": "none"}], "t1_series": {}}, {"province_id": "can_tho", "province": "Cần Thơ", "ecological_subregion": "upstream_alluvial_3crop", "has_3seasons": true, "dx_mean": 7.22, "dx_min": 6.52, "dx_max": 7.5, "httd_mean": 5.51, "total_prod_10y_mt": 13.86, "clusters": {"KMeans_K3": 0, "KMedoids_PAM_K3": 1, "Agglomerative_Ward_K3": 0, "Agglomerative_Average_K3": 1, "DBSCAN_eps2_8_min2": 0, "MeanShift_Auto": 0}, "dx_series": [{"harvest_year": 2015, "yield_t_ha": 7.39, "vpd_mean_kpa": 1.0766, "precip_total_mm": 85.99, "ws2m_mean_ms": 2.443, "pre_season_rain_90d_mm": 441.08, "oni_pre_season": 0.7, "domain_outlier_flag": "none"}, {"harvest_year": 2016, "yield_t_ha": 7.1, "vpd_mean_kpa": 1.1314, "precip_total_mm": 59.27, "ws2m_mean_ms": 2.914, "pre_season_rain_90d_mm": 495.97, "oni_pre_season": 2.45, "domain_outlier_flag": "none"}, {"harvest_year": 2017, "yield_t_ha": 6.52, "vpd_mean_kpa": 0.5729, "precip_total_mm": 315.63, "ws2m_mean_ms": 2.237, "pre_season_rain_90d_mm": 748.98, "oni_pre_season": -0.49, "domain_outlier_flag": "none"}, {"harvest_year": 2018, "yield_t_ha": 7.16, "vpd_mean_kpa": 0.5964, "precip_total_mm": 289.47, "ws2m_mean_ms": 2.211, "pre_season_rain_90d_mm": 739.29, "oni_pre_season": -0.61, "domain_outlier_flag": "none"}, {"harvest_year": 2019, "yield_t_ha": 6.96, "vpd_mean_kpa": 0.7744, "precip_total_mm": 204.61, "ws2m_mean_ms": 2.581, "pre_season_rain_90d_mm": 601.0, "oni_pre_season": 1.04, "domain_outlier_flag": "none"}, {"harvest_year": 2020, "yield_t_ha": 7.22, "vpd_mean_kpa": 1.0303, "precip_total_mm": 48.53, "ws2m_mean_ms": 2.642, "pre_season_rain_90d_mm": 749.69, "oni_pre_season": 0.72, "domain_outlier_flag": "none"}, {"harvest_year": 2021, "yield_t_ha": 7.45, "vpd_mean_kpa": 0.6954, "precip_total_mm": 216.14, "ws2m_mean_ms": 2.311, "pre_season_rain_90d_mm": 1081.82, "oni_pre_season": -1.11, "domain_outlier_flag": "none"}, {"harvest_year": 2022, "yield_t_ha": 7.42, "vpd_mean_kpa": 0.7124, "precip_total_mm": 188.71, "ws2m_mean_ms": 2.367, "pre_season_rain_90d_mm": 1052.84, "oni_pre_season": -0.91, "domain_outlier_flag": "none"}, {"harvest_year": 2023, "yield_t_ha": 7.46, "vpd_mean_kpa": 0.639, "precip_total_mm": 248.44, "ws2m_mean_ms": 2.234, "pre_season_rain_90d_mm": 801.52, "oni_pre_season": -0.82, "domain_outlier_flag": "none"}, {"harvest_year": 2024, "yield_t_ha": 7.5, "vpd_mean_kpa": 0.8847, "precip_total_mm": 108.45, "ws2m_mean_ms": 2.576, "pre_season_rain_90d_mm": 1068.56, "oni_pre_season": 1.9, "domain_outlier_flag": "none"}], "comb_series": [{"harvest_year": 2015, "yield_t_ha": 5.07, "vpd_mean_kpa": 0.8695, "precip_total_mm": 953.16, "ws2m_mean_ms": 2.59, "pre_season_rain_90d_mm": 13.86, "oni_pre_season": 0.72, "domain_outlier_flag": "none"}, {"harvest_year": 2016, "yield_t_ha": 5.1, "vpd_mean_kpa": 0.6804, "precip_total_mm": 1550.53, "ws2m_mean_ms": 2.633, "pre_season_rain_90d_mm": 2.74, "oni_pre_season": 1.69, "domain_outlier_flag": "none"}, {"harvest_year": 2017, "yield_t_ha": 5.37, "vpd_mean_kpa": 0.5491, "precip_total_mm": 1523.42, "ws2m_mean_ms": 2.241, "pre_season_rain_90d_mm": 147.95, "oni_pre_season": 0.27, "domain_outlier_flag": "none"}, {"harvest_year": 2018, "yield_t_ha": 5.4, "vpd_mean_kpa": 0.5414, "precip_total_mm": 1793.32, "ws2m_mean_ms": 2.484, "pre_season_rain_90d_mm": 167.8, "oni_pre_season": -0.55, "domain_outlier_flag": "none"}, {"harvest_year": 2019, "yield_t_ha": 5.57, "vpd_mean_kpa": 0.5326, "precip_total_mm": 2024.33, "ws2m_mean_ms": 2.405, "pre_season_rain_90d_mm": 66.72, "oni_pre_season": 0.87, "domain_outlier_flag": "none"}, {"harvest_year": 2020, "yield_t_ha": 5.71, "vpd_mean_kpa": 0.583, "precip_total_mm": 2664.8, "ws2m_mean_ms": 2.104, "pre_season_rain_90d_mm": 82.65, "oni_pre_season": 0.57, "domain_outlier_flag": "none"}, {"harvest_year": 2021, "yield_t_ha": 5.78, "vpd_mean_kpa": 0.4373, "precip_total_mm": 2230.14, "ws2m_mean_ms": 2.299, "pre_season_rain_90d_mm": 75.2, "oni_pre_season": -0.74, "domain_outlier_flag": "none"}, {"harvest_year": 2022, "yield_t_ha": 5.72, "vpd_mean_kpa": 0.4245, "precip_total_mm": 1967.2, "ws2m_mean_ms": 2.117, "pre_season_rain_90d_mm": 339.12, "oni_pre_season": -0.77, "domain_outlier_flag": "none"}, {"harvest_year": 2023, "yield_t_ha": 5.68, "vpd_mean_kpa": 0.568, "precip_total_mm": 2095.52, "ws2m_mean_ms": 2.442, "pre_season_rain_90d_mm": 46.25, "oni_pre_season": -0.11, "domain_outlier_flag": "none"}, {"harvest_year": 2024, "yield_t_ha": 5.67, "vpd_mean_kpa": 0.6825, "precip_total_mm": 2037.39, "ws2m_mean_ms": 2.268, "pre_season_rain_90d_mm": 6.11, "oni_pre_season": 1.18, "domain_outlier_flag": "none"}], "t1_series": {"dong_xuan": [{"harvest_year": 2015, "yield_t_ha": 7.392, "vpd_mean_kpa": 1.0766, "precip_total_mm": 85.99, "ws2m_mean_ms": 2.443, "pre_season_rain_90d_mm": 441.08, "oni_pre_season": 0.7}, {"harvest_year": 2016, "yield_t_ha": 7.101, "vpd_mean_kpa": 1.1314, "precip_total_mm": 59.27, "ws2m_mean_ms": 2.914, "pre_season_rain_90d_mm": 495.97, "oni_pre_season": 2.45}, {"harvest_year": 2017, "yield_t_ha": 6.515, "vpd_mean_kpa": 0.5729, "precip_total_mm": 315.63, "ws2m_mean_ms": 2.237, "pre_season_rain_90d_mm": 748.98, "oni_pre_season": -0.49}, {"harvest_year": 2018, "yield_t_ha": 7.163, "vpd_mean_kpa": 0.5964, "precip_total_mm": 289.47, "ws2m_mean_ms": 2.211, "pre_season_rain_90d_mm": 739.29, "oni_pre_season": -0.61}, {"harvest_year": 2019, "yield_t_ha": 6.959, "vpd_mean_kpa": 0.7744, "precip_total_mm": 204.61, "ws2m_mean_ms": 2.581, "pre_season_rain_90d_mm": 601.0, "oni_pre_season": 1.04}, {"harvest_year": 2020, "yield_t_ha": 7.224, "vpd_mean_kpa": 1.0303, "precip_total_mm": 48.53, "ws2m_mean_ms": 2.642, "pre_season_rain_90d_mm": 749.69, "oni_pre_season": 0.72}, {"harvest_year": 2021, "yield_t_ha": 7.454, "vpd_mean_kpa": 0.6954, "precip_total_mm": 216.14, "ws2m_mean_ms": 2.311, "pre_season_rain_90d_mm": 1081.82, "oni_pre_season": -1.11}, {"harvest_year": 2022, "yield_t_ha": 7.417, "vpd_mean_kpa": 0.7124, "precip_total_mm": 188.71, "ws2m_mean_ms": 2.367, "pre_season_rain_90d_mm": 1052.84, "oni_pre_season": -0.91}, {"harvest_year": 2023, "yield_t_ha": 7.461, "vpd_mean_kpa": 0.639, "precip_total_mm": 248.44, "ws2m_mean_ms": 2.234, "pre_season_rain_90d_mm": 801.52, "oni_pre_season": -0.82}, {"harvest_year": 2024, "yield_t_ha": 7.497, "vpd_mean_kpa": 0.8847, "precip_total_mm": 108.45, "ws2m_mean_ms": 2.576, "pre_season_rain_90d_mm": 1068.56, "oni_pre_season": 1.9}], "he_thu": [{"harvest_year": 2015, "yield_t_ha": 5.442, "vpd_mean_kpa": 1.2264, "precip_total_mm": 357.61, "ws2m_mean_ms": 2.736, "pre_season_rain_90d_mm": 13.86, "oni_pre_season": 0.72}, {"harvest_year": 2016, "yield_t_ha": 5.469, "vpd_mean_kpa": 0.9995, "precip_total_mm": 668.66, "ws2m_mean_ms": 2.471, "pre_season_rain_90d_mm": 2.74, "oni_pre_season": 1.69}, {"harvest_year": 2017, "yield_t_ha": 5.709, "vpd_mean_kpa": 0.6966, "precip_total_mm": 628.35, "ws2m_mean_ms": 2.377, "pre_season_rain_90d_mm": 147.95, "oni_pre_season": 0.27}, {"harvest_year": 2018, "yield_t_ha": 5.766, "vpd_mean_kpa": 0.6858, "precip_total_mm": 1003.9, "ws2m_mean_ms": 2.48, "pre_season_rain_90d_mm": 167.8, "oni_pre_season": -0.55}, {"harvest_year": 2019, "yield_t_ha": 5.914, "vpd_mean_kpa": 0.6889, "precip_total_mm": 989.88, "ws2m_mean_ms": 2.358, "pre_season_rain_90d_mm": 66.72, "oni_pre_season": 0.87}, {"harvest_year": 2020, "yield_t_ha": 6.117, "vpd_mean_kpa": 0.7837, "precip_total_mm": 1350.42, "ws2m_mean_ms": 1.994, "pre_season_rain_90d_mm": 82.65, "oni_pre_season": 0.57}, {"harvest_year": 2021, "yield_t_ha": 5.967, "vpd_mean_kpa": 0.518, "precip_total_mm": 1082.31, "ws2m_mean_ms": 2.372, "pre_season_rain_90d_mm": 75.2, "oni_pre_season": -0.74}, {"harvest_year": 2022, "yield_t_ha": 5.908, "vpd_mean_kpa": 0.4751, "precip_total_mm": 985.19, "ws2m_mean_ms": 2.165, "pre_season_rain_90d_mm": 339.12, "oni_pre_season": -0.77}, {"harvest_year": 2023, "yield_t_ha": 5.838, "vpd_mean_kpa": 0.743, "precip_total_mm": 949.94, "ws2m_mean_ms": 2.62, "pre_season_rain_90d_mm": 46.25, "oni_pre_season": -0.11}, {"harvest_year": 2024, "yield_t_ha": 5.824, "vpd_mean_kpa": 0.9873, "precip_total_mm": 918.77, "ws2m_mean_ms": 2.38, "pre_season_rain_90d_mm": 6.11, "oni_pre_season": 1.18}], "thu_dong": [{"harvest_year": 2015, "yield_t_ha": 4.65, "vpd_mean_kpa": 0.5258, "precip_total_mm": 608.05, "ws2m_mean_ms": 2.406, "pre_season_rain_90d_mm": 339.74, "oni_pre_season": 1.19}, {"harvest_year": 2016, "yield_t_ha": 4.721, "vpd_mean_kpa": 0.3634, "precip_total_mm": 938.55, "ws2m_mean_ms": 2.789, "pre_season_rain_90d_mm": 611.18, "oni_pre_season": 0.09}, {"harvest_year": 2017, "yield_t_ha": 4.995, "vpd_mean_kpa": 0.3995, "precip_total_mm": 951.86, "ws2m_mean_ms": 2.197, "pre_season_rain_90d_mm": 551.8, "oni_pre_season": 0.32}, {"harvest_year": 2018, "yield_t_ha": 4.992, "vpd_mean_kpa": 0.391, "precip_total_mm": 846.92, "ws2m_mean_ms": 2.524, "pre_season_rain_90d_mm": 907.8, "oni_pre_season": 0.13}, {"harvest_year": 2019, "yield_t_ha": 5.128, "vpd_mean_kpa": 0.3753, "precip_total_mm": 1069.54, "ws2m_mean_ms": 2.475, "pre_season_rain_90d_mm": 946.32, "oni_pre_season": 0.59}, {"harvest_year": 2020, "yield_t_ha": 5.264, "vpd_mean_kpa": 0.3824, "precip_total_mm": 1397.71, "ws2m_mean_ms": 2.212, "pre_season_rain_90d_mm": 1247.28, "oni_pre_season": -0.18}, {"harvest_year": 2021, "yield_t_ha": 5.576, "vpd_mean_kpa": 0.3539, "precip_total_mm": 1261.79, "ws2m_mean_ms": 2.305, "pre_season_rain_90d_mm": 877.22, "oni_pre_season": -0.31}, {"harvest_year": 2022, "yield_t_ha": 5.512, "vpd_mean_kpa": 0.3789, "precip_total_mm": 1006.58, "ws2m_mean_ms": 2.046, "pre_season_rain_90d_mm": 940.27, "oni_pre_season": -0.73}, {"harvest_year": 2023, "yield_t_ha": 5.518, "vpd_mean_kpa": 0.3871, "precip_total_mm": 1328.71, "ws2m_mean_ms": 2.354, "pre_season_rain_90d_mm": 733.86, "oni_pre_season": 0.73}, {"harvest_year": 2024, "yield_t_ha": 5.516, "vpd_mean_kpa": 0.3724, "precip_total_mm": 1198.94, "ws2m_mean_ms": 2.186, "pre_season_rain_90d_mm": 838.4, "oni_pre_season": 0.18}]}}, {"province_id": "hau_giang", "province": "Hậu Giang", "ecological_subregion": "middle_south_ql1", "has_3seasons": false, "dx_mean": 7.5, "dx_min": 6.82, "dx_max": 7.82, "httd_mean": 5.75, "total_prod_10y_mt": 12.47, "clusters": {"KMeans_K3": 0, "KMedoids_PAM_K3": 1, "Agglomerative_Ward_K3": 0, "Agglomerative_Average_K3": 1, "DBSCAN_eps2_8_min2": 0, "MeanShift_Auto": 0}, "dx_series": [{"harvest_year": 2015, "yield_t_ha": 7.73, "vpd_mean_kpa": 0.9267, "precip_total_mm": 106.92, "ws2m_mean_ms": 2.72, "pre_season_rain_90d_mm": 515.88, "oni_pre_season": 0.7, "domain_outlier_flag": "none"}, {"harvest_year": 2016, "yield_t_ha": 7.0, "vpd_mean_kpa": 0.9796, "precip_total_mm": 83.83, "ws2m_mean_ms": 3.238, "pre_season_rain_90d_mm": 565.05, "oni_pre_season": 2.45, "domain_outlier_flag": "none"}, {"harvest_year": 2017, "yield_t_ha": 6.82, "vpd_mean_kpa": 0.5293, "precip_total_mm": 356.74, "ws2m_mean_ms": 2.598, "pre_season_rain_90d_mm": 792.89, "oni_pre_season": -0.49, "domain_outlier_flag": "none"}, {"harvest_year": 2018, "yield_t_ha": 7.32, "vpd_mean_kpa": 0.5513, "precip_total_mm": 317.71, "ws2m_mean_ms": 2.524, "pre_season_rain_90d_mm": 837.95, "oni_pre_season": -0.61, "domain_outlier_flag": "none"}, {"harvest_year": 2019, "yield_t_ha": 7.34, "vpd_mean_kpa": 0.7062, "precip_total_mm": 226.63, "ws2m_mean_ms": 2.89, "pre_season_rain_90d_mm": 629.96, "oni_pre_season": 1.04, "domain_outlier_flag": "none"}, {"harvest_year": 2020, "yield_t_ha": 7.66, "vpd_mean_kpa": 0.9558, "precip_total_mm": 55.78, "ws2m_mean_ms": 3.005, "pre_season_rain_90d_mm": 781.93, "oni_pre_season": 0.72, "domain_outlier_flag": "none"}, {"harvest_year": 2021, "yield_t_ha": 7.82, "vpd_mean_kpa": 0.6566, "precip_total_mm": 208.4, "ws2m_mean_ms": 2.566, "pre_season_rain_90d_mm": 1124.38, "oni_pre_season": -1.11, "domain_outlier_flag": "none"}, {"harvest_year": 2022, "yield_t_ha": 7.78, "vpd_mean_kpa": 0.669, "precip_total_mm": 256.95, "ws2m_mean_ms": 2.735, "pre_season_rain_90d_mm": 983.02, "oni_pre_season": -0.91, "domain_outlier_flag": "none"}, {"harvest_year": 2023, "yield_t_ha": 7.75, "vpd_mean_kpa": 0.5915, "precip_total_mm": 294.07, "ws2m_mean_ms": 2.461, "pre_season_rain_90d_mm": 788.63, "oni_pre_season": -0.82, "domain_outlier_flag": "none"}, {"harvest_year": 2024, "yield_t_ha": 7.76, "vpd_mean_kpa": 0.7988, "precip_total_mm": 163.32, "ws2m_mean_ms": 2.935, "pre_season_rain_90d_mm": 1108.69, "oni_pre_season": 1.9, "domain_outlier_flag": "none"}], "comb_series": [{"harvest_year": 2015, "yield_t_ha": 5.31, "vpd_mean_kpa": 0.7402, "precip_total_mm": 1053.35, "ws2m_mean_ms": 2.634, "pre_season_rain_90d_mm": 16.73, "oni_pre_season": 0.72, "domain_outlier_flag": "none"}, {"harvest_year": 2016, "yield_t_ha": 5.5, "vpd_mean_kpa": 0.526, "precip_total_mm": 1703.81, "ws2m_mean_ms": 2.677, "pre_season_rain_90d_mm": 3.03, "oni_pre_season": 1.69, "domain_outlier_flag": "none"}, {"harvest_year": 2017, "yield_t_ha": 5.67, "vpd_mean_kpa": 0.4813, "precip_total_mm": 1589.29, "ws2m_mean_ms": 2.311, "pre_season_rain_90d_mm": 179.02, "oni_pre_season": 0.27, "domain_outlier_flag": "none"}, {"harvest_year": 2018, "yield_t_ha": 5.8, "vpd_mean_kpa": 0.4821, "precip_total_mm": 1774.88, "ws2m_mean_ms": 2.578, "pre_season_rain_90d_mm": 109.77, "oni_pre_season": -0.55, "domain_outlier_flag": "none"}, {"harvest_year": 2019, "yield_t_ha": 5.81, "vpd_mean_kpa": 0.451, "precip_total_mm": 2007.26, "ws2m_mean_ms": 2.509, "pre_season_rain_90d_mm": 79.83, "oni_pre_season": 0.87, "domain_outlier_flag": "none"}, {"harvest_year": 2020, "yield_t_ha": 5.8, "vpd_mean_kpa": 0.5408, "precip_total_mm": 2574.84, "ws2m_mean_ms": 2.151, "pre_season_rain_90d_mm": 103.36, "oni_pre_season": 0.57, "domain_outlier_flag": "none"}, {"harvest_year": 2021, "yield_t_ha": 6.0, "vpd_mean_kpa": 0.4169, "precip_total_mm": 2093.86, "ws2m_mean_ms": 2.412, "pre_season_rain_90d_mm": 172.52, "oni_pre_season": -0.74, "domain_outlier_flag": "none"}, {"harvest_year": 2022, "yield_t_ha": 5.89, "vpd_mean_kpa": 0.4073, "precip_total_mm": 1968.42, "ws2m_mean_ms": 2.206, "pre_season_rain_90d_mm": 393.89, "oni_pre_season": -0.77, "domain_outlier_flag": "none"}, {"harvest_year": 2023, "yield_t_ha": 5.88, "vpd_mean_kpa": 0.5034, "precip_total_mm": 2160.65, "ws2m_mean_ms": 2.527, "pre_season_rain_90d_mm": 79.98, "oni_pre_season": -0.11, "domain_outlier_flag": "none"}, {"harvest_year": 2024, "yield_t_ha": 5.84, "vpd_mean_kpa": 0.5332, "precip_total_mm": 2081.71, "ws2m_mean_ms": 2.32, "pre_season_rain_90d_mm": 5.34, "oni_pre_season": 1.18, "domain_outlier_flag": "none"}], "t1_series": {}}, {"province_id": "kien_giang", "province": "Kiên Giang", "ecological_subregion": "upstream_alluvial_3crop", "has_3seasons": true, "dx_mean": 7.11, "dx_min": 6.02, "dx_max": 7.75, "httd_mean": 5.49, "total_prod_10y_mt": 41.32, "clusters": {"KMeans_K3": 0, "KMedoids_PAM_K3": 1, "Agglomerative_Ward_K3": 0, "Agglomerative_Average_K3": 1, "DBSCAN_eps2_8_min2": 0, "MeanShift_Auto": 0}, "dx_series": [{"harvest_year": 2015, "yield_t_ha": 7.24, "vpd_mean_kpa": 1.0153, "precip_total_mm": 113.46, "ws2m_mean_ms": 2.563, "pre_season_rain_90d_mm": 558.92, "oni_pre_season": 0.7, "domain_outlier_flag": "none"}, {"harvest_year": 2016, "yield_t_ha": 6.15, "vpd_mean_kpa": 1.0966, "precip_total_mm": 86.75, "ws2m_mean_ms": 2.957, "pre_season_rain_90d_mm": 605.08, "oni_pre_season": 2.45, "domain_outlier_flag": "none"}, {"harvest_year": 2017, "yield_t_ha": 6.02, "vpd_mean_kpa": 0.6718, "precip_total_mm": 311.23, "ws2m_mean_ms": 2.696, "pre_season_rain_90d_mm": 766.92, "oni_pre_season": -0.49, "domain_outlier_flag": "none"}, {"harvest_year": 2018, "yield_t_ha": 7.07, "vpd_mean_kpa": 0.6885, "precip_total_mm": 280.55, "ws2m_mean_ms": 2.635, "pre_season_rain_90d_mm": 690.28, "oni_pre_season": -0.61, "domain_outlier_flag": "none"}, {"harvest_year": 2019, "yield_t_ha": 6.88, "vpd_mean_kpa": 0.8579, "precip_total_mm": 194.97, "ws2m_mean_ms": 2.924, "pre_season_rain_90d_mm": 612.99, "oni_pre_season": 1.04, "domain_outlier_flag": "none"}, {"harvest_year": 2020, "yield_t_ha": 7.32, "vpd_mean_kpa": 1.0955, "precip_total_mm": 69.59, "ws2m_mean_ms": 2.878, "pre_season_rain_90d_mm": 713.67, "oni_pre_season": 0.72, "domain_outlier_flag": "none"}, {"harvest_year": 2021, "yield_t_ha": 7.62, "vpd_mean_kpa": 0.7623, "precip_total_mm": 243.87, "ws2m_mean_ms": 2.754, "pre_season_rain_90d_mm": 1070.04, "oni_pre_season": -1.11, "domain_outlier_flag": "none"}, {"harvest_year": 2022, "yield_t_ha": 7.36, "vpd_mean_kpa": 0.7663, "precip_total_mm": 216.2, "ws2m_mean_ms": 2.773, "pre_season_rain_90d_mm": 1025.35, "oni_pre_season": -0.91, "domain_outlier_flag": "none"}, {"harvest_year": 2023, "yield_t_ha": 7.68, "vpd_mean_kpa": 0.731, "precip_total_mm": 238.48, "ws2m_mean_ms": 2.716, "pre_season_rain_90d_mm": 815.48, "oni_pre_season": -0.82, "domain_outlier_flag": "none"}, {"harvest_year": 2024, "yield_t_ha": 7.75, "vpd_mean_kpa": 0.9477, "precip_total_mm": 123.83, "ws2m_mean_ms": 2.922, "pre_season_rain_90d_mm": 1036.39, "oni_pre_season": 1.9, "domain_outlier_flag": "none"}], "comb_series": [{"harvest_year": 2015, "yield_t_ha": 5.35, "vpd_mean_kpa": 0.7576, "precip_total_mm": 1182.88, "ws2m_mean_ms": 2.883, "pre_season_rain_90d_mm": 38.2, "oni_pre_season": 0.72, "domain_outlier_flag": "none"}, {"harvest_year": 2016, "yield_t_ha": 5.44, "vpd_mean_kpa": 0.7061, "precip_total_mm": 1550.61, "ws2m_mean_ms": 3.051, "pre_season_rain_90d_mm": 8.09, "oni_pre_season": 1.69, "domain_outlier_flag": "none"}, {"harvest_year": 2017, "yield_t_ha": 5.46, "vpd_mean_kpa": 0.6175, "precip_total_mm": 1458.46, "ws2m_mean_ms": 2.7, "pre_season_rain_90d_mm": 140.21, "oni_pre_season": 0.27, "domain_outlier_flag": "none"}, {"harvest_year": 2018, "yield_t_ha": 5.13, "vpd_mean_kpa": 0.5822, "precip_total_mm": 1785.22, "ws2m_mean_ms": 2.865, "pre_season_rain_90d_mm": 187.66, "oni_pre_season": -0.55, "domain_outlier_flag": "none"}, {"harvest_year": 2019, "yield_t_ha": 5.38, "vpd_mean_kpa": 0.5955, "precip_total_mm": 1987.38, "ws2m_mean_ms": 2.807, "pre_season_rain_90d_mm": 62.72, "oni_pre_season": 0.87, "domain_outlier_flag": "none"}, {"harvest_year": 2020, "yield_t_ha": 5.58, "vpd_mean_kpa": 0.6194, "precip_total_mm": 2404.46, "ws2m_mean_ms": 2.493, "pre_season_rain_90d_mm": 110.08, "oni_pre_season": 0.57, "domain_outlier_flag": "none"}, {"harvest_year": 2021, "yield_t_ha": 5.59, "vpd_mean_kpa": 0.5199, "precip_total_mm": 2134.26, "ws2m_mean_ms": 2.758, "pre_season_rain_90d_mm": 94.7, "oni_pre_season": -0.74, "domain_outlier_flag": "none"}, {"harvest_year": 2022, "yield_t_ha": 5.61, "vpd_mean_kpa": 0.4996, "precip_total_mm": 1929.03, "ws2m_mean_ms": 2.569, "pre_season_rain_90d_mm": 327.11, "oni_pre_season": -0.77, "domain_outlier_flag": "none"}, {"harvest_year": 2023, "yield_t_ha": 5.6, "vpd_mean_kpa": 0.6255, "precip_total_mm": 1938.16, "ws2m_mean_ms": 2.88, "pre_season_rain_90d_mm": 52.72, "oni_pre_season": -0.11, "domain_outlier_flag": "none"}, {"harvest_year": 2024, "yield_t_ha": 5.74, "vpd_mean_kpa": 0.7256, "precip_total_mm": 2069.45, "ws2m_mean_ms": 2.642, "pre_season_rain_90d_mm": 14.81, "oni_pre_season": 1.18, "domain_outlier_flag": "none"}], "t1_series": {"dong_xuan": [{"harvest_year": 2015, "yield_t_ha": 7.238, "vpd_mean_kpa": 1.0153, "precip_total_mm": 113.46, "ws2m_mean_ms": 2.563, "pre_season_rain_90d_mm": 558.92, "oni_pre_season": 0.7}, {"harvest_year": 2016, "yield_t_ha": 6.146, "vpd_mean_kpa": 1.0966, "precip_total_mm": 86.75, "ws2m_mean_ms": 2.957, "pre_season_rain_90d_mm": 605.08, "oni_pre_season": 2.45}, {"harvest_year": 2017, "yield_t_ha": 6.024, "vpd_mean_kpa": 0.6718, "precip_total_mm": 311.23, "ws2m_mean_ms": 2.696, "pre_season_rain_90d_mm": 766.92, "oni_pre_season": -0.49}, {"harvest_year": 2018, "yield_t_ha": 7.073, "vpd_mean_kpa": 0.6885, "precip_total_mm": 280.55, "ws2m_mean_ms": 2.635, "pre_season_rain_90d_mm": 690.28, "oni_pre_season": -0.61}, {"harvest_year": 2019, "yield_t_ha": 6.88, "vpd_mean_kpa": 0.8579, "precip_total_mm": 194.97, "ws2m_mean_ms": 2.924, "pre_season_rain_90d_mm": 612.99, "oni_pre_season": 1.04}, {"harvest_year": 2020, "yield_t_ha": 7.322, "vpd_mean_kpa": 1.0955, "precip_total_mm": 69.59, "ws2m_mean_ms": 2.878, "pre_season_rain_90d_mm": 713.67, "oni_pre_season": 0.72}, {"harvest_year": 2021, "yield_t_ha": 7.616, "vpd_mean_kpa": 0.7623, "precip_total_mm": 243.87, "ws2m_mean_ms": 2.754, "pre_season_rain_90d_mm": 1070.04, "oni_pre_season": -1.11}, {"harvest_year": 2022, "yield_t_ha": 7.361, "vpd_mean_kpa": 0.7663, "precip_total_mm": 216.2, "ws2m_mean_ms": 2.773, "pre_season_rain_90d_mm": 1025.35, "oni_pre_season": -0.91}, {"harvest_year": 2023, "yield_t_ha": 7.684, "vpd_mean_kpa": 0.731, "precip_total_mm": 238.48, "ws2m_mean_ms": 2.716, "pre_season_rain_90d_mm": 815.48, "oni_pre_season": -0.82}, {"harvest_year": 2024, "yield_t_ha": 7.75, "vpd_mean_kpa": 0.9477, "precip_total_mm": 123.83, "ws2m_mean_ms": 2.922, "pre_season_rain_90d_mm": 1036.39, "oni_pre_season": 1.9}], "he_thu": [{"harvest_year": 2015, "yield_t_ha": 5.383, "vpd_mean_kpa": 1.0259, "precip_total_mm": 458.4, "ws2m_mean_ms": 2.988, "pre_season_rain_90d_mm": 38.2, "oni_pre_season": 0.72}, {"harvest_year": 2016, "yield_t_ha": 5.474, "vpd_mean_kpa": 0.9974, "precip_total_mm": 640.84, "ws2m_mean_ms": 2.813, "pre_season_rain_90d_mm": 8.09, "oni_pre_season": 1.69}, {"harvest_year": 2017, "yield_t_ha": 5.506, "vpd_mean_kpa": 0.7606, "precip_total_mm": 624.26, "ws2m_mean_ms": 2.847, "pre_season_rain_90d_mm": 140.21, "oni_pre_season": 0.27}, {"harvest_year": 2018, "yield_t_ha": 5.112, "vpd_mean_kpa": 0.7009, "precip_total_mm": 1010.12, "ws2m_mean_ms": 2.821, "pre_season_rain_90d_mm": 187.66, "oni_pre_season": -0.55}, {"harvest_year": 2019, "yield_t_ha": 5.405, "vpd_mean_kpa": 0.7376, "precip_total_mm": 960.16, "ws2m_mean_ms": 2.748, "pre_season_rain_90d_mm": 62.72, "oni_pre_season": 0.87}, {"harvest_year": 2020, "yield_t_ha": 5.608, "vpd_mean_kpa": 0.7764, "precip_total_mm": 1112.03, "ws2m_mean_ms": 2.301, "pre_season_rain_90d_mm": 110.08, "oni_pre_season": 0.57}, {"harvest_year": 2021, "yield_t_ha": 5.61, "vpd_mean_kpa": 0.6083, "precip_total_mm": 1018.14, "ws2m_mean_ms": 2.837, "pre_season_rain_90d_mm": 94.7, "oni_pre_season": -0.74}, {"harvest_year": 2022, "yield_t_ha": 5.674, "vpd_mean_kpa": 0.5554, "precip_total_mm": 929.13, "ws2m_mean_ms": 2.618, "pre_season_rain_90d_mm": 327.11, "oni_pre_season": -0.77}, {"harvest_year": 2023, "yield_t_ha": 5.644, "vpd_mean_kpa": 0.7792, "precip_total_mm": 826.25, "ws2m_mean_ms": 3.078, "pre_season_rain_90d_mm": 52.72, "oni_pre_season": -0.11}, {"harvest_year": 2024, "yield_t_ha": 5.763, "vpd_mean_kpa": 0.999, "precip_total_mm": 938.34, "ws2m_mean_ms": 2.703, "pre_season_rain_90d_mm": 14.81, "oni_pre_season": 1.18}], "thu_dong": [{"harvest_year": 2015, "yield_t_ha": 5.228, "vpd_mean_kpa": 0.5006, "precip_total_mm": 737.94, "ws2m_mean_ms": 2.739, "pre_season_rain_90d_mm": 430.31, "oni_pre_season": 1.19}, {"harvest_year": 2016, "yield_t_ha": 5.342, "vpd_mean_kpa": 0.4207, "precip_total_mm": 964.02, "ws2m_mean_ms": 3.286, "pre_season_rain_90d_mm": 584.46, "oni_pre_season": 0.09}, {"harvest_year": 2017, "yield_t_ha": 5.28, "vpd_mean_kpa": 0.4715, "precip_total_mm": 889.46, "ws2m_mean_ms": 2.649, "pre_season_rain_90d_mm": 549.36, "oni_pre_season": 0.32}, {"harvest_year": 2018, "yield_t_ha": 5.222, "vpd_mean_kpa": 0.4576, "precip_total_mm": 832.37, "ws2m_mean_ms": 2.953, "pre_season_rain_90d_mm": 906.41, "oni_pre_season": 0.13}, {"harvest_year": 2019, "yield_t_ha": 5.272, "vpd_mean_kpa": 0.4538, "precip_total_mm": 1062.19, "ws2m_mean_ms": 2.892, "pre_season_rain_90d_mm": 916.15, "oni_pre_season": 0.59}, {"harvest_year": 2020, "yield_t_ha": 5.499, "vpd_mean_kpa": 0.4637, "precip_total_mm": 1388.59, "ws2m_mean_ms": 2.684, "pre_season_rain_90d_mm": 985.05, "oni_pre_season": -0.18}, {"harvest_year": 2021, "yield_t_ha": 5.533, "vpd_mean_kpa": 0.4309, "precip_total_mm": 1209.48, "ws2m_mean_ms": 2.774, "pre_season_rain_90d_mm": 850.74, "oni_pre_season": -0.31}, {"harvest_year": 2022, "yield_t_ha": 5.33, "vpd_mean_kpa": 0.4482, "precip_total_mm": 1031.88, "ws2m_mean_ms": 2.492, "pre_season_rain_90d_mm": 866.03, "oni_pre_season": -0.73}, {"harvest_year": 2023, "yield_t_ha": 5.47, "vpd_mean_kpa": 0.4663, "precip_total_mm": 1246.97, "ws2m_mean_ms": 2.778, "pre_season_rain_90d_mm": 657.43, "oni_pre_season": 0.73}, {"harvest_year": 2024, "yield_t_ha": 5.681, "vpd_mean_kpa": 0.4462, "precip_total_mm": 1214.15, "ws2m_mean_ms": 2.612, "pre_season_rain_90d_mm": 854.64, "oni_pre_season": 0.18}]}}, {"province_id": "long_an", "province": "Long An", "ecological_subregion": "middle_south_ql1", "has_3seasons": false, "dx_mean": 6.38, "dx_min": 5.59, "dx_max": 6.78, "httd_mean": 4.94, "total_prod_10y_mt": 28.79, "clusters": {"KMeans_K3": 2, "KMedoids_PAM_K3": 2, "Agglomerative_Ward_K3": 2, "Agglomerative_Average_K3": 1, "DBSCAN_eps2_8_min2": 0, "MeanShift_Auto": 0}, "dx_series": [{"harvest_year": 2015, "yield_t_ha": 6.71, "vpd_mean_kpa": 1.3173, "precip_total_mm": 61.51, "ws2m_mean_ms": 2.142, "pre_season_rain_90d_mm": 370.3, "oni_pre_season": 0.7, "domain_outlier_flag": "none"}, {"harvest_year": 2016, "yield_t_ha": 6.05, "vpd_mean_kpa": 1.3803, "precip_total_mm": 67.17, "ws2m_mean_ms": 2.515, "pre_season_rain_90d_mm": 418.58, "oni_pre_season": 2.45, "domain_outlier_flag": "none"}, {"harvest_year": 2017, "yield_t_ha": 5.59, "vpd_mean_kpa": 0.8716, "precip_total_mm": 212.63, "ws2m_mean_ms": 2.022, "pre_season_rain_90d_mm": 462.2, "oni_pre_season": -0.49, "domain_outlier_flag": "none"}, {"harvest_year": 2018, "yield_t_ha": 6.12, "vpd_mean_kpa": 0.8451, "precip_total_mm": 206.88, "ws2m_mean_ms": 1.94, "pre_season_rain_90d_mm": 548.02, "oni_pre_season": -0.61, "domain_outlier_flag": "none"}, {"harvest_year": 2019, "yield_t_ha": 6.34, "vpd_mean_kpa": 1.0114, "precip_total_mm": 136.36, "ws2m_mean_ms": 2.366, "pre_season_rain_90d_mm": 489.31, "oni_pre_season": 1.04, "domain_outlier_flag": "none"}, {"harvest_year": 2020, "yield_t_ha": 6.49, "vpd_mean_kpa": 1.2875, "precip_total_mm": 40.02, "ws2m_mean_ms": 2.118, "pre_season_rain_90d_mm": 484.79, "oni_pre_season": 0.72, "domain_outlier_flag": "none"}, {"harvest_year": 2021, "yield_t_ha": 6.65, "vpd_mean_kpa": 0.8053, "precip_total_mm": 164.91, "ws2m_mean_ms": 2.005, "pre_season_rain_90d_mm": 951.05, "oni_pre_season": -1.11, "domain_outlier_flag": "none"}, {"harvest_year": 2022, "yield_t_ha": 6.45, "vpd_mean_kpa": 0.8247, "precip_total_mm": 199.74, "ws2m_mean_ms": 1.95, "pre_season_rain_90d_mm": 919.79, "oni_pre_season": -0.91, "domain_outlier_flag": "none"}, {"harvest_year": 2023, "yield_t_ha": 6.78, "vpd_mean_kpa": 0.7899, "precip_total_mm": 225.76, "ws2m_mean_ms": 1.945, "pre_season_rain_90d_mm": 638.49, "oni_pre_season": -0.82, "domain_outlier_flag": "none"}, {"harvest_year": 2024, "yield_t_ha": 6.61, "vpd_mean_kpa": 1.0316, "precip_total_mm": 99.3, "ws2m_mean_ms": 2.079, "pre_season_rain_90d_mm": 790.48, "oni_pre_season": 1.9, "domain_outlier_flag": "none"}], "comb_series": [{"harvest_year": 2015, "yield_t_ha": 4.69, "vpd_mean_kpa": 0.8789, "precip_total_mm": 832.72, "ws2m_mean_ms": 2.398, "pre_season_rain_90d_mm": 23.24, "oni_pre_season": 0.72, "domain_outlier_flag": "none"}, {"harvest_year": 2016, "yield_t_ha": 4.75, "vpd_mean_kpa": 0.7264, "precip_total_mm": 979.81, "ws2m_mean_ms": 2.503, "pre_season_rain_90d_mm": 2.61, "oni_pre_season": 1.69, "domain_outlier_flag": "none"}, {"harvest_year": 2017, "yield_t_ha": 4.57, "vpd_mean_kpa": 0.5901, "precip_total_mm": 1087.73, "ws2m_mean_ms": 2.157, "pre_season_rain_90d_mm": 83.86, "oni_pre_season": 0.27, "domain_outlier_flag": "none"}, {"harvest_year": 2018, "yield_t_ha": 4.95, "vpd_mean_kpa": 0.5176, "precip_total_mm": 1422.9, "ws2m_mean_ms": 2.304, "pre_season_rain_90d_mm": 72.52, "oni_pre_season": -0.55, "domain_outlier_flag": "none"}, {"harvest_year": 2019, "yield_t_ha": 4.76, "vpd_mean_kpa": 0.4738, "precip_total_mm": 1601.59, "ws2m_mean_ms": 2.211, "pre_season_rain_90d_mm": 64.09, "oni_pre_season": 0.87, "domain_outlier_flag": "none"}, {"harvest_year": 2020, "yield_t_ha": 4.93, "vpd_mean_kpa": 0.5516, "precip_total_mm": 2475.77, "ws2m_mean_ms": 1.919, "pre_season_rain_90d_mm": 83.38, "oni_pre_season": 0.57, "domain_outlier_flag": "none"}, {"harvest_year": 2021, "yield_t_ha": 4.99, "vpd_mean_kpa": 0.4126, "precip_total_mm": 1957.31, "ws2m_mean_ms": 2.152, "pre_season_rain_90d_mm": 150.84, "oni_pre_season": -0.74, "domain_outlier_flag": "none"}, {"harvest_year": 2022, "yield_t_ha": 4.97, "vpd_mean_kpa": 0.4227, "precip_total_mm": 1827.42, "ws2m_mean_ms": 1.978, "pre_season_rain_90d_mm": 295.17, "oni_pre_season": -0.77, "domain_outlier_flag": "none"}, {"harvest_year": 2023, "yield_t_ha": 5.34, "vpd_mean_kpa": 0.578, "precip_total_mm": 1588.97, "ws2m_mean_ms": 2.246, "pre_season_rain_90d_mm": 26.2, "oni_pre_season": -0.11, "domain_outlier_flag": "none"}, {"harvest_year": 2024, "yield_t_ha": 5.49, "vpd_mean_kpa": 0.5918, "precip_total_mm": 1530.35, "ws2m_mean_ms": 2.058, "pre_season_rain_90d_mm": 5.51, "oni_pre_season": 1.18, "domain_outlier_flag": "none"}], "t1_series": {}}, {"province_id": "soc_trang", "province": "Sóc Trăng", "ecological_subregion": "middle_south_ql1", "has_3seasons": false, "dx_mean": 6.63, "dx_min": 6.24, "dx_max": 7.01, "httd_mean": 5.62, "total_prod_10y_mt": 20.64, "clusters": {"KMeans_K3": 0, "KMedoids_PAM_K3": 1, "Agglomerative_Ward_K3": 0, "Agglomerative_Average_K3": 1, "DBSCAN_eps2_8_min2": 0, "MeanShift_Auto": 3}, "dx_series": [{"harvest_year": 2015, "yield_t_ha": 6.85, "vpd_mean_kpa": 0.7687, "precip_total_mm": 116.24, "ws2m_mean_ms": 3.972, "pre_season_rain_90d_mm": 590.26, "oni_pre_season": 0.7, "domain_outlier_flag": "none"}, {"harvest_year": 2016, "yield_t_ha": 6.24, "vpd_mean_kpa": 0.8074, "precip_total_mm": 89.79, "ws2m_mean_ms": 4.512, "pre_season_rain_90d_mm": 636.0, "oni_pre_season": 2.45, "domain_outlier_flag": "none"}, {"harvest_year": 2017, "yield_t_ha": 6.45, "vpd_mean_kpa": 0.5373, "precip_total_mm": 338.47, "ws2m_mean_ms": 3.798, "pre_season_rain_90d_mm": 831.41, "oni_pre_season": -0.49, "domain_outlier_flag": "none"}, {"harvest_year": 2018, "yield_t_ha": 6.46, "vpd_mean_kpa": 0.5584, "precip_total_mm": 286.49, "ws2m_mean_ms": 3.774, "pre_season_rain_90d_mm": 897.79, "oni_pre_season": -0.61, "domain_outlier_flag": "none"}, {"harvest_year": 2019, "yield_t_ha": 6.52, "vpd_mean_kpa": 0.6878, "precip_total_mm": 215.16, "ws2m_mean_ms": 4.042, "pre_season_rain_90d_mm": 622.98, "oni_pre_season": 1.04, "domain_outlier_flag": "none"}, {"harvest_year": 2020, "yield_t_ha": 6.48, "vpd_mean_kpa": 0.8388, "precip_total_mm": 49.78, "ws2m_mean_ms": 4.336, "pre_season_rain_90d_mm": 767.63, "oni_pre_season": 0.72, "domain_outlier_flag": "none"}, {"harvest_year": 2021, "yield_t_ha": 6.79, "vpd_mean_kpa": 0.6493, "precip_total_mm": 181.09, "ws2m_mean_ms": 3.712, "pre_season_rain_90d_mm": 1158.26, "oni_pre_season": -1.11, "domain_outlier_flag": "none"}, {"harvest_year": 2022, "yield_t_ha": 6.71, "vpd_mean_kpa": 0.6456, "precip_total_mm": 242.03, "ws2m_mean_ms": 3.986, "pre_season_rain_90d_mm": 931.84, "oni_pre_season": -0.91, "domain_outlier_flag": "none"}, {"harvest_year": 2023, "yield_t_ha": 6.8, "vpd_mean_kpa": 0.5926, "precip_total_mm": 294.52, "ws2m_mean_ms": 3.611, "pre_season_rain_90d_mm": 771.76, "oni_pre_season": -0.82, "domain_outlier_flag": "none"}, {"harvest_year": 2024, "yield_t_ha": 7.01, "vpd_mean_kpa": 0.7276, "precip_total_mm": 160.08, "ws2m_mean_ms": 4.276, "pre_season_rain_90d_mm": 1095.74, "oni_pre_season": 1.9, "domain_outlier_flag": "none"}], "comb_series": [{"harvest_year": 2015, "yield_t_ha": 5.63, "vpd_mean_kpa": 0.7153, "precip_total_mm": 1167.75, "ws2m_mean_ms": 3.266, "pre_season_rain_90d_mm": 11.15, "oni_pre_season": 0.72, "domain_outlier_flag": "none"}, {"harvest_year": 2016, "yield_t_ha": 5.64, "vpd_mean_kpa": 0.5565, "precip_total_mm": 1718.63, "ws2m_mean_ms": 3.363, "pre_season_rain_90d_mm": 3.01, "oni_pre_season": 1.69, "domain_outlier_flag": "none"}, {"harvest_year": 2017, "yield_t_ha": 5.63, "vpd_mean_kpa": 0.545, "precip_total_mm": 1617.3, "ws2m_mean_ms": 2.955, "pre_season_rain_90d_mm": 160.26, "oni_pre_season": 0.27, "domain_outlier_flag": "none"}, {"harvest_year": 2018, "yield_t_ha": 5.61, "vpd_mean_kpa": 0.5483, "precip_total_mm": 1712.36, "ws2m_mean_ms": 3.314, "pre_season_rain_90d_mm": 84.22, "oni_pre_season": -0.55, "domain_outlier_flag": "none"}, {"harvest_year": 2019, "yield_t_ha": 5.61, "vpd_mean_kpa": 0.5263, "precip_total_mm": 1898.43, "ws2m_mean_ms": 3.274, "pre_season_rain_90d_mm": 79.5, "oni_pre_season": 0.87, "domain_outlier_flag": "none"}, {"harvest_year": 2020, "yield_t_ha": 5.24, "vpd_mean_kpa": 0.5989, "precip_total_mm": 2408.26, "ws2m_mean_ms": 2.77, "pre_season_rain_90d_mm": 90.63, "oni_pre_season": 0.57, "domain_outlier_flag": "none"}, {"harvest_year": 2021, "yield_t_ha": 5.75, "vpd_mean_kpa": 0.4946, "precip_total_mm": 1907.52, "ws2m_mean_ms": 3.124, "pre_season_rain_90d_mm": 171.04, "oni_pre_season": -0.74, "domain_outlier_flag": "none"}, {"harvest_year": 2022, "yield_t_ha": 5.47, "vpd_mean_kpa": 0.4822, "precip_total_mm": 1892.12, "ws2m_mean_ms": 2.857, "pre_season_rain_90d_mm": 355.24, "oni_pre_season": -0.77, "domain_outlier_flag": "none"}, {"harvest_year": 2023, "yield_t_ha": 5.75, "vpd_mean_kpa": 0.5539, "precip_total_mm": 2138.74, "ws2m_mean_ms": 3.204, "pre_season_rain_90d_mm": 83.33, "oni_pre_season": -0.11, "domain_outlier_flag": "none"}, {"harvest_year": 2024, "yield_t_ha": 5.86, "vpd_mean_kpa": 0.5871, "precip_total_mm": 2026.54, "ws2m_mean_ms": 2.976, "pre_season_rain_90d_mm": 4.18, "oni_pre_season": 1.18, "domain_outlier_flag": "none"}], "t1_series": {}}, {"province_id": "tien_giang", "province": "Tiền Giang", "ecological_subregion": "middle_south_ql1", "has_3seasons": false, "dx_mean": 6.99, "dx_min": 6.49, "dx_max": 7.46, "httd_mean": 5.58, "total_prod_10y_mt": 10.25, "clusters": {"KMeans_K3": 2, "KMedoids_PAM_K3": 2, "Agglomerative_Ward_K3": 2, "Agglomerative_Average_K3": 1, "DBSCAN_eps2_8_min2": 0, "MeanShift_Auto": 0}, "dx_series": [{"harvest_year": 2015, "yield_t_ha": 7.2, "vpd_mean_kpa": 1.1511, "precip_total_mm": 61.11, "ws2m_mean_ms": 2.492, "pre_season_rain_90d_mm": 411.1, "oni_pre_season": 0.7, "domain_outlier_flag": "none"}, {"harvest_year": 2016, "yield_t_ha": 6.78, "vpd_mean_kpa": 1.1653, "precip_total_mm": 80.83, "ws2m_mean_ms": 2.993, "pre_season_rain_90d_mm": 450.41, "oni_pre_season": 2.45, "domain_outlier_flag": "none"}, {"harvest_year": 2017, "yield_t_ha": 6.57, "vpd_mean_kpa": 0.698, "precip_total_mm": 241.46, "ws2m_mean_ms": 2.258, "pre_season_rain_90d_mm": 557.15, "oni_pre_season": -0.49, "domain_outlier_flag": "none"}, {"harvest_year": 2018, "yield_t_ha": 7.46, "vpd_mean_kpa": 0.7398, "precip_total_mm": 210.34, "ws2m_mean_ms": 2.187, "pre_season_rain_90d_mm": 625.24, "oni_pre_season": -0.61, "domain_outlier_flag": "none"}, {"harvest_year": 2019, "yield_t_ha": 7.19, "vpd_mean_kpa": 0.8791, "precip_total_mm": 156.9, "ws2m_mean_ms": 2.73, "pre_season_rain_90d_mm": 544.91, "oni_pre_season": 1.04, "domain_outlier_flag": "none"}, {"harvest_year": 2020, "yield_t_ha": 6.49, "vpd_mean_kpa": 1.1552, "precip_total_mm": 38.36, "ws2m_mean_ms": 2.563, "pre_season_rain_90d_mm": 518.02, "oni_pre_season": 0.72, "domain_outlier_flag": "none"}, {"harvest_year": 2021, "yield_t_ha": 7.11, "vpd_mean_kpa": 0.7777, "precip_total_mm": 161.75, "ws2m_mean_ms": 2.204, "pre_season_rain_90d_mm": 960.22, "oni_pre_season": -1.11, "domain_outlier_flag": "none"}, {"harvest_year": 2022, "yield_t_ha": 7.12, "vpd_mean_kpa": 0.8011, "precip_total_mm": 192.82, "ws2m_mean_ms": 2.304, "pre_season_rain_90d_mm": 905.96, "oni_pre_season": -0.91, "domain_outlier_flag": "none"}, {"harvest_year": 2023, "yield_t_ha": 6.98, "vpd_mean_kpa": 0.7515, "precip_total_mm": 244.76, "ws2m_mean_ms": 2.132, "pre_season_rain_90d_mm": 623.53, "oni_pre_season": -0.82, "domain_outlier_flag": "none"}, {"harvest_year": 2024, "yield_t_ha": 7.02, "vpd_mean_kpa": 0.9543, "precip_total_mm": 114.55, "ws2m_mean_ms": 2.455, "pre_season_rain_90d_mm": 803.15, "oni_pre_season": 1.9, "domain_outlier_flag": "none"}], "comb_series": [{"harvest_year": 2015, "yield_t_ha": 5.37, "vpd_mean_kpa": 0.791, "precip_total_mm": 940.27, "ws2m_mean_ms": 2.533, "pre_season_rain_90d_mm": 12.53, "oni_pre_season": 0.72, "domain_outlier_flag": "none"}, {"harvest_year": 2016, "yield_t_ha": 5.42, "vpd_mean_kpa": 0.6141, "precip_total_mm": 1187.02, "ws2m_mean_ms": 2.595, "pre_season_rain_90d_mm": 2.11, "oni_pre_season": 1.69, "domain_outlier_flag": "none"}, {"harvest_year": 2017, "yield_t_ha": 5.59, "vpd_mean_kpa": 0.5515, "precip_total_mm": 1200.92, "ws2m_mean_ms": 2.261, "pre_season_rain_90d_mm": 92.3, "oni_pre_season": 0.27, "domain_outlier_flag": "none"}, {"harvest_year": 2018, "yield_t_ha": 5.59, "vpd_mean_kpa": 0.5216, "precip_total_mm": 1494.6, "ws2m_mean_ms": 2.514, "pre_season_rain_90d_mm": 56.94, "oni_pre_season": -0.55, "domain_outlier_flag": "none"}, {"harvest_year": 2019, "yield_t_ha": 5.5, "vpd_mean_kpa": 0.4819, "precip_total_mm": 1632.74, "ws2m_mean_ms": 2.405, "pre_season_rain_90d_mm": 63.34, "oni_pre_season": 0.87, "domain_outlier_flag": "none"}, {"harvest_year": 2020, "yield_t_ha": 5.45, "vpd_mean_kpa": 0.5562, "precip_total_mm": 2415.26, "ws2m_mean_ms": 2.063, "pre_season_rain_90d_mm": 67.72, "oni_pre_season": 0.57, "domain_outlier_flag": "none"}, {"harvest_year": 2021, "yield_t_ha": 5.85, "vpd_mean_kpa": 0.4221, "precip_total_mm": 1940.06, "ws2m_mean_ms": 2.326, "pre_season_rain_90d_mm": 157.23, "oni_pre_season": -0.74, "domain_outlier_flag": "none"}, {"harvest_year": 2022, "yield_t_ha": 5.7, "vpd_mean_kpa": 0.4322, "precip_total_mm": 1788.13, "ws2m_mean_ms": 2.122, "pre_season_rain_90d_mm": 286.81, "oni_pre_season": -0.77, "domain_outlier_flag": "none"}, {"harvest_year": 2023, "yield_t_ha": 5.6, "vpd_mean_kpa": 0.5516, "precip_total_mm": 1681.65, "ws2m_mean_ms": 2.387, "pre_season_rain_90d_mm": 28.69, "oni_pre_season": -0.11, "domain_outlier_flag": "none"}, {"harvest_year": 2024, "yield_t_ha": 5.72, "vpd_mean_kpa": 0.568, "precip_total_mm": 1636.68, "ws2m_mean_ms": 2.206, "pre_season_rain_90d_mm": 4.59, "oni_pre_season": 1.18, "domain_outlier_flag": "none"}], "t1_series": {}}, {"province_id": "tra_vinh", "province": "Trà Vinh", "ecological_subregion": "coastal_salinity_prone", "has_3seasons": false, "dx_mean": 5.93, "dx_min": 3.54, "dx_max": 6.81, "httd_mean": 5.07, "total_prod_10y_mt": 11.29, "clusters": {"KMeans_K3": 1, "KMedoids_PAM_K3": 0, "Agglomerative_Ward_K3": 1, "Agglomerative_Average_K3": 0, "DBSCAN_eps2_8_min2": 1, "MeanShift_Auto": 1}, "dx_series": [{"harvest_year": 2015, "yield_t_ha": 6.81, "vpd_mean_kpa": 0.7643, "precip_total_mm": 184.51, "ws2m_mean_ms": 3.686, "pre_season_rain_90d_mm": 526.78, "oni_pre_season": 0.7, "domain_outlier_flag": "none"}, {"harvest_year": 2016, "yield_t_ha": 4.04, "vpd_mean_kpa": 0.7579, "precip_total_mm": 205.04, "ws2m_mean_ms": 4.243, "pre_season_rain_90d_mm": 554.24, "oni_pre_season": 2.45, "domain_outlier_flag": "none"}, {"harvest_year": 2017, "yield_t_ha": 5.9, "vpd_mean_kpa": 0.4861, "precip_total_mm": 475.28, "ws2m_mean_ms": 3.372, "pre_season_rain_90d_mm": 704.35, "oni_pre_season": -0.49, "domain_outlier_flag": "none"}, {"harvest_year": 2018, "yield_t_ha": 6.71, "vpd_mean_kpa": 0.525, "precip_total_mm": 374.01, "ws2m_mean_ms": 3.382, "pre_season_rain_90d_mm": 803.9, "oni_pre_season": -0.61, "domain_outlier_flag": "none"}, {"harvest_year": 2019, "yield_t_ha": 6.62, "vpd_mean_kpa": 0.6303, "precip_total_mm": 230.99, "ws2m_mean_ms": 3.89, "pre_season_rain_90d_mm": 759.84, "oni_pre_season": 1.04, "domain_outlier_flag": "none"}, {"harvest_year": 2020, "yield_t_ha": 3.54, "vpd_mean_kpa": 0.7663, "precip_total_mm": 144.18, "ws2m_mean_ms": 3.876, "pre_season_rain_90d_mm": 809.21, "oni_pre_season": 0.72, "domain_outlier_flag": "none"}, {"harvest_year": 2021, "yield_t_ha": 6.41, "vpd_mean_kpa": 0.6001, "precip_total_mm": 269.2, "ws2m_mean_ms": 3.237, "pre_season_rain_90d_mm": 1287.03, "oni_pre_season": -1.11, "domain_outlier_flag": "none"}, {"harvest_year": 2022, "yield_t_ha": 6.5, "vpd_mean_kpa": 0.5849, "precip_total_mm": 277.32, "ws2m_mean_ms": 3.572, "pre_season_rain_90d_mm": 985.23, "oni_pre_season": -0.91, "domain_outlier_flag": "none"}, {"harvest_year": 2023, "yield_t_ha": 6.1, "vpd_mean_kpa": 0.5342, "precip_total_mm": 409.61, "ws2m_mean_ms": 3.132, "pre_season_rain_90d_mm": 732.18, "oni_pre_season": -0.82, "domain_outlier_flag": "none"}, {"harvest_year": 2024, "yield_t_ha": 6.7, "vpd_mean_kpa": 0.6465, "precip_total_mm": 315.84, "ws2m_mean_ms": 3.699, "pre_season_rain_90d_mm": 967.84, "oni_pre_season": 1.9, "domain_outlier_flag": "none"}], "comb_series": [{"harvest_year": 2015, "yield_t_ha": 5.23, "vpd_mean_kpa": 0.6744, "precip_total_mm": 1073.49, "ws2m_mean_ms": 3.247, "pre_season_rain_90d_mm": 35.99, "oni_pre_season": 0.72, "domain_outlier_flag": "none"}, {"harvest_year": 2016, "yield_t_ha": 4.79, "vpd_mean_kpa": 0.4789, "precip_total_mm": 1532.75, "ws2m_mean_ms": 3.293, "pre_season_rain_90d_mm": 13.54, "oni_pre_season": 1.69, "domain_outlier_flag": "none"}, {"harvest_year": 2017, "yield_t_ha": 4.9, "vpd_mean_kpa": 0.5151, "precip_total_mm": 1443.93, "ws2m_mean_ms": 2.905, "pre_season_rain_90d_mm": 154.68, "oni_pre_season": 0.27, "domain_outlier_flag": "none"}, {"harvest_year": 2018, "yield_t_ha": 5.25, "vpd_mean_kpa": 0.5117, "precip_total_mm": 1607.16, "ws2m_mean_ms": 3.318, "pre_season_rain_90d_mm": 102.04, "oni_pre_season": -0.55, "domain_outlier_flag": "none"}, {"harvest_year": 2019, "yield_t_ha": 5.18, "vpd_mean_kpa": 0.4908, "precip_total_mm": 1706.46, "ws2m_mean_ms": 3.221, "pre_season_rain_90d_mm": 175.9, "oni_pre_season": 0.87, "domain_outlier_flag": "none"}, {"harvest_year": 2020, "yield_t_ha": 5.03, "vpd_mean_kpa": 0.5382, "precip_total_mm": 2426.01, "ws2m_mean_ms": 2.681, "pre_season_rain_90d_mm": 90.71, "oni_pre_season": 0.57, "domain_outlier_flag": "none"}, {"harvest_year": 2021, "yield_t_ha": 5.14, "vpd_mean_kpa": 0.4663, "precip_total_mm": 1831.62, "ws2m_mean_ms": 3.062, "pre_season_rain_90d_mm": 211.72, "oni_pre_season": -0.74, "domain_outlier_flag": "none"}, {"harvest_year": 2022, "yield_t_ha": 4.76, "vpd_mean_kpa": 0.472, "precip_total_mm": 1760.31, "ws2m_mean_ms": 2.792, "pre_season_rain_90d_mm": 384.13, "oni_pre_season": -0.77, "domain_outlier_flag": "none"}, {"harvest_year": 2023, "yield_t_ha": 5.18, "vpd_mean_kpa": 0.514, "precip_total_mm": 1918.45, "ws2m_mean_ms": 3.127, "pre_season_rain_90d_mm": 131.61, "oni_pre_season": -0.11, "domain_outlier_flag": "none"}, {"harvest_year": 2024, "yield_t_ha": 5.26, "vpd_mean_kpa": 0.5289, "precip_total_mm": 1833.56, "ws2m_mean_ms": 2.883, "pre_season_rain_90d_mm": 61.7, "oni_pre_season": 1.18, "domain_outlier_flag": "none"}], "t1_series": {}}, {"province_id": "vinh_long", "province": "Vĩnh Long", "ecological_subregion": "middle_south_ql1", "has_3seasons": false, "dx_mean": 6.73, "dx_min": 6.0, "dx_max": 7.16, "httd_mean": 5.47, "total_prod_10y_mt": 8.6, "clusters": {"KMeans_K3": 0, "KMedoids_PAM_K3": 1, "Agglomerative_Ward_K3": 0, "Agglomerative_Average_K3": 1, "DBSCAN_eps2_8_min2": 0, "MeanShift_Auto": 0}, "dx_series": [{"harvest_year": 2015, "yield_t_ha": 7.16, "vpd_mean_kpa": 0.9716, "precip_total_mm": 84.69, "ws2m_mean_ms": 2.823, "pre_season_rain_90d_mm": 468.27, "oni_pre_season": 0.7, "domain_outlier_flag": "none"}, {"harvest_year": 2016, "yield_t_ha": 6.38, "vpd_mean_kpa": 0.9814, "precip_total_mm": 85.2, "ws2m_mean_ms": 3.324, "pre_season_rain_90d_mm": 527.58, "oni_pre_season": 2.45, "domain_outlier_flag": "none"}, {"harvest_year": 2017, "yield_t_ha": 6.0, "vpd_mean_kpa": 0.5518, "precip_total_mm": 306.44, "ws2m_mean_ms": 2.59, "pre_season_rain_90d_mm": 711.79, "oni_pre_season": -0.49, "domain_outlier_flag": "none"}, {"harvest_year": 2018, "yield_t_ha": 6.63, "vpd_mean_kpa": 0.585, "precip_total_mm": 278.73, "ws2m_mean_ms": 2.535, "pre_season_rain_90d_mm": 773.55, "oni_pre_season": -0.61, "domain_outlier_flag": "none"}, {"harvest_year": 2019, "yield_t_ha": 6.26, "vpd_mean_kpa": 0.7311, "precip_total_mm": 197.03, "ws2m_mean_ms": 2.951, "pre_season_rain_90d_mm": 601.73, "oni_pre_season": 1.04, "domain_outlier_flag": "none"}, {"harvest_year": 2020, "yield_t_ha": 6.88, "vpd_mean_kpa": 0.9474, "precip_total_mm": 45.05, "ws2m_mean_ms": 3.016, "pre_season_rain_90d_mm": 678.37, "oni_pre_season": 0.72, "domain_outlier_flag": "none"}, {"harvest_year": 2021, "yield_t_ha": 7.06, "vpd_mean_kpa": 0.6711, "precip_total_mm": 184.6, "ws2m_mean_ms": 2.53, "pre_season_rain_90d_mm": 1089.0, "oni_pre_season": -1.11, "domain_outlier_flag": "none"}, {"harvest_year": 2022, "yield_t_ha": 7.0, "vpd_mean_kpa": 0.678, "precip_total_mm": 227.18, "ws2m_mean_ms": 2.715, "pre_season_rain_90d_mm": 960.95, "oni_pre_season": -0.91, "domain_outlier_flag": "none"}, {"harvest_year": 2023, "yield_t_ha": 6.89, "vpd_mean_kpa": 0.6158, "precip_total_mm": 278.79, "ws2m_mean_ms": 2.446, "pre_season_rain_90d_mm": 715.42, "oni_pre_season": -0.82, "domain_outlier_flag": "none"}, {"harvest_year": 2024, "yield_t_ha": 7.08, "vpd_mean_kpa": 0.7965, "precip_total_mm": 146.3, "ws2m_mean_ms": 2.924, "pre_season_rain_90d_mm": 977.61, "oni_pre_season": 1.9, "domain_outlier_flag": "none"}], "comb_series": [{"harvest_year": 2015, "yield_t_ha": 5.5, "vpd_mean_kpa": 0.7493, "precip_total_mm": 1024.5, "ws2m_mean_ms": 2.666, "pre_season_rain_90d_mm": 11.79, "oni_pre_season": 0.72, "domain_outlier_flag": "none"}, {"harvest_year": 2016, "yield_t_ha": 4.75, "vpd_mean_kpa": 0.5433, "precip_total_mm": 1513.88, "ws2m_mean_ms": 2.692, "pre_season_rain_90d_mm": 2.49, "oni_pre_season": 1.69, "domain_outlier_flag": "none"}, {"harvest_year": 2017, "yield_t_ha": 5.33, "vpd_mean_kpa": 0.5039, "precip_total_mm": 1453.15, "ws2m_mean_ms": 2.34, "pre_season_rain_90d_mm": 141.3, "oni_pre_season": 0.27, "domain_outlier_flag": "none"}, {"harvest_year": 2018, "yield_t_ha": 5.65, "vpd_mean_kpa": 0.4963, "precip_total_mm": 1689.03, "ws2m_mean_ms": 2.63, "pre_season_rain_90d_mm": 76.47, "oni_pre_season": -0.55, "domain_outlier_flag": "none"}, {"harvest_year": 2019, "yield_t_ha": 5.61, "vpd_mean_kpa": 0.4607, "precip_total_mm": 1877.84, "ws2m_mean_ms": 2.551, "pre_season_rain_90d_mm": 76.31, "oni_pre_season": 0.87, "domain_outlier_flag": "none"}, {"harvest_year": 2020, "yield_t_ha": 5.73, "vpd_mean_kpa": 0.5462, "precip_total_mm": 2556.48, "ws2m_mean_ms": 2.17, "pre_season_rain_90d_mm": 87.93, "oni_pre_season": 0.57, "domain_outlier_flag": "none"}, {"harvest_year": 2021, "yield_t_ha": 5.54, "vpd_mean_kpa": 0.4195, "precip_total_mm": 2020.74, "ws2m_mean_ms": 2.449, "pre_season_rain_90d_mm": 170.34, "oni_pre_season": -0.74, "domain_outlier_flag": "none"}, {"harvest_year": 2022, "yield_t_ha": 5.38, "vpd_mean_kpa": 0.4185, "precip_total_mm": 1899.84, "ws2m_mean_ms": 2.234, "pre_season_rain_90d_mm": 335.33, "oni_pre_season": -0.77, "domain_outlier_flag": "none"}, {"harvest_year": 2023, "yield_t_ha": 5.51, "vpd_mean_kpa": 0.5165, "precip_total_mm": 1990.43, "ws2m_mean_ms": 2.533, "pre_season_rain_90d_mm": 55.89, "oni_pre_season": -0.11, "domain_outlier_flag": "none"}, {"harvest_year": 2024, "yield_t_ha": 5.68, "vpd_mean_kpa": 0.5411, "precip_total_mm": 1914.65, "ws2m_mean_ms": 2.342, "pre_season_rain_90d_mm": 4.55, "oni_pre_season": 1.18, "domain_outlier_flag": "none"}], "t1_series": {}}, {"province_id": "dong_thap", "province": "Đồng Tháp", "ecological_subregion": "upstream_alluvial_3crop", "has_3seasons": false, "dx_mean": 7.02, "dx_min": 6.0, "dx_max": 7.32, "httd_mean": 6.08, "total_prod_10y_mt": 33.27, "clusters": {"KMeans_K3": 2, "KMedoids_PAM_K3": 2, "Agglomerative_Ward_K3": 2, "Agglomerative_Average_K3": 1, "DBSCAN_eps2_8_min2": 0, "MeanShift_Auto": 0}, "dx_series": [{"harvest_year": 2015, "yield_t_ha": 7.04, "vpd_mean_kpa": 1.3504, "precip_total_mm": 70.19, "ws2m_mean_ms": 2.143, "pre_season_rain_90d_mm": 351.85, "oni_pre_season": 0.7, "domain_outlier_flag": "none"}, {"harvest_year": 2016, "yield_t_ha": 6.8, "vpd_mean_kpa": 1.4416, "precip_total_mm": 48.71, "ws2m_mean_ms": 2.479, "pre_season_rain_90d_mm": 378.25, "oni_pre_season": 2.45, "domain_outlier_flag": "none"}, {"harvest_year": 2017, "yield_t_ha": 6.0, "vpd_mean_kpa": 0.7882, "precip_total_mm": 234.43, "ws2m_mean_ms": 1.995, "pre_season_rain_90d_mm": 556.02, "oni_pre_season": -0.49, "domain_outlier_flag": "none"}, {"harvest_year": 2018, "yield_t_ha": 6.99, "vpd_mean_kpa": 0.7473, "precip_total_mm": 260.06, "ws2m_mean_ms": 1.931, "pre_season_rain_90d_mm": 576.22, "oni_pre_season": -0.61, "domain_outlier_flag": "none"}, {"harvest_year": 2019, "yield_t_ha": 7.0, "vpd_mean_kpa": 0.9539, "precip_total_mm": 150.57, "ws2m_mean_ms": 2.268, "pre_season_rain_90d_mm": 519.4, "oni_pre_season": 1.04, "domain_outlier_flag": "none"}, {"harvest_year": 2020, "yield_t_ha": 7.24, "vpd_mean_kpa": 1.2061, "precip_total_mm": 39.73, "ws2m_mean_ms": 2.098, "pre_season_rain_90d_mm": 607.74, "oni_pre_season": 0.72, "domain_outlier_flag": "none"}, {"harvest_year": 2021, "yield_t_ha": 7.32, "vpd_mean_kpa": 0.7648, "precip_total_mm": 206.1, "ws2m_mean_ms": 2.06, "pre_season_rain_90d_mm": 999.36, "oni_pre_season": -1.11, "domain_outlier_flag": "none"}, {"harvest_year": 2022, "yield_t_ha": 7.32, "vpd_mean_kpa": 0.765, "precip_total_mm": 184.03, "ws2m_mean_ms": 1.955, "pre_season_rain_90d_mm": 1038.84, "oni_pre_season": -0.91, "domain_outlier_flag": "none"}, {"harvest_year": 2023, "yield_t_ha": 7.31, "vpd_mean_kpa": 0.7393, "precip_total_mm": 209.36, "ws2m_mean_ms": 2.033, "pre_season_rain_90d_mm": 746.02, "oni_pre_season": -0.82, "domain_outlier_flag": "none"}, {"harvest_year": 2024, "yield_t_ha": 7.21, "vpd_mean_kpa": 1.0009, "precip_total_mm": 83.17, "ws2m_mean_ms": 2.107, "pre_season_rain_90d_mm": 938.17, "oni_pre_season": 1.9, "domain_outlier_flag": "none"}], "comb_series": [{"harvest_year": 2015, "yield_t_ha": 5.69, "vpd_mean_kpa": 1.0046, "precip_total_mm": 752.23, "ws2m_mean_ms": 2.549, "pre_season_rain_90d_mm": 25.39, "oni_pre_season": 0.72, "domain_outlier_flag": "none"}, {"harvest_year": 2016, "yield_t_ha": 5.77, "vpd_mean_kpa": 0.8334, "precip_total_mm": 1094.85, "ws2m_mean_ms": 2.635, "pre_season_rain_90d_mm": 2.98, "oni_pre_season": 1.69, "domain_outlier_flag": "none"}, {"harvest_year": 2017, "yield_t_ha": 5.93, "vpd_mean_kpa": 0.6413, "precip_total_mm": 1195.49, "ws2m_mean_ms": 2.264, "pre_season_rain_90d_mm": 112.71, "oni_pre_season": 0.27, "domain_outlier_flag": "none"}, {"harvest_year": 2018, "yield_t_ha": 6.01, "vpd_mean_kpa": 0.5635, "precip_total_mm": 1603.82, "ws2m_mean_ms": 2.352, "pre_season_rain_90d_mm": 164.14, "oni_pre_season": -0.55, "domain_outlier_flag": "none"}, {"harvest_year": 2019, "yield_t_ha": 6.05, "vpd_mean_kpa": 0.551, "precip_total_mm": 1841.77, "ws2m_mean_ms": 2.311, "pre_season_rain_90d_mm": 64.71, "oni_pre_season": 0.87, "domain_outlier_flag": "none"}, {"harvest_year": 2020, "yield_t_ha": 6.13, "vpd_mean_kpa": 0.5828, "precip_total_mm": 2717.78, "ws2m_mean_ms": 2.019, "pre_season_rain_90d_mm": 86.36, "oni_pre_season": 0.57, "domain_outlier_flag": "none"}, {"harvest_year": 2021, "yield_t_ha": 6.18, "vpd_mean_kpa": 0.4362, "precip_total_mm": 2180.4, "ws2m_mean_ms": 2.234, "pre_season_rain_90d_mm": 76.75, "oni_pre_season": -0.74, "domain_outlier_flag": "none"}, {"harvest_year": 2022, "yield_t_ha": 6.32, "vpd_mean_kpa": 0.4404, "precip_total_mm": 1926.6, "ws2m_mean_ms": 2.069, "pre_season_rain_90d_mm": 309.2, "oni_pre_season": -0.77, "domain_outlier_flag": "none"}, {"harvest_year": 2023, "yield_t_ha": 6.28, "vpd_mean_kpa": 0.6395, "precip_total_mm": 1777.98, "ws2m_mean_ms": 2.371, "pre_season_rain_90d_mm": 26.77, "oni_pre_season": -0.11, "domain_outlier_flag": "none"}, {"harvest_year": 2024, "yield_t_ha": 6.42, "vpd_mean_kpa": 0.7493, "precip_total_mm": 1718.39, "ws2m_mean_ms": 2.213, "pre_season_rain_90d_mm": 7.33, "oni_pre_season": 1.18, "domain_outlier_flag": "none"}], "t1_series": {}}], "simpson": [{"feature": "precip_total_mm", "label": "Tổng lượng mưa", "raw_r": -0.738, "within_r": 0.369, "within_p": 0.0003, "he_thu_r": 0.538, "thu_dong_r": 0.681}, {"feature": "heavy_rain_days_gt20mm", "label": "Ngày mưa lớn >20mm", "raw_r": -0.58, "within_r": 0.381, "within_p": 0.0002, "he_thu_r": 0.422, "thu_dong_r": 0.753}, {"feature": "dry_days_lt1mm", "label": "Số ngày khô <1mm", "raw_r": 0.881, "within_r": -0.093, "within_p": 0.3852, "he_thu_r": -0.511, "thu_dong_r": -0.395}, {"feature": "rh2m_mean_pct", "label": "Độ ẩm tương đối RH", "raw_r": -0.626, "within_r": 0.159, "within_p": 0.1355, "he_thu_r": 0.458, "thu_dong_r": 0.607}, {"feature": "vpd_mean_kpa", "label": "Độ khô khí quyển VPD", "raw_r": 0.49, "within_r": -0.16, "within_p": 0.1325, "he_thu_r": -0.416, "thu_dong_r": -0.555}, {"feature": "t2m_max_mean_c", "label": "Nhiệt độ cực đại TB", "raw_r": 0.426, "within_r": -0.148, "within_p": 0.1645, "he_thu_r": -0.307, "thu_dong_r": -0.253}, {"feature": "hot_days_gt35c", "label": "Số ngày nóng >35°C", "raw_r": 0.475, "within_r": -0.083, "within_p": 0.4363, "he_thu_r": -0.363, "thu_dong_r": NaN}, {"feature": "ws2m_mean_ms", "label": "Tốc độ gió 2m", "raw_r": -0.176, "within_r": -0.307, "within_p": 0.0033, "he_thu_r": -0.362, "thu_dong_r": -0.611}], "reg_track_b": [{"model": "Baseline_Median", "train_2015_2022_mae": 0.2109, "expanding_cv_mae": 0.2624, "val_2021_2022_mae": 0.3301, "test_2023_2024_mae": 0.3002, "test_2023_2024_rmse": 0.34, "test_2023_2024_r2": 0.8424}, {"model": "Structural_FE_Mean", "train_2015_2022_mae": 0.2182, "expanding_cv_mae": 0.2936, "val_2021_2022_mae": 0.3673, "test_2023_2024_mae": 0.3263, "test_2023_2024_rmse": 0.3802, "test_2023_2024_r2": 0.8029}, {"model": "Structural_FE_Plus_Trend", "train_2015_2022_mae": 0.1718, "expanding_cv_mae": 0.1988, "val_2021_2022_mae": 0.1807, "test_2023_2024_mae": 0.1335, "test_2023_2024_rmse": 0.1681, "test_2023_2024_r2": 0.9615}, {"model": "OLS_Anomaly_Core4", "train_2015_2022_mae": 0.1734, "expanding_cv_mae": 0.2303, "val_2021_2022_mae": 0.3391, "test_2023_2024_mae": 0.422, "test_2023_2024_rmse": 0.4678, "test_2023_2024_r2": 0.7016}, {"model": "OLS_Anomaly_Ortho5_Trend", "train_2015_2022_mae": 0.1682, "expanding_cv_mae": 0.1993, "val_2021_2022_mae": 0.2134, "test_2023_2024_mae": 0.1565, "test_2023_2024_rmse": 0.2089, "test_2023_2024_r2": 0.9405}, {"model": "Ridge_Anomaly_Ortho5", "train_2015_2022_mae": 0.1725, "expanding_cv_mae": 0.2104, "val_2021_2022_mae": 0.3278, "test_2023_2024_mae": 0.3278, "test_2023_2024_rmse": 0.3686, "test_2023_2024_r2": 0.8147}, {"model": "Ridge_Anomaly_Ortho5_Trend", "train_2015_2022_mae": 0.1654, "expanding_cv_mae": 0.1881, "val_2021_2022_mae": 0.2306, "test_2023_2024_mae": 0.1369, "test_2023_2024_rmse": 0.1842, "test_2023_2024_r2": 0.9538}, {"model": "Lasso_Anomaly_Ortho5", "train_2015_2022_mae": 0.1723, "expanding_cv_mae": 0.217, "val_2021_2022_mae": 0.3341, "test_2023_2024_mae": 0.3303, "test_2023_2024_rmse": 0.3722, "test_2023_2024_r2": 0.8111}, {"model": "Lasso_Anomaly_Ortho5_Trend", "train_2015_2022_mae": 0.1662, "expanding_cv_mae": 0.1867, "val_2021_2022_mae": 0.221, "test_2023_2024_mae": 0.1374, "test_2023_2024_rmse": 0.1841, "test_2023_2024_r2": 0.9538}, {"model": "Huber_Anomaly_Ortho5", "train_2015_2022_mae": 0.1677, "expanding_cv_mae": 0.1844, "val_2021_2022_mae": 0.2813, "test_2023_2024_mae": 0.294, "test_2023_2024_rmse": 0.3339, "test_2023_2024_r2": 0.848}, {"model": "Huber_Anomaly_Ortho5_Trend", "train_2015_2022_mae": 0.1606, "expanding_cv_mae": 0.1771, "val_2021_2022_mae": 0.2397, "test_2023_2024_mae": 0.1447, "test_2023_2024_rmse": 0.1935, "test_2023_2024_r2": 0.949}, {"model": "DecisionTree_Anomaly_Trend", "train_2015_2022_mae": 0.1585, "expanding_cv_mae": 0.1787, "val_2021_2022_mae": 0.1693, "test_2023_2024_mae": 0.1931, "test_2023_2024_rmse": 0.2269, "test_2023_2024_r2": 0.9298}, {"model": "Shallow_RF_Direct", "train_2015_2022_mae": 0.1698, "expanding_cv_mae": 0.2755, "val_2021_2022_mae": 0.3754, "test_2023_2024_mae": 0.3247, "test_2023_2024_rmse": 0.3749, "test_2023_2024_r2": 0.8083}, {"model": "Shallow_RF_Anomaly", "train_2015_2022_mae": 0.1489, "expanding_cv_mae": 0.2602, "val_2021_2022_mae": 0.4003, "test_2023_2024_mae": 0.3213, "test_2023_2024_rmse": 0.3601, "test_2023_2024_r2": 0.8232}, {"model": "Shallow_RF_Anomaly_Trend", "train_2015_2022_mae": 0.1443, "expanding_cv_mae": 0.2285, "val_2021_2022_mae": 0.3269, "test_2023_2024_mae": 0.218, "test_2023_2024_rmse": 0.2591, "test_2023_2024_r2": 0.9085}, {"model": "GBR_Anomaly_Trend", "train_2015_2022_mae": 0.1453, "expanding_cv_mae": 0.2226, "val_2021_2022_mae": 0.3066, "test_2023_2024_mae": 0.2186, "test_2023_2024_rmse": 0.255, "test_2023_2024_r2": 0.9114}, {"model": "SVR_Linear_Anomaly_Trend", "train_2015_2022_mae": 0.1623, "expanding_cv_mae": 0.1797, "val_2021_2022_mae": 0.2408, "test_2023_2024_mae": 0.1556, "test_2023_2024_rmse": 0.2025, "test_2023_2024_r2": 0.9441}, {"model": "SVR_RBF_Anomaly_Trend", "train_2015_2022_mae": 0.078, "expanding_cv_mae": 0.1956, "val_2021_2022_mae": 0.1872, "test_2023_2024_mae": 0.3372, "test_2023_2024_rmse": 0.382, "test_2023_2024_r2": 0.801}, {"model": "MLP_ReLU_Anomaly_Trend", "train_2015_2022_mae": 0.1521, "expanding_cv_mae": 0.2143, "val_2021_2022_mae": 0.2636, "test_2023_2024_mae": 0.1728, "test_2023_2024_rmse": 0.2246, "test_2023_2024_r2": 0.9312}, {"model": "MLP_Tanh_Anomaly_Trend", "train_2015_2022_mae": 0.1624, "expanding_cv_mae": 0.2061, "val_2021_2022_mae": 0.2333, "test_2023_2024_mae": 0.1237, "test_2023_2024_rmse": 0.1649, "test_2023_2024_r2": 0.9629}], "reg_track_a": [{"suite": "delta13_dong_xuan_full_127", "model": "Baseline_Median_Prov", "expanding_cv_mae": 0.507, "test_2023_2024_mae": 0.3019, "test_2023_2024_rmse": 0.3257, "test_2023_2024_r2": 0.7951}, {"suite": "delta13_dong_xuan_full_127", "model": "Structural_Prov_Mean", "expanding_cv_mae": 0.6242, "test_2023_2024_mae": 0.4746, "test_2023_2024_rmse": 0.5933, "test_2023_2024_r2": 0.3199}, {"suite": "delta13_dong_xuan_full_127", "model": "Structural_Prov_Plus_Trend", "expanding_cv_mae": 0.5798, "test_2023_2024_mae": 0.1754, "test_2023_2024_rmse": 0.2167, "test_2023_2024_r2": 0.9093}, {"suite": "delta13_dong_xuan_full_127", "model": "OLS_Anomaly_Weather", "expanding_cv_mae": 0.718, "test_2023_2024_mae": 0.684, "test_2023_2024_rmse": 0.8053, "test_2023_2024_r2": -0.2529}, {"suite": "delta13_dong_xuan_full_127", "model": "Ridge_Anomaly_Weather", "expanding_cv_mae": 0.5856, "test_2023_2024_mae": 0.5002, "test_2023_2024_rmse": 0.5518, "test_2023_2024_r2": 0.4117}, {"suite": "delta13_dong_xuan_full_127", "model": "Lasso_Anomaly_Weather", "expanding_cv_mae": 0.6239, "test_2023_2024_mae": 0.5692, "test_2023_2024_rmse": 0.6483, "test_2023_2024_r2": 0.1881}, {"suite": "delta13_dong_xuan_full_127", "model": "Huber_Anomaly_Weather", "expanding_cv_mae": 0.4482, "test_2023_2024_mae": 0.4086, "test_2023_2024_rmse": 0.4575, "test_2023_2024_r2": 0.5957}, {"suite": "delta13_dong_xuan_full_127", "model": "Huber_Anomaly_Weather_ONI_Coastal", "expanding_cv_mae": 0.4646, "test_2023_2024_mae": 0.4198, "test_2023_2024_rmse": 0.4809, "test_2023_2024_r2": 0.5532}, {"suite": "delta13_dong_xuan_full_127", "model": "Huber_Anomaly_Weather_Trend", "expanding_cv_mae": 0.4524, "test_2023_2024_mae": 0.3268, "test_2023_2024_rmse": 0.3773, "test_2023_2024_r2": 0.725}, {"suite": "delta13_dong_xuan_full_127", "model": "DecisionTree_Anomaly", "expanding_cv_mae": 0.5572, "test_2023_2024_mae": 0.4182, "test_2023_2024_rmse": 0.4906, "test_2023_2024_r2": 0.535}, {"suite": "delta13_dong_xuan_full_127", "model": "Shallow_RF_Anomaly", "expanding_cv_mae": 0.528, "test_2023_2024_mae": 0.4314, "test_2023_2024_rmse": 0.49, "test_2023_2024_r2": 0.5361}, {"suite": "delta13_dong_xuan_full_127", "model": "GBR_Anomaly", "expanding_cv_mae": 0.505, "test_2023_2024_mae": 0.4227, "test_2023_2024_rmse": 0.4873, "test_2023_2024_r2": 0.5413}, {"suite": "delta13_dong_xuan_full_127", "model": "SVR_RBF_Anomaly", "expanding_cv_mae": 0.4872, "test_2023_2024_mae": 0.3537, "test_2023_2024_rmse": 0.3879, "test_2023_2024_r2": 0.7093}, {"suite": "delta13_dong_xuan_full_127", "model": "MLP_ReLU_Anomaly", "expanding_cv_mae": 0.6108, "test_2023_2024_mae": 0.5056, "test_2023_2024_rmse": 0.5643, "test_2023_2024_r2": 0.3849}, {"suite": "delta13_dong_xuan_ex_salinity_125", "model": "Baseline_Median_Prov", "expanding_cv_mae": 0.4158, "test_2023_2024_mae": 0.2915, "test_2023_2024_rmse": 0.32, "test_2023_2024_r2": 0.8022}, {"suite": "delta13_dong_xuan_ex_salinity_125", "model": "Structural_Prov_Mean", "expanding_cv_mae": 0.4831, "test_2023_2024_mae": 0.3787, "test_2023_2024_rmse": 0.4493, "test_2023_2024_r2": 0.61}, {"suite": "delta13_dong_xuan_ex_salinity_125", "model": "Structural_Prov_Plus_Trend", "expanding_cv_mae": 0.4366, "test_2023_2024_mae": 0.1591, "test_2023_2024_rmse": 0.206, "test_2023_2024_r2": 0.918}, {"suite": "delta13_dong_xuan_ex_salinity_125", "model": "OLS_Anomaly_Weather", "expanding_cv_mae": 0.5053, "test_2023_2024_mae": 0.6436, "test_2023_2024_rmse": 0.7401, "test_2023_2024_r2": -0.0581}, {"suite": "delta13_dong_xuan_ex_salinity_125", "model": "Ridge_Anomaly_Weather", "expanding_cv_mae": 0.4316, "test_2023_2024_mae": 0.4552, "test_2023_2024_rmse": 0.5029, "test_2023_2024_r2": 0.5114}, {"suite": "delta13_dong_xuan_ex_salinity_125", "model": "Lasso_Anomaly_Weather", "expanding_cv_mae": 0.4318, "test_2023_2024_mae": 0.5226, "test_2023_2024_rmse": 0.5787, "test_2023_2024_r2": 0.3529}, {"suite": "delta13_dong_xuan_ex_salinity_125", "model": "Huber_Anomaly_Weather", "expanding_cv_mae": 0.3552, "test_2023_2024_mae": 0.4058, "test_2023_2024_rmse": 0.4546, "test_2023_2024_r2": 0.6008}, {"suite": "delta13_dong_xuan_ex_salinity_125", "model": "Huber_Anomaly_Weather_ONI_Coastal", "expanding_cv_mae": 0.3747, "test_2023_2024_mae": 0.4141, "test_2023_2024_rmse": 0.4707, "test_2023_2024_r2": 0.572}, {"suite": "delta13_dong_xuan_ex_salinity_125", "model": "Huber_Anomaly_Weather_Trend", "expanding_cv_mae": 0.3519, "test_2023_2024_mae": 0.3262, "test_2023_2024_rmse": 0.3761, "test_2023_2024_r2": 0.7268}, {"suite": "delta13_dong_xuan_ex_salinity_125", "model": "DecisionTree_Anomaly", "expanding_cv_mae": 0.3756, "test_2023_2024_mae": 0.3066, "test_2023_2024_rmse": 0.4195, "test_2023_2024_r2": 0.6601}, {"suite": "delta13_dong_xuan_ex_salinity_125", "model": "Shallow_RF_Anomaly", "expanding_cv_mae": 0.4128, "test_2023_2024_mae": 0.3599, "test_2023_2024_rmse": 0.4133, "test_2023_2024_r2": 0.6699}, {"suite": "delta13_dong_xuan_ex_salinity_125", "model": "GBR_Anomaly", "expanding_cv_mae": 0.3975, "test_2023_2024_mae": 0.391, "test_2023_2024_rmse": 0.4419, "test_2023_2024_r2": 0.6227}, {"suite": "delta13_dong_xuan_ex_salinity_125", "model": "SVR_RBF_Anomaly", "expanding_cv_mae": 0.3881, "test_2023_2024_mae": 0.3528, "test_2023_2024_rmse": 0.3881, "test_2023_2024_r2": 0.709}, {"suite": "delta13_dong_xuan_ex_salinity_125", "model": "MLP_ReLU_Anomaly", "expanding_cv_mae": 0.4636, "test_2023_2024_mae": 0.4185, "test_2023_2024_rmse": 0.4588, "test_2023_2024_r2": 0.5934}, {"suite": "delta13_combined_ht_td_130", "model": "Baseline_Median_Prov", "expanding_cv_mae": 0.245, "test_2023_2024_mae": 0.2919, "test_2023_2024_rmse": 0.3625, "test_2023_2024_r2": 0.334}, {"suite": "delta13_combined_ht_td_130", "model": "Structural_Prov_Mean", "expanding_cv_mae": 0.2549, "test_2023_2024_mae": 0.3179, "test_2023_2024_rmse": 0.3779, "test_2023_2024_r2": 0.2762}, {"suite": "delta13_combined_ht_td_130", "model": "Structural_Prov_Plus_Trend", "expanding_cv_mae": 0.1906, "test_2023_2024_mae": 0.1678, "test_2023_2024_rmse": 0.2229, "test_2023_2024_r2": 0.7482}, {"suite": "delta13_combined_ht_td_130", "model": "OLS_Anomaly_Weather", "expanding_cv_mae": 0.1953, "test_2023_2024_mae": 0.3629, "test_2023_2024_rmse": 0.4409, "test_2023_2024_r2": 0.0146}, {"suite": "delta13_combined_ht_td_130", "model": "Ridge_Anomaly_Weather", "expanding_cv_mae": 0.1883, "test_2023_2024_mae": 0.3585, "test_2023_2024_rmse": 0.4323, "test_2023_2024_r2": 0.0525}, {"suite": "delta13_combined_ht_td_130", "model": "Lasso_Anomaly_Weather", "expanding_cv_mae": 0.1955, "test_2023_2024_mae": 0.3483, "test_2023_2024_rmse": 0.4202, "test_2023_2024_r2": 0.105}, {"suite": "delta13_combined_ht_td_130", "model": "Huber_Anomaly_Weather", "expanding_cv_mae": 0.1936, "test_2023_2024_mae": 0.3256, "test_2023_2024_rmse": 0.4007, "test_2023_2024_r2": 0.1863}, {"suite": "delta13_combined_ht_td_130", "model": "Huber_Anomaly_Weather_Trend", "expanding_cv_mae": 0.1904, "test_2023_2024_mae": 0.2145, "test_2023_2024_rmse": 0.2811, "test_2023_2024_r2": 0.5996}, {"suite": "delta13_combined_ht_td_130", "model": "DecisionTree_Anomaly", "expanding_cv_mae": 0.2027, "test_2023_2024_mae": 0.3861, "test_2023_2024_rmse": 0.4453, "test_2023_2024_r2": -0.0053}, {"suite": "delta13_combined_ht_td_130", "model": "Shallow_RF_Anomaly", "expanding_cv_mae": 0.2061, "test_2023_2024_mae": 0.3788, "test_2023_2024_rmse": 0.4401, "test_2023_2024_r2": 0.0181}, {"suite": "delta13_combined_ht_td_130", "model": "GBR_Anomaly", "expanding_cv_mae": 0.1927, "test_2023_2024_mae": 0.327, "test_2023_2024_rmse": 0.3927, "test_2023_2024_r2": 0.2183}, {"suite": "delta13_combined_ht_td_130", "model": "SVR_RBF_Anomaly", "expanding_cv_mae": 0.2432, "test_2023_2024_mae": 0.3217, "test_2023_2024_rmse": 0.3887, "test_2023_2024_r2": 0.2342}, {"suite": "delta13_combined_ht_td_130", "model": "MLP_ReLU_Anomaly", "expanding_cv_mae": 0.202, "test_2023_2024_mae": 0.3736, "test_2023_2024_rmse": 0.4532, "test_2023_2024_r2": -0.0411}], "clf_all": [{"task": "C1_3Class_YieldTier", "feature_regime": "weather_subregion", "model": "Dummy_Baseline", "skf5_acc": 0.3366, "skf5_f1": 0.1679, "skf5_auc": 0.5, "exp_cv_acc": 0.2596, "exp_cv_f1": 0.1374, "exp_cv_auc": 0.5, "test_acc": 0.2115, "test_precision": 0.0705, "test_recall": 0.3333, "test_f1": 0.1164, "test_auc": 0.5}, {"task": "C1_3Class_YieldTier", "feature_regime": "weather_subregion", "model": "Logistic_Multinomial", "skf5_acc": 0.6537, "skf5_f1": 0.6406, "skf5_auc": 0.8162, "exp_cv_acc": 0.7692, "exp_cv_f1": 0.7204, "exp_cv_auc": 0.8629, "test_acc": 0.75, "test_precision": 0.7287, "test_recall": 0.7288, "test_f1": 0.7132, "test_auc": 0.9219}, {"task": "C1_3Class_YieldTier", "feature_regime": "weather_subregion", "model": "Logistic_OvR", "skf5_acc": 0.6683, "skf5_f1": 0.6546, "skf5_auc": 0.8135, "exp_cv_acc": 0.7692, "exp_cv_f1": 0.725, "exp_cv_auc": 0.8564, "test_acc": 0.75, "test_precision": 0.7287, "test_recall": 0.7288, "test_f1": 0.7132, "test_auc": 0.9038}, {"task": "C1_3Class_YieldTier", "feature_regime": "weather_subregion", "model": "DecisionTree_CART", "skf5_acc": 0.5659, "skf5_f1": 0.5525, "skf5_auc": 0.7173, "exp_cv_acc": 0.5865, "exp_cv_f1": 0.4725, "exp_cv_auc": 0.775, "test_acc": 0.6154, "test_precision": 0.5912, "test_recall": 0.5872, "test_f1": 0.579, "test_auc": 0.7295}, {"task": "C1_3Class_YieldTier", "feature_regime": "weather_subregion", "model": "RandomForest", "skf5_acc": 0.639, "skf5_f1": 0.6232, "skf5_auc": 0.8046, "exp_cv_acc": 0.7404, "exp_cv_f1": 0.6585, "exp_cv_auc": 0.8971, "test_acc": 0.5962, "test_precision": 0.6389, "test_recall": 0.6099, "test_f1": 0.532, "test_auc": 0.8832}, {"task": "C1_3Class_YieldTier", "feature_regime": "weather_subregion", "model": "GradientBoosting", "skf5_acc": 0.6146, "skf5_f1": 0.6016, "skf5_auc": 0.8033, "exp_cv_acc": 0.7692, "exp_cv_f1": 0.7048, "exp_cv_auc": 0.8525, "test_acc": 0.6154, "test_precision": 0.6028, "test_recall": 0.6129, "test_f1": 0.5659, "test_auc": 0.8475}, {"task": "C1_3Class_YieldTier", "feature_regime": "weather_subregion", "model": "NaiveBayes_Gaussian", "skf5_acc": 0.6098, "skf5_f1": 0.5907, "skf5_auc": 0.7978, "exp_cv_acc": 0.7692, "exp_cv_f1": 0.7356, "exp_cv_auc": 0.8719, "test_acc": 0.6923, "test_precision": 0.6922, "test_recall": 0.6796, "test_f1": 0.6575, "test_auc": 0.9155}, {"task": "C1_3Class_YieldTier", "feature_regime": "weather_subregion", "model": "SVM_Linear", "skf5_acc": 0.639, "skf5_f1": 0.6272, "skf5_auc": 0.8014, "exp_cv_acc": 0.7692, "exp_cv_f1": 0.7249, "exp_cv_auc": 0.8608, "test_acc": 0.7692, "test_precision": 0.7452, "test_recall": 0.7455, "test_f1": 0.7341, "test_auc": 0.9155}, {"task": "C1_3Class_YieldTier", "feature_regime": "weather_subregion", "model": "SVM_RBF", "skf5_acc": 0.6244, "skf5_f1": 0.609, "skf5_auc": 0.7875, "exp_cv_acc": 0.7596, "exp_cv_f1": 0.7176, "exp_cv_auc": 0.8678, "test_acc": 0.6538, "test_precision": 0.6803, "test_recall": 0.6591, "test_f1": 0.5981, "test_auc": 0.8617}, {"task": "C1_3Class_YieldTier", "feature_regime": "weather_subregion", "model": "MLP_ReLU", "skf5_acc": 0.6049, "skf5_f1": 0.5958, "skf5_auc": 0.7923, "exp_cv_acc": 0.7212, "exp_cv_f1": 0.6866, "exp_cv_auc": 0.8482, "test_acc": 0.5769, "test_precision": 0.3846, "test_recall": 0.6061, "test_f1": 0.46, "test_auc": 0.8879}, {"task": "C1_3Class_YieldTier", "feature_regime": "weather_subregion", "model": "MLP_Tanh", "skf5_acc": 0.6195, "skf5_f1": 0.6091, "skf5_auc": 0.7929, "exp_cv_acc": 0.7308, "exp_cv_f1": 0.6876, "exp_cv_auc": 0.8489, "test_acc": 0.5962, "test_precision": 0.5705, "test_recall": 0.5818, "test_f1": 0.5321, "test_auc": 0.8785}, {"task": "C1_3Class_YieldTier", "feature_regime": "full_context", "model": "Dummy_Baseline", "skf5_acc": 0.3366, "skf5_f1": 0.1679, "skf5_auc": 0.5, "exp_cv_acc": 0.2596, "exp_cv_f1": 0.1374, "exp_cv_auc": 0.5, "test_acc": 0.2115, "test_precision": 0.0705, "test_recall": 0.3333, "test_f1": 0.1164, "test_auc": 0.5}, {"task": "C1_3Class_YieldTier", "feature_regime": "full_context", "model": "Logistic_Multinomial", "skf5_acc": 0.7659, "skf5_f1": 0.7553, "skf5_auc": 0.9133, "exp_cv_acc": 0.7885, "exp_cv_f1": 0.7759, "exp_cv_auc": 0.9025, "test_acc": 0.7885, "test_precision": 0.7824, "test_recall": 0.8062, "test_f1": 0.7831, "test_auc": 0.9614}, {"task": "C1_3Class_YieldTier", "feature_regime": "full_context", "model": "Logistic_OvR", "skf5_acc": 0.7512, "skf5_f1": 0.7388, "skf5_auc": 0.8871, "exp_cv_acc": 0.7788, "exp_cv_f1": 0.7561, "exp_cv_auc": 0.8931, "test_acc": 0.8462, "test_precision": 0.8328, "test_recall": 0.8538, "test_f1": 0.836, "test_auc": 0.9577}, {"task": "C1_3Class_YieldTier", "feature_regime": "full_context", "model": "DecisionTree_CART", "skf5_acc": 0.6244, "skf5_f1": 0.6068, "skf5_auc": 0.7729, "exp_cv_acc": 0.6923, "exp_cv_f1": 0.6122, "exp_cv_auc": 0.8115, "test_acc": 0.6154, "test_precision": 0.6213, "test_recall": 0.6289, "test_f1": 0.5987, "test_auc": 0.7135}, {"task": "C1_3Class_YieldTier", "feature_regime": "full_context", "model": "RandomForest", "skf5_acc": 0.6732, "skf5_f1": 0.6551, "skf5_auc": 0.8425, "exp_cv_acc": 0.7596, "exp_cv_f1": 0.6863, "exp_cv_auc": 0.9017, "test_acc": 0.7115, "test_precision": 0.7296, "test_recall": 0.7227, "test_f1": 0.671, "test_auc": 0.9326}, {"task": "C1_3Class_YieldTier", "feature_regime": "full_context", "model": "GradientBoosting", "skf5_acc": 0.7268, "skf5_f1": 0.7191, "skf5_auc": 0.8747, "exp_cv_acc": 0.7885, "exp_cv_f1": 0.7623, "exp_cv_auc": 0.9084, "test_acc": 0.6923, "test_precision": 0.7045, "test_recall": 0.7205, "test_f1": 0.655, "test_auc": 0.933}, {"task": "C1_3Class_YieldTier", "feature_regime": "full_context", "model": "NaiveBayes_Gaussian", "skf5_acc": 0.7317, "skf5_f1": 0.7088, "skf5_auc": 0.8658, "exp_cv_acc": 0.75, "exp_cv_f1": 0.7186, "exp_cv_auc": 0.8953, "test_acc": 0.6923, "test_precision": 0.7925, "test_recall": 0.7333, "test_f1": 0.6349, "test_auc": 0.9644}, {"task": "C1_3Class_YieldTier", "feature_regime": "full_context", "model": "SVM_Linear", "skf5_acc": 0.7659, "skf5_f1": 0.7612, "skf5_auc": 0.8986, "exp_cv_acc": 0.7981, "exp_cv_f1": 0.7874, "exp_cv_auc": 0.9087, "test_acc": 0.8077, "test_precision": 0.7958, "test_recall": 0.8213, "test_f1": 0.7966, "test_auc": 0.9669}, {"task": "C1_3Class_YieldTier", "feature_regime": "full_context", "model": "SVM_RBF", "skf5_acc": 0.7561, "skf5_f1": 0.7502, "skf5_auc": 0.8956, "exp_cv_acc": 0.8173, "exp_cv_f1": 0.8012, "exp_cv_auc": 0.9097, "test_acc": 0.8654, "test_precision": 0.8628, "test_recall": 0.8857, "test_f1": 0.8717, "test_auc": 0.9487}, {"task": "C1_3Class_YieldTier", "feature_regime": "full_context", "model": "MLP_ReLU", "skf5_acc": 0.7561, "skf5_f1": 0.7559, "skf5_auc": 0.8923, "exp_cv_acc": 0.7788, "exp_cv_f1": 0.754, "exp_cv_auc": 0.9132, "test_acc": 0.5769, "test_precision": 0.3846, "test_recall": 0.6061, "test_f1": 0.46, "test_auc": 0.9068}, {"task": "C1_3Class_YieldTier", "feature_regime": "full_context", "model": "MLP_Tanh", "skf5_acc": 0.7561, "skf5_f1": 0.7551, "skf5_auc": 0.8994, "exp_cv_acc": 0.8365, "exp_cv_f1": 0.8258, "exp_cv_auc": 0.9201, "test_acc": 0.7308, "test_precision": 0.7137, "test_recall": 0.7121, "test_f1": 0.6929, "test_auc": 0.9313}, {"task": "C2_Binary_UnderperformRisk", "feature_regime": "weather_anomaly_subregion", "model": "Dummy_Baseline", "skf5_acc": 0.7073, "skf5_f1": 0.0, "skf5_auc": 0.5, "exp_cv_acc": 0.7596, "exp_cv_f1": 0.0, "exp_cv_auc": 0.5, "test_acc": 0.6154, "test_precision": 0.0, "test_recall": 0.0, "test_f1": 0.0, "test_auc": 0.5}, {"task": "C2_Binary_UnderperformRisk", "feature_regime": "weather_anomaly_subregion", "model": "Logistic_Binary", "skf5_acc": 0.5512, "skf5_f1": 0.4103, "skf5_auc": 0.5937, "exp_cv_acc": 0.6731, "exp_cv_f1": 0.2273, "exp_cv_auc": 0.5286, "test_acc": 0.5385, "test_precision": 0.4167, "test_recall": 0.5, "test_f1": 0.4545, "test_auc": 0.5687}, {"task": "C2_Binary_UnderperformRisk", "feature_regime": "weather_anomaly_subregion", "model": "DecisionTree_CART", "skf5_acc": 0.6341, "skf5_f1": 0.4828, "skf5_auc": 0.6624, "exp_cv_acc": 0.5481, "exp_cv_f1": 0.2034, "exp_cv_auc": 0.4658, "test_acc": 0.5769, "test_precision": 0.4286, "test_recall": 0.3, "test_f1": 0.3529, "test_auc": 0.4742}, {"task": "C2_Binary_UnderperformRisk", "feature_regime": "weather_anomaly_subregion", "model": "RandomForest", "skf5_acc": 0.7073, "skf5_f1": 0.5775, "skf5_auc": 0.7079, "exp_cv_acc": 0.6058, "exp_cv_f1": 0.1961, "exp_cv_auc": 0.6253, "test_acc": 0.4615, "test_precision": 0.2778, "test_recall": 0.25, "test_f1": 0.2632, "test_auc": 0.3891}, {"task": "C2_Binary_UnderperformRisk", "feature_regime": "weather_anomaly_subregion", "model": "GradientBoosting", "skf5_acc": 0.7024, "skf5_f1": 0.4078, "skf5_auc": 0.6849, "exp_cv_acc": 0.6635, "exp_cv_f1": 0.1463, "exp_cv_auc": 0.6618, "test_acc": 0.5385, "test_precision": 0.25, "test_recall": 0.1, "test_f1": 0.1429, "test_auc": 0.4008}, {"task": "C2_Binary_UnderperformRisk", "feature_regime": "weather_anomaly_subregion", "model": "NaiveBayes_Gaussian", "skf5_acc": 0.6683, "skf5_f1": 0.32, "skf5_auc": 0.5769, "exp_cv_acc": 0.6923, "exp_cv_f1": 0.2, "exp_cv_auc": 0.6537, "test_acc": 0.5192, "test_precision": 0.3077, "test_recall": 0.2, "test_f1": 0.2424, "test_auc": 0.5156}, {"task": "C2_Binary_UnderperformRisk", "feature_regime": "weather_anomaly_subregion", "model": "SVM_Linear", "skf5_acc": 0.5463, "skf5_f1": 0.4224, "skf5_auc": 0.5801, "exp_cv_acc": 0.6827, "exp_cv_f1": 0.1951, "exp_cv_auc": 0.4759, "test_acc": 0.5577, "test_precision": 0.4444, "test_recall": 0.6, "test_f1": 0.5106, "test_auc": 0.5875}, {"task": "C2_Binary_UnderperformRisk", "feature_regime": "weather_anomaly_subregion", "model": "SVM_RBF", "skf5_acc": 0.5951, "skf5_f1": 0.4845, "skf5_auc": 0.6029, "exp_cv_acc": 0.6923, "exp_cv_f1": 0.4286, "exp_cv_auc": 0.6035, "test_acc": 0.5577, "test_precision": 0.3636, "test_recall": 0.2, "test_f1": 0.2581, "test_auc": 0.4828}, {"task": "C2_Binary_UnderperformRisk", "feature_regime": "weather_anomaly_subregion", "model": "MLP_ReLU", "skf5_acc": 0.722, "skf5_f1": 0.5043, "skf5_auc": 0.653, "exp_cv_acc": 0.6827, "exp_cv_f1": 0.2667, "exp_cv_auc": 0.6932, "test_acc": 0.6154, "test_precision": 0.0, "test_recall": 0.0, "test_f1": 0.0, "test_auc": 0.5938}, {"task": "C2_Binary_UnderperformRisk", "feature_regime": "weather_anomaly_subregion", "model": "MLP_Tanh", "skf5_acc": 0.6878, "skf5_f1": 0.4286, "skf5_auc": 0.6366, "exp_cv_acc": 0.6538, "exp_cv_f1": 0.28, "exp_cv_auc": 0.6253, "test_acc": 0.6154, "test_precision": 0.0, "test_recall": 0.0, "test_f1": 0.0, "test_auc": 0.5844}], "ols_diag": [{"model": "TrackB_Direct_OneHot_Ortho5_Year_n90", "n": 90, "r2": 0.9137, "adj_r2": 0.9027, "f_pvalue_gd1": 0.0, "shapiro_p_gd2": 0.141193, "max_vif_gd3": 11.28, "bp_p_gd4": 0.080626, "white_p_gd4": 0.128084, "aic": 29.035, "bic": 56.533}, {"model": "TrackB_FE_Demeaned_Ortho5_Year_n90", "n": 90, "r2": 0.492, "adj_r2": 0.4553, "f_pvalue_gd1": 0.0, "shapiro_p_gd2": 0.000122, "max_vif_gd3": 2.9, "bp_p_gd4": 0.369547, "white_p_gd4": 0.191532, "aic": -6.083, "bic": 11.416}, {"model": "TrackA_DX_Full_13Prov_n127", "n": 127, "r2": 0.228, "adj_r2": 0.1894, "f_pvalue_gd1": 2e-05, "shapiro_p_gd2": 0.0, "max_vif_gd3": 6.35, "bp_p_gd4": 0.227595, "white_p_gd4": 0.46282, "aic": 273.281, "bic": 293.19}, {"model": "TrackA_DX_ExSalinity_13Prov_n125", "n": 125, "r2": 0.2724, "adj_r2": 0.2354, "f_pvalue_gd1": 1e-06, "shapiro_p_gd2": 0.0, "max_vif_gd3": 6.29, "bp_p_gd4": 0.862605, "white_p_gd4": 0.928102, "aic": 165.46, "bic": 185.258}, {"model": "TrackA_HTTD_13Prov_n130", "n": 130, "r2": 0.4762, "adj_r2": 0.4507, "f_pvalue_gd1": 0.0, "shapiro_p_gd2": 0.000355, "max_vif_gd3": 3.59, "bp_p_gd4": 0.140726, "white_p_gd4": 0.033386, "aic": -54.809, "bic": -34.736}], "cl_val": [{"algorithm": "KMeans_K3", "n_clusters_found": 3, "n_noise_points": 0, "internal_sse": 30.3217, "internal_silhouette": 0.3898, "internal_calinski_harabasz": 14.2931, "internal_dunn": 0.52, "external_ari_vs_subregion": 0.1374, "external_nmi_vs_subregion": 0.3838, "external_fmi_vs_subregion": 0.3917, "external_jaccard_vs_subregion": 0.2432}, {"algorithm": "KMedoids_PAM_K3", "n_clusters_found": 3, "n_noise_points": 0, "internal_sse": 30.3217, "internal_silhouette": 0.3898, "internal_calinski_harabasz": 14.2931, "internal_dunn": 0.52, "external_ari_vs_subregion": 0.1374, "external_nmi_vs_subregion": 0.3838, "external_fmi_vs_subregion": 0.3917, "external_jaccard_vs_subregion": 0.2432}, {"algorithm": "Agglomerative_Ward_K3", "n_clusters_found": 3, "n_noise_points": 0, "internal_sse": 30.3217, "internal_silhouette": 0.3898, "internal_calinski_harabasz": 14.2931, "internal_dunn": 0.52, "external_ari_vs_subregion": 0.1374, "external_nmi_vs_subregion": 0.3838, "external_fmi_vs_subregion": 0.3917, "external_jaccard_vs_subregion": 0.2432}, {"algorithm": "Agglomerative_Complete_K3", "n_clusters_found": 3, "n_noise_points": 0, "internal_sse": 30.3217, "internal_silhouette": 0.3898, "internal_calinski_harabasz": 14.2931, "internal_dunn": 0.52, "external_ari_vs_subregion": 0.1374, "external_nmi_vs_subregion": 0.3838, "external_fmi_vs_subregion": 0.3917, "external_jaccard_vs_subregion": 0.2432}, {"algorithm": "Agglomerative_Average_K3", "n_clusters_found": 3, "n_noise_points": 0, "internal_sse": 40.4974, "internal_silhouette": 0.337, "internal_calinski_harabasz": 9.4454, "internal_dunn": 0.4653, "external_ari_vs_subregion": 0.4103, "external_nmi_vs_subregion": 0.6556, "external_fmi_vs_subregion": 0.6486, "external_jaccard_vs_subregion": 0.4524}, {"algorithm": "Agglomerative_Single_K3", "n_clusters_found": 3, "n_noise_points": 0, "internal_sse": 49.1723, "internal_silhouette": 0.3678, "internal_calinski_harabasz": 6.8969, "internal_dunn": 0.4369, "external_ari_vs_subregion": 0.1915, "external_nmi_vs_subregion": 0.4126, "external_fmi_vs_subregion": 0.5344, "external_jaccard_vs_subregion": 0.3333}, {"algorithm": "BisectingKMeans_K3", "n_clusters_found": 3, "n_noise_points": 0, "internal_sse": 30.3217, "internal_silhouette": 0.3898, "internal_calinski_harabasz": 14.2931, "internal_dunn": 0.52, "external_ari_vs_subregion": 0.1374, "external_nmi_vs_subregion": 0.3838, "external_fmi_vs_subregion": 0.3917, "external_jaccard_vs_subregion": 0.2432}, {"algorithm": "DBSCAN_eps2_8_min2", "n_clusters_found": 2, "n_noise_points": 1, "internal_sse": 49.1723, "internal_silhouette": 0.4238, "internal_calinski_harabasz": 7.0763, "internal_dunn": 0.4369, "external_ari_vs_subregion": 0.1915, "external_nmi_vs_subregion": 0.4126, "external_fmi_vs_subregion": 0.5344, "external_jaccard_vs_subregion": 0.3333}, {"algorithm": "MeanShift_Auto", "n_clusters_found": 5, "n_noise_points": 0, "internal_sse": 22.6485, "internal_silhouette": 0.2495, "internal_calinski_harabasz": 8.3318, "internal_dunn": 0.4833, "external_ari_vs_subregion": 0.2783, "external_nmi_vs_subregion": 0.5866, "external_fmi_vs_subregion": 0.5147, "external_jaccard_vs_subregion": 0.3421}], "rules_dx": [{"antecedent": "MưaTiềnVụ=Cao AND Vùng=ThượngNguồn", "consequent": "NăngSuấtĐX=Cao", "support": 0.0945, "confidence": 1.0, "lift": 3.0238, "leverage": 0.0632, "conviction": 999.0, "dataset": "TrackA_DX_13Prov_n127"}, {"antecedent": "ENSO=LaNiña AND Vùng=ThượngNguồn", "consequent": "NăngSuấtĐX=Cao", "support": 0.1024, "confidence": 0.8125, "lift": 2.4568, "leverage": 0.0607, "conviction": 3.5696, "dataset": "TrackA_DX_13Prov_n127"}, {"antecedent": "Gió2m=Mạnh AND MưaTiềnVụ=TB", "consequent": "NăngSuấtĐX=Thấp", "support": 0.0945, "confidence": 0.7059, "lift": 2.0848, "leverage": 0.0492, "conviction": 2.2488, "dataset": "TrackA_DX_13Prov_n127"}, {"antecedent": "MưaTiềnVụ=TB AND Vùng=VenBiển", "consequent": "NăngSuấtĐX=Thấp", "support": 0.0866, "confidence": 0.6875, "lift": 2.0305, "leverage": 0.044, "conviction": 2.1165, "dataset": "TrackA_DX_13Prov_n127"}, {"antecedent": "VPD=TB AND Vùng=ThượngNguồn", "consequent": "NăngSuấtĐX=Cao", "support": 0.0945, "confidence": 0.6667, "lift": 2.0159, "leverage": 0.0476, "conviction": 2.0079, "dataset": "TrackA_DX_13Prov_n127"}, {"antecedent": "ENSO=LaNiña AND VPD=TB", "consequent": "NăngSuấtĐX=Cao", "support": 0.1024, "confidence": 0.65, "lift": 1.9655, "leverage": 0.0503, "conviction": 1.9123, "dataset": "TrackA_DX_13Prov_n127"}, {"antecedent": "Vùng=VenBiển", "consequent": "NăngSuấtĐX=Thấp", "support": 0.1811, "confidence": 0.6216, "lift": 1.836, "leverage": 0.0825, "conviction": 1.748, "dataset": "TrackA_DX_13Prov_n127"}, {"antecedent": "ENSO=LaNiña AND Vùng=VùngGiữa", "consequent": "NăngSuấtĐX=TB", "support": 0.0945, "confidence": 0.6, "lift": 1.8143, "leverage": 0.0424, "conviction": 1.6732, "dataset": "TrackA_DX_13Prov_n127"}, {"antecedent": "Gió2m=Mạnh AND Vùng=VenBiển", "consequent": "NăngSuấtĐX=Thấp", "support": 0.1496, "confidence": 0.5938, "lift": 1.7536, "leverage": 0.0643, "conviction": 1.6281, "dataset": "TrackA_DX_13Prov_n127"}, {"antecedent": "Gió2m=Yếu AND Vùng=ThượngNguồn", "consequent": "NăngSuấtĐX=Cao", "support": 0.1181, "confidence": 0.5769, "lift": 1.7445, "leverage": 0.0504, "conviction": 1.582, "dataset": "TrackA_DX_13Prov_n127"}, {"antecedent": "Vùng=ThượngNguồn", "consequent": "NăngSuấtĐX=Cao", "support": 0.1811, "confidence": 0.575, "lift": 1.7387, "leverage": 0.0769, "conviction": 1.5748, "dataset": "TrackA_DX_13Prov_n127"}, {"antecedent": "ENSO=ElNiño AND Gió2m=Mạnh", "consequent": "NăngSuấtĐX=Thấp", "support": 0.1102, "confidence": 0.5833, "lift": 1.7229, "leverage": 0.0463, "conviction": 1.5874, "dataset": "TrackA_DX_13Prov_n127"}, {"antecedent": "Gió2m=Mạnh", "consequent": "NăngSuấtĐX=Thấp", "support": 0.1969, "confidence": 0.5814, "lift": 1.7171, "leverage": 0.0822, "conviction": 1.5801, "dataset": "TrackA_DX_13Prov_n127"}, {"antecedent": "VPD=ẨmThấp AND Vùng=VenBiển", "consequent": "NăngSuấtĐX=Thấp", "support": 0.1181, "confidence": 0.5769, "lift": 1.7039, "leverage": 0.0488, "conviction": 1.5634, "dataset": "TrackA_DX_13Prov_n127"}], "outliers_3sigma": [{"dataset": "track_a_dx_13prov_127", "province": "Bến Tre", "harvest_year": 2016, "season": "dong_xuan", "yield_t_ha": 0.05, "z_score": -5.494}, {"dataset": "track_a_dx_13prov_127", "province": "Cà Mau", "harvest_year": 2017, "season": "dong_xuan", "yield_t_ha": 3.0, "z_score": -3.034}, {"dataset": "track_a_dx_13prov_127", "province": "Bến Tre", "harvest_year": 2020, "season": "dong_xuan", "yield_t_ha": 0.04, "z_score": -5.502}, {"dataset": "track_a_ht_td_13prov_130", "province": "Bến Tre", "harvest_year": 2020, "season": "he_thu_thu_dong_combined", "yield_t_ha": 3.47, "z_score": -3.423}], "sim_models": {"track_b_huber": {"features": ["vpd_mean_kpa", "precip_total_mm", "ws2m_mean_ms", "pre_season_rain_90d_mm", "oni_pre_season", "year_z"], "intercept": -0.02163, "coefs": [0.10034, 0.0276, -0.04673, 0.01378, -0.0663, 0.10235], "stds": {"vpd_mean_kpa": 0.17695, "precip_total_mm": 228.19605, "ws2m_mean_ms": 0.19828, "pre_season_rain_90d_mm": 212.33429, "oni_pre_season": 0.87886}, "year_mean": 2018.5, "year_std": 2.2913, "include_year": true, "y_medians": {"an_giang|dong_xuan": 7.2625, "an_giang|he_thu": 5.628, "an_giang|thu_dong": 5.8755, "can_tho|dong_xuan": 7.1935, "can_tho|he_thu": 5.837, "can_tho|thu_dong": 5.0615, "kien_giang|dong_xuan": 7.1555, "kien_giang|he_thu": 5.49, "kien_giang|thu_dong": 5.305}, "x_medians": {"an_giang|dong_xuan": {"vpd_mean_kpa": 0.8853, "precip_total_mm": 187.05, "ws2m_mean_ms": 2.1535, "pre_season_rain_90d_mm": 603.94, "oni_pre_season": 0.105}, "an_giang|he_thu": {"vpd_mean_kpa": 0.7097, "precip_total_mm": 989.875, "ws2m_mean_ms": 2.3205, "pre_season_rain_90d_mm": 118.8, "oni_pre_season": 0.42}, "an_giang|thu_dong": {"vpd_mean_kpa": 0.4093, "precip_total_mm": 876.78, "ws2m_mean_ms": 2.284, "pre_season_rain_90d_mm": 893.615, "oni_pre_season": 0.11}, "can_tho|dong_xuan": {"vpd_mean_kpa": 0.7434, "precip_total_mm": 196.66, "ws2m_mean_ms": 2.405, "pre_season_rain_90d_mm": 744.135, "oni_pre_season": 0.105}, "can_tho|he_thu": {"vpd_mean_kpa": 0.6927, "precip_total_mm": 987.535, "ws2m_mean_ms": 2.3745, "pre_season_rain_90d_mm": 78.925, "oni_pre_season": 0.42}, "can_tho|thu_dong": {"vpd_mean_kpa": 0.3807, "precip_total_mm": 979.22, "ws2m_mean_ms": 2.3555, "pre_season_rain_90d_mm": 892.51, "oni_pre_season": 0.11}, "kien_giang|dong_xuan": {"vpd_mean_kpa": 0.8121, "precip_total_mm": 205.585, "ws2m_mean_ms": 2.7635, "pre_season_rain_90d_mm": 701.975, "oni_pre_season": 0.105}, "kien_giang|he_thu": {"vpd_mean_kpa": 0.7491, "precip_total_mm": 944.645, "ws2m_mean_ms": 2.817, "pre_season_rain_90d_mm": 102.39, "oni_pre_season": 0.42}, "kien_giang|thu_dong": {"vpd_mean_kpa": 0.4557, "precip_total_mm": 997.95, "ws2m_mean_ms": 2.7565, "pre_season_rain_90d_mm": 858.385, "oni_pre_season": 0.11}}}, "track_b_ridge": {"features": ["vpd_mean_kpa", "precip_total_mm", "ws2m_mean_ms", "pre_season_rain_90d_mm", "oni_pre_season", "year_z"], "intercept": -0.03395, "coefs": [0.04595, 0.01282, -0.04139, 0.02263, -0.03955, 0.09683], "stds": {"vpd_mean_kpa": 0.17695, "precip_total_mm": 228.19605, "ws2m_mean_ms": 0.19828, "pre_season_rain_90d_mm": 212.33429, "oni_pre_season": 0.87886}, "year_mean": 2018.5, "year_std": 2.2913, "include_year": true, "y_medians": {"an_giang|dong_xuan": 7.2625, "an_giang|he_thu": 5.628, "an_giang|thu_dong": 5.8755, "can_tho|dong_xuan": 7.1935, "can_tho|he_thu": 5.837, "can_tho|thu_dong": 5.0615, "kien_giang|dong_xuan": 7.1555, "kien_giang|he_thu": 5.49, "kien_giang|thu_dong": 5.305}, "x_medians": {"an_giang|dong_xuan": {"vpd_mean_kpa": 0.8853, "precip_total_mm": 187.05, "ws2m_mean_ms": 2.1535, "pre_season_rain_90d_mm": 603.94, "oni_pre_season": 0.105}, "an_giang|he_thu": {"vpd_mean_kpa": 0.7097, "precip_total_mm": 989.875, "ws2m_mean_ms": 2.3205, "pre_season_rain_90d_mm": 118.8, "oni_pre_season": 0.42}, "an_giang|thu_dong": {"vpd_mean_kpa": 0.4093, "precip_total_mm": 876.78, "ws2m_mean_ms": 2.284, "pre_season_rain_90d_mm": 893.615, "oni_pre_season": 0.11}, "can_tho|dong_xuan": {"vpd_mean_kpa": 0.7434, "precip_total_mm": 196.66, "ws2m_mean_ms": 2.405, "pre_season_rain_90d_mm": 744.135, "oni_pre_season": 0.105}, "can_tho|he_thu": {"vpd_mean_kpa": 0.6927, "precip_total_mm": 987.535, "ws2m_mean_ms": 2.3745, "pre_season_rain_90d_mm": 78.925, "oni_pre_season": 0.42}, "can_tho|thu_dong": {"vpd_mean_kpa": 0.3807, "precip_total_mm": 979.22, "ws2m_mean_ms": 2.3555, "pre_season_rain_90d_mm": 892.51, "oni_pre_season": 0.11}, "kien_giang|dong_xuan": {"vpd_mean_kpa": 0.8121, "precip_total_mm": 205.585, "ws2m_mean_ms": 2.7635, "pre_season_rain_90d_mm": 701.975, "oni_pre_season": 0.105}, "kien_giang|he_thu": {"vpd_mean_kpa": 0.7491, "precip_total_mm": 944.645, "ws2m_mean_ms": 2.817, "pre_season_rain_90d_mm": 102.39, "oni_pre_season": 0.42}, "kien_giang|thu_dong": {"vpd_mean_kpa": 0.4557, "precip_total_mm": 997.95, "ws2m_mean_ms": 2.7565, "pre_season_rain_90d_mm": 858.385, "oni_pre_season": 0.11}}}, "track_a_dx_huber": {"features": ["vpd_mean_kpa", "precip_total_mm", "ws2m_mean_ms", "pre_season_rain_90d_mm", "oni_pre_season", "year_z"], "intercept": -0.03557, "coefs": [0.07916, -0.16583, -0.03116, -0.0177, -0.25707, 0.03862], "stds": {"vpd_mean_kpa": 0.18189, "precip_total_mm": 92.28472, "ws2m_mean_ms": 0.23961, "pre_season_rain_90d_mm": 209.13087, "oni_pre_season": 1.12748}, "year_mean": 2018.5644, "year_std": 2.2839, "include_year": true, "y_medians": {"an_giang": 7.265, "bac_lieu": 7.415, "ben_tre": 4.945, "ca_mau": 5.78, "can_tho": 7.19, "dong_thap": 7.02, "hau_giang": 7.5, "kien_giang": 7.155, "long_an": 6.395, "soc_trang": 6.5, "tien_giang": 7.115, "tra_vinh": 6.455, "vinh_long": 6.755}, "x_medians": {"an_giang": {"vpd_mean_kpa": 0.8853, "precip_total_mm": 187.05, "ws2m_mean_ms": 2.1535, "pre_season_rain_90d_mm": 603.94, "oni_pre_season": 0.105}, "bac_lieu": {"vpd_mean_kpa": 0.6042, "precip_total_mm": 294.455, "ws2m_mean_ms": 3.6115, "pre_season_rain_90d_mm": 882.495, "oni_pre_season": 0.105}, "ben_tre": {"vpd_mean_kpa": 0.6355, "precip_total_mm": 244.355, "ws2m_mean_ms": 3.607, "pre_season_rain_90d_mm": 726.84, "oni_pre_season": 0.105}, "ca_mau": {"vpd_mean_kpa": 0.6509, "precip_total_mm": 357.87, "ws2m_mean_ms": 3.997, "pre_season_rain_90d_mm": 838.71, "oni_pre_season": -0.49}, "can_tho": {"vpd_mean_kpa": 0.7434, "precip_total_mm": 196.66, "ws2m_mean_ms": 2.405, "pre_season_rain_90d_mm": 744.135, "oni_pre_season": 0.105}, "dong_thap": {"vpd_mean_kpa": 0.871, "precip_total_mm": 167.3, "ws2m_mean_ms": 2.079, "pre_season_rain_90d_mm": 566.12, "oni_pre_season": 0.105}, "hau_giang": {"vpd_mean_kpa": 0.6876, "precip_total_mm": 217.515, "ws2m_mean_ms": 2.7275, "pre_season_rain_90d_mm": 787.41, "oni_pre_season": 0.105}, "kien_giang": {"vpd_mean_kpa": 0.8121, "precip_total_mm": 205.585, "ws2m_mean_ms": 2.7635, "pre_season_rain_90d_mm": 701.975, "oni_pre_season": 0.105}, "long_an": {"vpd_mean_kpa": 0.9415, "precip_total_mm": 150.635, "ws2m_mean_ms": 2.07, "pre_season_rain_90d_mm": 487.05, "oni_pre_season": 0.105}, "soc_trang": {"vpd_mean_kpa": 0.6685, "precip_total_mm": 198.125, "ws2m_mean_ms": 3.979, "pre_season_rain_90d_mm": 799.52, "oni_pre_season": 0.105}, "tien_giang": {"vpd_mean_kpa": 0.8401, "precip_total_mm": 159.325, "ws2m_mean_ms": 2.398, "pre_season_rain_90d_mm": 551.03, "oni_pre_season": 0.105}, "tra_vinh": {"vpd_mean_kpa": 0.6152, "precip_total_mm": 250.095, "ws2m_mean_ms": 3.629, "pre_season_rain_90d_mm": 781.87, "oni_pre_season": 0.105}, "vinh_long": {"vpd_mean_kpa": 0.7046, "precip_total_mm": 190.815, "ws2m_mean_ms": 2.769, "pre_season_rain_90d_mm": 695.08, "oni_pre_season": 0.105}}}}};
+
+const SUB_VN = {
+  'upstream_alluvial_3crop': 'Thượng nguồn / Phù sa ngọt',
+  'middle_south_ql1': 'Vùng giữa / Nam QL1',
+  'coastal_salinity_prone': 'Ven biển nhạy mặn'
+};
+const SEASON_VN = {
+  'dong_xuan': 'Đông Xuân',
+  'he_thu': 'Hè Thu',
+  'thu_dong': 'Thu Đông'
+};
+const FEAT_VN = {
+  'vpd_mean_kpa': 'VPD (độ khô)',
+  'precip_total_mm': 'Tổng mưa vụ',
+  'ws2m_mean_ms': 'Tốc độ gió 2m',
+  'pre_season_rain_90d_mm': 'Mưa 90n tiền vụ',
+  'oni_pre_season': 'ENSO (ONI)',
+  'year_z': 'Xu hướng năm'
+};
+
+let simpMode = 'within';
+
+function switchTab(id, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// =========================================================================
+// TAB 1: PROVINCE EXPLORER + SIMPSON'S PARADOX
+// =========================================================================
+function initTab1() {
+  const sel = document.getElementById('provSelect');
+  DATA.provinces.forEach(p => {
+    const opt = document.createElement('option');
+    opt.value = p.province_id;
+    opt.textContent = p.province + (p.has_3seasons ? ' ★ (Đủ 3 vụ riêng)' : '');
+    sel.appendChild(opt);
+  });
+  sel.value = 'ben_tre';
+  renderTab1();
+  renderSimpson();
+}
+
+function renderTab1() {
+  const pid = document.getElementById('provSelect').value;
+  const view = document.getElementById('seasonView').value;
+  const p = DATA.provinces.find(x => x.province_id === pid);
+  const note = document.getElementById('provNote');
+  const effectiveView = (view === 't1_3seasons' && !p.has_3seasons) ? 'both_t2' : view;
+  note.textContent = (view === 't1_3seasons' && !p.has_3seasons)
+    ? '(Tỉnh này thuộc Tuyến A — tự động hiển thị Đông Xuân & cụm Hè Thu–Thu Đông)'
+    : '';
+
+  const clName = {0: 'Cụm 0: Ẩm gió · Năng suất cao', 1: 'Cụm 1: Ven biển rủi ro mặn cực đoan', 2: 'Cụm 2: Nội đồng Đông Bắc khô ấm'};
+  const dbText = p.clusters.DBSCAN_eps2_8_min2 === -1 ? 'NHIỄU (-1: Cực đoan mặn)' : `Cụm mật độ ${p.clusters.DBSCAN_eps2_8_min2}`;
+
+  document.getElementById('tab1Kpis').innerHTML = `
+    <div class="kpi"><div class="k-lbl">Tiểu vùng sinh thái</div><div class="k-val" style="font-size:16px;">${SUB_VN[p.ecological_subregion]}</div><div class="k-sub">${clName[p.clusters.Agglomerative_Ward_K3]}</div></div>
+    <div class="kpi g"><div class="k-lbl">Đông Xuân TB / Min–Max</div><div class="k-val">${p.dx_mean.toFixed(2)} <span style="font-size:13px;">tấn/ha</span></div><div class="k-sub">Min ${p.dx_min.toFixed(2)} · Max ${p.dx_max.toFixed(2)}</div></div>
+    <div class="kpi"><div class="k-lbl">Hè Thu–Thu Đông TB</div><div class="k-val">${p.httd_mean.toFixed(2)} <span style="font-size:13px;">tấn/ha</span></div><div class="k-sub">Tổng sản lượng 10 năm: <strong>${p.total_prod_10y_mt} triệu tấn</strong></div></div>
+    <div class="kpi ${p.clusters.DBSCAN_eps2_8_min2 === -1 ? 'r' : 'o'}"><div class="k-lbl">Phát hiện mật độ DBSCAN</div><div class="k-val" style="font-size:16px;">${dbText}</div><div class="k-sub">${p.dx_min < 3.5 ? 'Có cú sốc hạn mặn cực đoan (vượt 3σ)' : 'Không có cú sốc mất trắng vượt 3σ'}</div></div>
+  `;
+
+  // Render inline SVG line chart
+  const W = 680, H = 290, padL = 48, padR = 24, padT = 20, padB = 34;
+  const years = [2015,2016,2017,2018,2019,2020,2021,2022,2023,2024];
+  const xOf = yr => padL + ((yr - 2015) / 9) * (W - padL - padR);
+  const yMin = p.dx_min < 2 ? 0 : 4.0;
+  const yMax = 8.2;
+  const yOf = v => padT + ((yMax - v) / (yMax - yMin)) * (H - padT - padB);
+
+  let svg = `<svg viewBox="0 0 ${W} ${H}" style="width:100%; max-width:${W}px; height:auto;">`;
+  // Gridlines
+  for (let yv = Math.ceil(yMin); yv <= 8; yv += 1) {
+    const yy = yOf(yv);
+    svg += `<line x1="${padL}" y1="${yy}" x2="${W-padR}" y2="${yy}" stroke="#e2e8f0" stroke-width="1"/>`;
+    svg += `<text x="${padL-8}" y="${yy+4}" text-anchor="end" font-size="11" fill="#475569">${yv.toFixed(0)}</text>`;
+  }
+  years.forEach(yr => {
+    const xx = xOf(yr);
+    svg += `<text x="${xx}" y="${H-10}" text-anchor="middle" font-size="11" fill="#475569">${yr}</text>`;
+  });
+  // Test shading 2023-2024
+  svg += `<rect x="${xOf(2022.5)}" y="${padT}" width="${xOf(2024.15)-xOf(2022.5)}" height="${H-padT-padB}" fill="#eff6ff" opacity="0.8"/>`;
+  svg += `<text x="${xOf(2023.3)}" y="${padT+13}" text-anchor="middle" font-size="10" font-weight="700" fill="#1e40af">Test khóa kín</text>`;
+
+  function drawSeries(arr, color, dash, name) {
+    if (!arr || !arr.length) return;
+    const pts = arr.map(r => `${xOf(r.harvest_year)},${yOf(r.yield_t_ha)}`).join(' ');
+    svg += `<polyline fill="none" stroke="${color}" stroke-width="2.6" stroke-dasharray="${dash}" points="${pts}"/>`;
+    arr.forEach(r => {
+      const cx = xOf(r.harvest_year), cy = yOf(r.yield_t_ha);
+      const isOut = r.domain_outlier_flag && r.domain_outlier_flag !== 'none';
+      svg += `<circle cx="${cx}" cy="${cy}" r="${isOut ? 6 : 4}" fill="${isOut ? '#dc2626' : color}" stroke="#fff" stroke-width="1.5"><title>${name} ${r.harvest_year}: ${r.yield_t_ha.toFixed(2)} tấn/ha | ONI=${r.oni_pre_season}</title></circle>`;
+      if (isOut) {
+        svg += `<text x="${cx}" y="${cy-9}" text-anchor="middle" font-size="10" font-weight="700" fill="#b91c1c">${r.yield_t_ha.toFixed(2)} (3σ)</text>`;
+      }
+    });
+  }
+
+  if (effectiveView === 't1_3seasons') {
+    document.getElementById('chart1Badge').textContent = 'Tuyến B: 3 vụ tách riêng';
+    drawSeries(p.t1_series.dong_xuan, '#1d4ed8', '', 'Đông Xuân');
+    drawSeries(p.t1_series.he_thu, '#ea580c', '6,3', 'Hè Thu');
+    drawSeries(p.t1_series.thu_dong, '#15803d', '2,3', 'Thu Đông');
+    svg += `<text x="${padL+8}" y="${padT+12}" font-size="11" font-weight="700" fill="#1d4ed8">— Đông Xuân</text>`;
+    svg += `<text x="${padL+95}" y="${padT+12}" font-size="11" font-weight="700" fill="#ea580c">-- Hè Thu</text>`;
+    svg += `<text x="${padL+165}" y="${padT+12}" font-size="11" font-weight="700" fill="#15803d">··· Thu Đông</text>`;
+  } else {
+    document.getElementById('chart1Badge').textContent = 'Tuyến A: Đông Xuân & HT–TĐ';
+    drawSeries(p.dx_series, '#1d4ed8', '', 'Đông Xuân');
+    drawSeries(p.comb_series, '#ea580c', '6,3', 'Hè Thu–Thu Đông');
+    svg += `<text x="${padL+8}" y="${padT+12}" font-size="11" font-weight="700" fill="#1d4ed8">— Đông Xuân</text>`;
+    svg += `<text x="${padL+95}" y="${padT+12}" font-size="11" font-weight="700" fill="#ea580c">-- Hè Thu–Thu Đông</text>`;
+  }
+  svg += `</svg>`;
+  document.getElementById('yieldChartSvg').innerHTML = svg;
+
+  // Detail table
+  const rows = p.dx_series;
+  let tbl = `<table><thead><tr><th>Năm</th><th class="num">Năng suất ĐX (tấn/ha)</th><th class="num">VPD (kPa)</th><th class="num">Mưa trong vụ (mm)</th><th class="num">Gió 2m (m/s)</th><th class="num">Mưa 90n tiền vụ (mm)</th><th class="num">ENSO ONI</th><th>Ghi chú</th></tr></thead><tbody>`;
+  rows.forEach(r => {
+    const out = r.domain_outlier_flag !== 'none';
+    tbl += `<tr class="${out ? 'bad-row' : ''}"><td><strong>${r.harvest_year}</strong></td><td class="num"><strong>${r.yield_t_ha.toFixed(2)}</strong></td><td class="num">${r.vpd_mean_kpa.toFixed(3)}</td><td class="num">${r.precip_total_mm.toFixed(1)}</td><td class="num">${r.ws2m_mean_ms.toFixed(2)}</td><td class="num">${r.pre_season_rain_90d_mm.toFixed(1)}</td><td class="num">${r.oni_pre_season.toFixed(2)}</td><td>${out ? '<span class="tag r">Hạn mặn cực đoan (3σ)</span>' : (r.harvest_year >= 2023 ? '<span class="tag b">Test khóa kín</span>' : '<span class="tag g">Bình thường</span>')}</td></tr>`;
+  });
+  tbl += `</tbody></table>`;
+  document.getElementById('provTableWrap').innerHTML = tbl;
+}
+
+function setSimpMode(m) {
+  simpMode = m;
+  document.getElementById('btnSimpRaw').classList.toggle('active', m === 'raw');
+  document.getElementById('btnSimpWithin').classList.toggle('active', m === 'within');
+  renderSimpson();
+}
+
+function renderSimpson() {
+  const cap = document.getElementById('simpCaption');
+  cap.innerHTML = simpMode === 'raw'
+    ? '<strong style="color:#b91c1c;">BẪY TRỘN MÙA (Tương quan thô gộp 3 vụ):</strong> Mưa tương quan ÂM (−0,74), Ngày khô (+0,88) &amp; Nóng &gt;35°C (+0,48) → dễ kết luận ngược đời vì vụ Đông Xuân rơi vào mùa khô!'
+    : '<strong style="color:#15803d;">QUY LUẬT THỰC (Sau khi khử cố định Tỉnh × Vụ):</strong> Toàn bộ 8/8 biến ĐẢO DẤU — Mưa thành DƯƠNG (+0,37, p=0,0003), Mưa lớn (+0,38, p=0,0002), VPD &amp; Nóng thành ÂM!';
+
+  const W = 540, H = 280, midX = 310, scale = 180;
+  let svg = `<svg viewBox="0 0 ${W} ${H}" style="width:100%; max-width:${W}px; height:auto;">`;
+  svg += `<line x1="${midX}" y1="12" x2="${midX}" y2="${H-16}" stroke="#334155" stroke-width="1.4"/>`;
+  svg += `<text x="${midX-90}" y="12" text-anchor="middle" font-size="10" fill="#b91c1c">← Tương quan ÂM</text>`;
+  svg += `<text x="${midX+90}" y="12" text-anchor="middle" font-size="10" fill="#15803d">Tương quan DƯƠNG →</text>`;
+  DATA.simpson.forEach((d, idx) => {
+    const y = 28 + idx * 30;
+    const val = simpMode === 'raw' ? d.raw_r : d.within_r;
+    const bw = Math.abs(val) * scale;
+    const bx = val >= 0 ? midX : midX - bw;
+    const col = val >= 0 ? '#16a34a' : '#dc2626';
+    svg += `<text x="148" y="${y+13}" text-anchor="end" font-size="11.5" font-weight="600" fill="#0f172a">${d.label}</text>`;
+    svg += `<rect x="${bx}" y="${y}" width="${Math.max(bw, 2)}" height="18" rx="3" fill="${col}" opacity="0.86"/>`;
+    const tx = val >= 0 ? bx + bw + 5 : bx - 5;
+    const anchor = val >= 0 ? 'start' : 'end';
+    svg += `<text x="${tx}" y="${y+13}" text-anchor="${anchor}" font-size="11" font-weight="700" fill="${col}">${val >= 0 ? '+' : ''}${val.toFixed(3)}</text>`;
+  });
+  svg += `</svg>`;
+  document.getElementById('simpsonSvg').innerHTML = svg;
+}
+
+// =========================================================================
+// TAB 2: MULTI-MODEL COMPARISON + OLS DIAGNOSTICS
+// =========================================================================
+function renderTab2() {
+  const key = document.getElementById('benchSelect').value;
+  let rows = [], metricCol = '', secondaryCol = '', higherBetter = false, title = '', sub = '';
+  if (key === 'reg_b') {
+    rows = DATA.reg_track_b;
+    metricCol = 'expanding_cv_mae'; secondaryCol = 'test_2023_2024_mae'; higherBetter = false;
+    title = 'Hồi quy Tuyến B — 3 vụ tách riêng (20 mô hình)';
+    sub = 'Xanh đậm: Expanding-CV MAE (chọn mô hình) · Cam: Test MAE khóa kín (2023–2024) · Nhỏ hơn tốt hơn';
+  } else if (key.startsWith('reg_a_')) {
+    const mapS = {'reg_a_dx127': 'delta13_dong_xuan_full_127', 'reg_a_dx125': 'delta13_dong_xuan_ex_salinity_125', 'reg_a_comb': 'delta13_combined_ht_td_130'};
+    rows = DATA.reg_track_a.filter(r => r.suite === mapS[key]);
+    metricCol = 'expanding_cv_mae'; secondaryCol = 'test_2023_2024_mae'; higherBetter = false;
+    title = 'Hồi quy Tuyến A — ' + mapS[key];
+    sub = 'Xanh đậm: Expanding-CV MAE · Cam: Test MAE (2023–2024) · Nhỏ hơn tốt hơn';
+  } else {
+    const fMap = {
+      'clf_c1_full': r => r.task === 'C1_3Class_YieldTier' && r.feature_regime === 'full_context',
+      'clf_c1_w': r => r.task === 'C1_3Class_YieldTier' && r.feature_regime === 'weather_subregion',
+      'clf_c2': r => r.task === 'C2_Binary_UnderperformRisk'
+    };
+    rows = DATA.clf_all.filter(fMap[key]);
+    metricCol = 'exp_cv_f1'; secondaryCol = 'test_f1'; higherBetter = true;
+    title = key === 'clf_c2' ? 'Phân lớp Nhị phân C2 — Rủi ro Sụt giảm (Minh họa Accuracy Paradox)' : 'Phân lớp Đa lớp C1 — 3 hạng mức năng suất (n=257)';
+    sub = 'Xanh đậm: Expanding-CV F1 · Xanh lá: Test F1 khóa kín (2023–2024) · Cao hơn tốt hơn';
+  }
+  document.getElementById('benchTitle').textContent = title;
+  document.getElementById('benchSub').textContent = sub;
+
+  // Bar Chart SVG
+  const maxVal = Math.max(...rows.map(r => Math.max(r[metricCol] || 0, r[secondaryCol] || 0)), 0.01) * 1.15;
+  const rowH = 26, W = 660, H = 26 + rows.length * rowH;
+  const padL = 215, barArea = W - padL - 60;
+  let svg = `<svg viewBox="0 0 ${W} ${H}" style="width:100%; max-width:${W}px; height:auto;">`;
+  rows.forEach((r, i) => {
+    const y = 16 + i * rowH;
+    const v1 = r[metricCol] || 0, v2 = r[secondaryCol] || 0;
+    const w1 = (v1 / maxVal) * barArea, w2 = (v2 / maxVal) * barArea;
+    svg += `<text x="${padL-8}" y="${y+14}" text-anchor="end" font-size="10.8" font-weight="600" fill="#1e293b">${r.model}</text>`;
+    svg += `<rect x="${padL}" y="${y}" width="${Math.max(w1,2)}" height="9" rx="2" fill="#1d4ed8"/>`;
+    svg += `<rect x="${padL}" y="${y+10}" width="${Math.max(w2,2)}" height="9" rx="2" fill="${higherBetter ? '#16a34a' : '#ea580c'}"/>`;
+    svg += `<text x="${padL + Math.max(w1,w2) + 5}" y="${y+14}" font-size="10" font-weight="700" fill="#334155">${v1.toFixed(3)} / ${v2.toFixed(3)}</text>`;
+  });
+  svg += `</svg>`;
+  document.getElementById('benchSvg').innerHTML = svg;
+
+  // Table
+  const bestPrimary = higherBetter ? Math.max(...rows.map(r => r[metricCol])) : Math.min(...rows.map(r => r[metricCol]));
+  let tbl = '<table><thead><tr>';
+  if (key.startsWith('reg_')) {
+    tbl += '<th>Mô hình</th><th class="num">Exp-CV MAE</th><th class="num">Test MAE</th><th class="num">Test RMSE</th><th class="num">Test R²</th></tr></thead><tbody>';
+    rows.forEach(r => {
+      const isBest = Math.abs(r[metricCol] - bestPrimary) < 1e-6;
+      const isOverfit = r.test_2023_2024_mae > 0.33 && key === 'reg_b';
+      tbl += `<tr class="${isBest ? 'hl' : (isOverfit ? 'bad-row' : '')}"><td>${r.model}</td><td class="num">${r.expanding_cv_mae.toFixed(4)}</td><td class="num">${r.test_2023_2024_mae.toFixed(4)}</td><td class="num">${r.test_2023_2024_rmse.toFixed(4)}</td><td class="num">${r.test_2023_2024_r2.toFixed(4)}</td></tr>`;
+    });
+  } else {
+    tbl += '<th>Mô hình</th><th class="num">5-Fold F1</th><th class="num">Exp-CV F1</th><th class="num">Test Acc</th><th class="num">Test Prec</th><th class="num">Test Rec</th><th class="num">Test F1</th><th class="num">Test AUC</th></tr></thead><tbody>';
+    rows.forEach(r => {
+      const isBest = Math.abs(r.test_f1 - Math.max(...rows.map(x => x.test_f1))) < 1e-6;
+      const isZero = key === 'clf_c2' && r.test_f1 === 0 && r.model !== 'Dummy_Baseline';
+      tbl += `<tr class="${isBest ? 'hl' : (isZero ? 'bad-row' : '')}"><td>${r.model}</td><td class="num">${r.skf5_f1.toFixed(4)}</td><td class="num">${r.exp_cv_f1.toFixed(4)}</td><td class="num">${(r.test_acc*100).toFixed(1)}%</td><td class="num">${r.test_precision.toFixed(4)}</td><td class="num">${r.test_recall.toFixed(4)}</td><td class="num"><strong>${r.test_f1.toFixed(4)}</strong></td><td class="num">${r.test_auc.toFixed(4)}</td></tr>`;
+    });
+  }
+  tbl += '</tbody></table>';
+  document.getElementById('benchTableWrap').innerHTML = tbl;
+
+  // OLS diagnostics table
+  let dt = '<table><thead><tr><th>Mô hình OLS</th><th class="num">Adj.R²</th><th class="num">GĐ1 F</th><th class="num">GĐ2 SW</th><th class="num">GĐ3 VIF</th><th class="num">GĐ4 White</th><th class="num">AIC</th></tr></thead><tbody>';
+  DATA.ols_diag.forEach(d => {
+    const shortM = d.model.replace('_Ortho5_Year_n90','').replace('_13Prov','');
+    dt += `<tr><td>${shortM}</td><td class="num">${d.adj_r2.toFixed(3)}</td><td class="num"><span class="tag g">&lt;0.001</span></td><td class="num"><span class="tag ${d.shapiro_p_gd2 >= 0.05 ? 'g' : 'r'}">${d.shapiro_p_gd2 < 0.0001 ? '&lt;1e-4' : d.shapiro_p_gd2.toFixed(3)}</span></td><td class="num"><span class="tag ${d.max_vif_gd3 < 10 ? 'g' : 'r'}">${d.max_vif_gd3.toFixed(2)}</span></td><td class="num"><span class="tag ${d.white_p_gd4 >= 0.05 ? 'g' : 'r'}">${d.white_p_gd4.toFixed(3)}</span></td><td class="num">${d.aic.toFixed(1)}</td></tr>`;
+  });
+  dt += '</tbody></table>';
+  document.getElementById('olsDiagWrap').innerHTML = dt;
+}
+
+// =========================================================================
+// TAB 3: LIVE WHAT-IF SIMULATOR (EXACT TRAINED WEIGHTS)
+// =========================================================================
+function initTab3() {
+  const sp = document.getElementById('simProv');
+  DATA.provinces.forEach(p => {
+    const opt = document.createElement('option');
+    opt.value = p.province_id;
+    opt.textContent = p.province + (p.has_3seasons ? ' (Đủ 3 vụ)' : ' (Đông Xuân)');
+    sp.appendChild(opt);
+  });
+  sp.value = 'an_giang';
+  onSimScopeChange();
+}
+
+function getActiveSimModelAndKey() {
+  const pid = document.getElementById('simProv').value;
+  const p = DATA.provinces.find(x => x.province_id === pid);
+  const ss = document.getElementById('simSeason');
+  if (p.has_3seasons) {
+    if (ss.options.length !== 3) {
+      ss.innerHTML = '<option value="dong_xuan">Đông Xuân</option><option value="he_thu">Hè Thu</option><option value="thu_dong">Thu Đông</option>';
+    }
+    const season = ss.value || 'dong_xuan';
+    return { mdl: DATA.sim_models.track_b_huber, ridge: DATA.sim_models.track_b_ridge, key: `${pid}|${season}`, province: p, season: season, label: 'Tuyến B — Huber Robust + Trend (đối chiếu Ridge)' };
+  } else {
+    ss.innerHTML = '<option value="dong_xuan">Đông Xuân (Toàn vùng 13 tỉnh)</option>';
+    return { mdl: DATA.sim_models.track_a_dx_huber, ridge: null, key: pid, province: p, season: 'dong_xuan', label: 'Tuyến A (13 tỉnh ĐX) — Huber Robust + Trend' };
+  }
+}
+
+function onSimScopeChange() {
+  const ctx = getActiveSimModelAndKey();
+  const xm = ctx.mdl.x_medians[ctx.key];
+  document.getElementById('sl_vpd').value = xm.vpd_mean_kpa;
+  document.getElementById('sl_rain').value = xm.precip_total_mm;
+  document.getElementById('sl_ws').value = xm.ws2m_mean_ms;
+  document.getElementById('sl_pre90').value = xm.pre_season_rain_90d_mm;
+  document.getElementById('sl_oni').value = xm.oni_pre_season;
+  document.getElementById('sl_year').value = 2024;
+  updateSim();
+}
+
+function applyPreset(kind) {
+  const ctx = getActiveSimModelAndKey();
+  const xm = ctx.mdl.x_medians[ctx.key];
+  if (kind === 'normal') {
+    document.getElementById('sl_vpd').value = xm.vpd_mean_kpa;
+    document.getElementById('sl_rain').value = xm.precip_total_mm;
+    document.getElementById('sl_ws').value = xm.ws2m_mean_ms;
+    document.getElementById('sl_pre90').value = xm.pre_season_rain_90d_mm;
+    document.getElementById('sl_oni').value = xm.oni_pre_season;
+  } else if (kind === 'lanina') {
+    document.getElementById('sl_vpd').value = Math.max(0.45, xm.vpd_mean_kpa - 0.12).toFixed(2);
+    document.getElementById('sl_rain').value = Math.min(1500, xm.precip_total_mm + 220).toFixed(0);
+    document.getElementById('sl_ws').value = Math.max(1.8, xm.ws2m_mean_ms - 0.3).toFixed(2);
+    document.getElementById('sl_pre90').value = Math.min(1350, xm.pre_season_rain_90d_mm + 260).toFixed(0);
+    document.getElementById('sl_oni').value = -1.10;
+  } else if (kind === 'elnino') {
+    document.getElementById('sl_vpd').value = Math.min(1.40, xm.vpd_mean_kpa + 0.18).toFixed(2);
+    document.getElementById('sl_rain').value = Math.max(60, xm.precip_total_mm - 180).toFixed(0);
+    document.getElementById('sl_ws').value = Math.min(4.6, xm.ws2m_mean_ms + 0.4).toFixed(2);
+    document.getElementById('sl_pre90').value = Math.max(150, xm.pre_season_rain_90d_mm - 240).toFixed(0);
+    document.getElementById('sl_oni').value = 2.40;
+  } else if (kind === 'storm') {
+    document.getElementById('sl_vpd').value = Math.max(0.45, xm.vpd_mean_kpa - 0.08).toFixed(2);
+    document.getElementById('sl_rain').value = Math.min(1550, xm.precip_total_mm + 280).toFixed(0);
+    document.getElementById('sl_ws').value = Math.min(4.7, xm.ws2m_mean_ms + 0.95).toFixed(2);
+    document.getElementById('sl_pre90').value = xm.pre_season_rain_90d_mm;
+    document.getElementById('sl_oni').value = -0.50;
+  }
+  updateSim();
+}
+
+function updateSim() {
+  const ctx = getActiveSimModelAndKey();
+  const mdl = ctx.mdl;
+  const xm = mdl.x_medians[ctx.key];
+  const yBase = mdl.y_medians[ctx.key];
+
+  const vals = {
+    vpd_mean_kpa: parseFloat(document.getElementById('sl_vpd').value),
+    precip_total_mm: parseFloat(document.getElementById('sl_rain').value),
+    ws2m_mean_ms: parseFloat(document.getElementById('sl_ws').value),
+    pre_season_rain_90d_mm: parseFloat(document.getElementById('sl_pre90').value),
+    oni_pre_season: parseFloat(document.getElementById('sl_oni').value)
+  };
+  const yr = parseFloat(document.getElementById('sl_year').value);
+
+  document.getElementById('val_vpd').textContent = vals.vpd_mean_kpa.toFixed(2) + ' kPa';
+  document.getElementById('val_rain').textContent = vals.precip_total_mm.toFixed(0) + ' mm';
+  document.getElementById('val_ws').textContent = vals.ws2m_mean_ms.toFixed(2) + ' m/s';
+  document.getElementById('val_pre90').textContent = vals.pre_season_rain_90d_mm.toFixed(0) + ' mm';
+  document.getElementById('val_oni').textContent = (vals.oni_pre_season >= 0 ? '+' : '') + vals.oni_pre_season.toFixed(2);
+  document.getElementById('val_year').textContent = yr;
+
+  const contribs = [];
+  let delta = mdl.intercept;
+  mdl.features.forEach((f, idx) => {
+    const z = f === 'year_z' ? (yr - mdl.year_mean) / mdl.year_std : (vals[f] - xm[f]) / mdl.stds[f];
+    const c = mdl.coefs[idx] * z;
+    delta += c;
+    contribs.push({ feature: f, label: FEAT_VN[f] || f, contrib: c, z: z });
+  });
+  const pred = Math.max(0.1, yBase + delta);
+
+  let ridgeText = '';
+  if (ctx.ridge) {
+    let dr = ctx.ridge.intercept;
+    ctx.ridge.features.forEach((f, idx) => {
+      const z = f === 'year_z' ? (yr - ctx.ridge.year_mean) / ctx.ridge.year_std : (vals[f] - ctx.ridge.x_medians[ctx.key][f]) / ctx.ridge.stds[f];
+      dr += ctx.ridge.coefs[idx] * z;
+    });
+    ridgeText = `<span>Ridge đối chiếu: <strong>${(ctx.ridge.y_medians[ctx.key] + dr).toFixed(2)} tấn/ha</strong></span>`;
+  }
+
+  const tier = pred >= DATA.tier_thresholds.q67 ? 'CAO (≥ 6,49)' : (pred >= DATA.tier_thresholds.q33 ? 'TRUNG BÌNH (5,58–6,49)' : 'THẤP (< 5,58)');
+  document.getElementById('simModelLabel').textContent = `${ctx.label} · ${ctx.province.province} — Vụ ${SEASON_VN[ctx.season]}`;
+  document.getElementById('simPredVal').textContent = `${pred.toFixed(2)} tấn/ha`;
+  document.getElementById('simPredMeta').innerHTML = `
+    <span>Baseline lịch sử: <strong>${yBase.toFixed(2)}</strong></span>
+    <span>Chênh lệch: <strong>${delta >= 0 ? '+' : ''}${delta.toFixed(2)} tấn/ha</strong></span>
+    <span>Phân hạng C1: <strong>${tier}</strong></span>
+    ${ridgeText}
+  `;
+
+  // Alerts (CART Rule + Coastal OVB Warning)
+  let alerts = '';
+  const zPre90 = (vals.pre_season_rain_90d_mm - xm.pre_season_rain_90d_mm) / mdl.stds.pre_season_rain_90d_mm;
+  if (vals.oni_pre_season > 0.80 && zPre90 <= -0.47) {
+    alerts += `<div class="alert-box warn"><strong>⚠ Kích hoạt Luật Cây Quyết định CART:</strong> El Niño mạnh (ONI &gt; +0,80) kèm thiếu hụt mưa 90 ngày tiền vụ → <strong>Cảnh báo rủi ro sụt giảm năng suất dưới kỳ vọng!</strong></div>`;
+  } else if (vals.oni_pre_season < -0.5 && ctx.province.ecological_subregion === 'upstream_alluvial_3crop' && ctx.season === 'dong_xuan') {
+    alerts += `<div class="alert-box ok"><strong>✓ Khớp Luật Apriori thuận lợi (Lift 2,46–3,02):</strong> La Niña tại vùng thượng nguồn thuận lợi cho năng suất Đông Xuân nhóm Cao.</div>`;
+  }
+  if (ctx.province.ecological_subregion === 'coastal_salinity_prone' && ctx.season === 'dong_xuan' && vals.oni_pre_season >= 0.7) {
+    alerts += `<div class="alert-box info"><strong>ℹ Lưu ý OVB Vùng ven biển (${ctx.province.province}):</strong> Mô hình chỉ dùng khí tượng bề mặt; trong năm El Niño cần theo dõi thêm độ mặn thực địa (g/l) &amp; lưu lượng Mê Kông (như bài học Bến Tre 2016/2020).</div>`;
+  }
+  document.getElementById('simAlerts').innerHTML = alerts;
+
+  // Contribution Bar SVG
+  const W = 520, H = 195, midX = 290, maxC = Math.max(0.25, ...contribs.map(x => Math.abs(x.contrib))) * 1.15, sc = 165 / maxC;
+  let svg = `<svg viewBox="0 0 ${W} ${H}" style="width:100%; max-width:${W}px; height:auto;">`;
+  svg += `<line x1="${midX}" y1="6" x2="${midX}" y2="${H-10}" stroke="#334155" stroke-width="1.3"/>`;
+  contribs.forEach((c, i) => {
+    const y = 14 + i * 29;
+    const bw = Math.abs(c.contrib) * sc;
+    const bx = c.contrib >= 0 ? midX : midX - bw;
+    const col = c.contrib >= 0 ? '#16a34a' : '#dc2626';
+    svg += `<text x="135" y="${y+14}" text-anchor="end" font-size="11.5" font-weight="600" fill="#0f172a">${c.label}</text>`;
+    svg += `<rect x="${bx}" y="${y}" width="${Math.max(bw, 2)}" height="18" rx="3" fill="${col}" opacity="0.88"/>`;
+    const tx = c.contrib >= 0 ? bx + bw + 5 : bx - 5;
+    svg += `<text x="${tx}" y="${y+13}" text-anchor="${c.contrib >= 0 ? 'start' : 'end'}" font-size="11" font-weight="700" fill="${col}">${c.contrib >= 0 ? '+' : ''}${c.contrib.toFixed(3)}</text>`;
+  });
+  svg += `</svg>`;
+  document.getElementById('waterfallSvg').innerHTML = svg;
+}
+
+// =========================================================================
+// TAB 4: CLUSTERING & APRIORI EXPLORER
+// =========================================================================
+function renderClusters() {
+  const algo = document.getElementById('clAlgoSelect').value;
+  const v = DATA.cl_val.find(x => x.algorithm === algo);
+  document.getElementById('clMetricsSummary').innerHTML =
+    `<strong>Internal Validation:</strong> SSE = <code>${v.internal_sse.toFixed(2)}</code> · Silhouette = <code>${v.internal_silhouette > -900 ? v.internal_silhouette.toFixed(3) : 'N/A'}</code> · Calinski-Harabasz = <code>${v.internal_calinski_harabasz > -900 ? v.internal_calinski_harabasz.toFixed(2) : 'N/A'}</code> &nbsp;|&nbsp; <strong>External (vs 3 tiểu vùng):</strong> ARI = <code>${v.external_ari_vs_subregion.toFixed(3)}</code> · NMI = <code>${v.external_nmi_vs_subregion.toFixed(3)}</code>`;
+
+  const groups = {};
+  DATA.provinces.forEach(p => {
+    const cid = p.clusters[algo];
+    if (!groups[cid]) groups[cid] = [];
+    groups[cid].push(p);
+  });
+  let html = '';
+  Object.keys(groups).sort((a,b) => Number(a)-Number(b)).forEach(cid => {
+    const arr = groups[cid];
+    const title = cid === '-1' ? 'Cụm -1: ĐIỂM NHIỄU / CỰC ĐOAN (DBSCAN)' : `Cụm dữ liệu ${cid} (${arr.length} tỉnh)`;
+    const meanDx = (arr.reduce((s,p) => s + p.dx_mean, 0) / arr.length).toFixed(2);
+    html += `<div class="cl-card c${cid}"><h3 style="font-size:14px;color:var(--navy);margin-bottom:6px;">${title}</h3><div style="font-size:12px;color:#475569;margin-bottom:8px;">Năng suất ĐX TB cụm: <strong>${meanDx} tấn/ha</strong></div><div style="display:flex;flex-wrap:wrap;gap:5px;">`;
+    arr.forEach(p => {
+      const badgeCls = p.ecological_subregion === 'coastal_salinity_prone' ? 'r' : (p.ecological_subregion === 'upstream_alluvial_3crop' ? 'b' : 'o');
+      html += `<span class="tag ${badgeCls}" title="ĐX TB: ${p.dx_mean} | Min: ${p.dx_min}">${p.province} (${p.dx_mean})</span>`;
+    });
+    html += `</div></div>`;
+  });
+  document.getElementById('clusterCards').innerHTML = html;
+}
+
+function renderRules() {
+  const outF = document.getElementById('arOutcome').value;
+  const minL = parseFloat(document.getElementById('arLift').value);
+  const minC = parseFloat(document.getElementById('arConf').value);
+  document.getElementById('arLiftVal').textContent = minL.toFixed(2);
+  document.getElementById('arConfVal').textContent = minC.toFixed(2);
+
+  const filtered = DATA.rules_dx.filter(r =>
+    (outF === 'ALL' || r.consequent === outF) && r.lift >= minL && r.confidence >= minC
+  );
+  if (!filtered.length) {
+    document.getElementById('rulesTableWrap').innerHTML = '<p style="padding:12px;color:#64748b;">Không có luật nào thỏa mãn ngưỡng lọc hiện tại. Hãy giảm nhẹ thanh trượt Lift/Confidence.</p>';
+    return;
+  }
+  let tbl = '<table><thead><tr><th>Điều kiện (Antecedent)</th><th>Hệ quả (Consequent)</th><th class="num">Support</th><th class="num">Confidence</th><th class="num">Lift</th><th class="num">Leverage</th><th class="num">Conviction</th></tr></thead><tbody>';
+  filtered.forEach(r => {
+    const cls = r.consequent.includes('Cao') ? 'g' : (r.consequent.includes('Thấp') ? 'r' : 'o');
+    tbl += `<tr><td><code>IF ${r.antecedent}</code></td><td><span class="tag ${cls}">${r.consequent}</span></td><td class="num">${r.support.toFixed(4)}</td><td class="num"><strong>${r.confidence.toFixed(4)}</strong></td><td class="num"><strong>${r.lift.toFixed(3)}</strong></td><td class="num">${r.leverage.toFixed(4)}</td><td class="num">${r.conviction >= 999 ? '∞' : r.conviction.toFixed(2)}</td></tr>`;
+  });
+  tbl += '</tbody></table>';
+  document.getElementById('rulesTableWrap').innerHTML = tbl;
+}
+
+// =========================================================================
+// TAB 5: GALLERY OF ALL 10 300-DPI FIGURES
+// =========================================================================
+function initGallery() {
+  const figs = [
+    ['01_eda_yield_by_season_and_province.png', 'Hình 01 · Phân bố năng suất 3 vụ (Tuyến B) & 13 tỉnh ĐBSCL (Tuyến A)'],
+    ['02_eda_collinearity_and_within_corr.png', 'Hình 02 · Đa cộng tuyến thô vs Tương quan phần dư theo từng mùa vụ'],
+    ['03_model_comparison_tier1_and_tier2.png', 'Hình 03 · So sánh đa hình thái 20 mô hình hồi quy (Tuyến B & Tuyến A)'],
+    ['04_sensitivity_calendar_and_spatial.png', 'Hình 04 · Kiểm định độ nhạy lịch thời vụ (±10/±15 ngày) & Zonal vs 1 điểm'],
+    ['05_residual_attribution_salinity_13provinces.png', 'Hình 05 · Bản đồ phần dư LOYO 10 năm & Chứng minh OVB Hạn mặn'],
+    ['06_spatial_generalization_ood_check.png', 'Hình 06 · Ngoại kiểm địa lý OOD (7 dòng vùng giữa & ven biển)'],
+    ['07_ols_assumptions_diagnostics_gd1_gd4.png', 'Hình 07 · Kiểm định 4 giả định OLS (GĐ1–GĐ4): Shapiro-Wilk, Q-Q, BP/White'],
+    ['08_classification_multimodel_roc_and_cm.png', 'Hình 08 · Phân lớp đa hình thái (10 mô hình): Macro-F1, ROC Curve & Confusion Matrix'],
+    ['09_clustering_13provinces_dendrogram_and_pca.png', 'Hình 09 · Gom cụm 13 tỉnh: Elbow/Silhouette, Ward Dendrogram & PCA 2D'],
+    ['10_association_rules_lift_confidence.png', 'Hình 10 · Luật kết hợp định lượng Apriori: Support, Confidence, Lift & Leverage']
+  ];
+  document.getElementById('figGallery').innerHTML = figs.map(([f, cap]) => `
+    <div class="gal-item" onclick="openZoom('../results/figures/${f}')">
+      <img src="../results/figures/${f}" alt="${cap}" loading="lazy">
+      <div class="cap">${cap}</div>
+    </div>
+  `).join('');
+}
+
+function openZoom(src) {
+  document.getElementById('lightboxImg').src = src;
+  document.getElementById('lightbox').classList.add('open');
+}
+
+// Boot all tabs
+initTab1();
+renderTab2();
+initTab3();
+renderClusters();
+renderRules();
+initGallery();
+</script>
+</body>
+</html>

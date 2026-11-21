@@ -1,0 +1,11 @@
+import fs from 'node:fs';
+import {createCanvas} from '../tmp/pdf-runtime/node_modules/@napi-rs/canvas/index.js';
+import {getDocument} from '../tmp/pdf-runtime/node_modules/pdfjs-dist/legacy/build/pdf.mjs';
+const [input,pageText,output]=process.argv.slice(2);
+if(!input||!pageText||!output)throw Error('Usage: node scripts/render_pdf_page.mjs input.pdf page output.png');
+const task=getDocument({data:new Uint8Array(fs.readFileSync(input)),useSystemFonts:true,isEvalSupported:false,verbosity:0});
+const pdf=await task.promise,page=await pdf.getPage(Number(pageText)),viewport=page.getViewport({scale:1.35});
+const canvas=createCanvas(Math.ceil(viewport.width),Math.ceil(viewport.height));
+await page.render({canvasContext:canvas.getContext('2d'),viewport}).promise;
+fs.mkdirSync('tmp/pdfs',{recursive:true});fs.writeFileSync(output,canvas.toBuffer('image/png'));
+await task.destroy();console.log(output);

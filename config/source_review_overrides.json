@@ -1,0 +1,11 @@
+{
+ "data/raw/crawl/bf2e4b2c76e70d093007.pdf":{"content_review_status":"rendered_sample_pages_have_no_calendar_content","review_evidence":"PDF pages 1, 2, 20 rendered and visually inspected; only blank page or watermark in these samples","use_for_target_observations":false},
+ "data/raw/crawl/1758e7ecd8d74ed6b286.pdf":{"content_review_status":"enterprise_survey_plan_2025_not_rice_observations","review_evidence":"OCR first page: enterprise survey plan 2025","use_for_target_observations":false},
+ "data/raw/crawl/0e0c54a24e7b373f11f8.pdf":{"content_review_status":"maps_or_illustrations_publication_supplement","review_evidence":"12 image pages OCR; first page Can Tho administrative map","use_for_target_observations":false},
+ "data/raw/crawl/dd7ee342180619798423.pdf":{"content_review_status":"report_2026_outside_target_period","review_evidence":"OCR first page: Dong Thap nine months 2026","use_for_target_observations":false},
+ "data/raw/crawl/6f27a2bae1732d0166c2.pdf":{"content_review_status":"report_2026_outside_target_period","review_evidence":"OCR first page: Dong Thap ten months 2026","use_for_target_observations":false},
+ "data/raw/crawl/0d10df283906d3382809.pdf":{"content_review_status":"administrative_regulation_2026_not_rice_observations","review_evidence":"OCR first page: decree 362/2026/ND-CP","use_for_target_observations":false},
+ "data/raw/crawl/dc5d8d8a78104d2cdb45.pdf":{"content_review_status":"cantho_q1_2025_secondary_comparison_only","review_evidence":"First page visually inspected: March and Q1 2025","use_for_target_observations":false},
+ "data/raw/crawl/a889225ea66ea7afb6ec.pdf":{"content_review_status":"outside_region_portal_defer_ocr","review_evidence":"Acquired from Hue statistics portal; not used to establish Mekong province coverage","use_for_target_observations":false},
+ "data/raw/crawl/1b541429c6175727bab7.pdf":{"content_review_status":"outside_region_portal_defer_ocr","review_evidence":"Acquired from Hue statistics portal; not used to establish Mekong province coverage","use_for_target_observations":false}
+}

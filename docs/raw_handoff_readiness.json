@@ -1,0 +1,67 @@
+{
+  "generated_at": "2026-11-20T19:45:18.766Z",
+  "handoff_gate_passed": true,
+  "ready_for_cleaning_stage": true,
+  "cleaning_performed_yet": false,
+  "blocks": {
+    "block1_rice_raw": {
+      "status": "PASS",
+      "local_three_season_rows": 90,
+      "local_full_provinces": [
+        "Kiên Giang",
+        "An Giang",
+        "Cần Thơ"
+      ],
+      "nso_base_rows": 467,
+      "nso_2021_reconciliation_rows": 233,
+      "official_2019_rows_for_reconciliation": 47,
+      "provincial_report_rows": 7,
+      "coverage_separate_cells": 194,
+      "coverage_reference_cells": 390,
+      "required_project_scope": "Mandatory full Mekong Delta scope (all 13 pre-2025 provinces, 2015–2024) implemented via two co-primary analytical tracks (13 provinces is NOT an optional extension): Track A Delta-wide 13 provinces (NSO Đông Xuân 127 rows & Combined HT-TD 130 rows); Track B Separate 3-season track on provinces with full 10-year official provincial yearbooks (An Giang, Kiên Giang, Cần Thơ: 90 rows, 40.5% of Mekong Delta output)"
+    },
+    "block2_weather_raw": {
+      "status": "PASS",
+      "point_day_rows": 132594,
+      "date_range": "2014-01-01 to 2024-12-31 (4,018 days)",
+      "common_grid_parameters": [
+        "T2M",
+        "T2M_MAX",
+        "T2M_MIN",
+        "PRECTOTCORR",
+        "RH2M",
+        "WS2M"
+      ],
+      "optional_point_only_parameter": "ALLSKY_SFC_SW_DWN (present only in 13 provincial points, blank in 20 supplemental grid cells)",
+      "duplicate_keys": 0,
+      "fill_values_in_common_params": 0,
+      "physical_violations": 0
+    },
+    "block3_calendar_raw": {
+      "status": "PASS_WITH_SENSITIVITY_REQUIREMENT",
+      "official_directive_records": 17,
+      "distinct_official_sources": 9,
+      "seasons_covered": [
+        "Lúa đông xuân",
+        "Lúa hè thu",
+        "Lúa thu đông",
+        "Tất cả 3 vụ chính"
+      ],
+      "historical_sage_rows": 5,
+      "cleaning_requirement": "Derive primary seasonal windows from official MARD/DCP framework & subregional directives + mandatory +-10 and +-15 day sensitivity analysis"
+    },
+    "block4_geo_spatial_mapping": {
+      "status": "PASS",
+      "boundary_file": "data/raw/geo/gadm41_VNM_1.json",
+      "boundary_sha256": "fb7473e5f30c1de63d851c7505b3929527cdc6ceb82757ee765201a4b240ce9e",
+      "mekong_provinces_covered": 13,
+      "overlap_rows": 55,
+      "distinct_active_grid_cells": 21,
+      "distinct_province_weight_profiles": 13
+    }
+  },
+  "catalog_summary": {
+    "registered_raw_files": 1000,
+    "unique_sha256": 996
+  }
+}

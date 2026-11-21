@@ -1,0 +1,5 @@
+[
+ {"province_raw":"Kiên Giang","source_file":"data/raw/kien_giang_yearbook_2024.pdf","area_page":345,"yield_page":346,"production_page":347,"columns":["Tổng số","Lúa đông xuân","Lúa hè thu","Lúa thu đông","Lúa mùa"]},
+ {"province_raw":"An Giang","source_file":"data/raw/crawl/c097bd8235aacf65d0cd.pdf","area_page":366,"yield_page":367,"production_page":368,"columns":["Tổng số","Lúa đông xuân","Lúa hè thu","Lúa mùa","Lúa thu đông","Lúa nếp (trong tổng số)"]},
+ {"province_raw":"Cần Thơ","source_file":"data/raw/crawl/0e2a14a4d049b04b7019.pdf","area_page":387,"yield_page":388,"production_page":389,"columns":["Tổng số","Lúa đông xuân","Lúa hè thu","Lúa thu đông"]}
+]

@@ -1,0 +1,6 @@
+﻿selection_method,n_features,selected_features,train_r2,adj_r2,aic,bic,max_vif,ols_cv_mae,ols_test_mae,ridge_cv_mae,ridge_test_mae
+Full_Candidate_10Weather_Plus_Year,11,"t2m_mean_c, t2m_max_mean_c, precip_total_mm, rh2m_mean_pct, ws2m_mean_ms, vpd_mean_kpa, hot_days_gt35c, dry_days_lt1mm, pre_season_rain_90d_mm, oni_pre_season, year_z",0.5771,0.4995,-10.125,17.195,353.84,0.252,0.1675,0.1866,0.188
+Forward_Selection_AIC,6,"year_z, dry_days_lt1mm, ws2m_mean_ms, t2m_mean_c, rh2m_mean_pct, precip_total_mm",0.5584,0.5177,-17.019,-1.082,13.61,0.2347,0.2,0.1868,0.1612
+Backward_Elimination_p005,3,"t2m_max_mean_c, rh2m_mean_pct, year_z",0.5086,0.4869,-15.326,-6.22,18.34,0.1623,0.1623,0.2065,0.132
+Stepwise_Bidirectional_AIC,4,"year_z, ws2m_mean_ms, t2m_mean_c, rh2m_mean_pct",0.5365,0.5088,-17.525,-6.142,6.52,0.1692,0.1786,0.1935,0.146
+Domain_Orthogonal_5_Plus_Year,6,"vpd_mean_kpa, precip_total_mm, ws2m_mean_ms, pre_season_rain_90d_mm, oni_pre_season, year_z",0.4272,0.3744,1.707,17.644,3.43,0.1993,0.1565,0.198,0.1613
